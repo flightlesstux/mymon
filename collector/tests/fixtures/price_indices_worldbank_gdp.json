@@ -1,0 +1,152 @@
+[
+ {
+  "page": 1,
+  "pages": 1,
+  "per_page": 20000,
+  "total": 9,
+  "sourceid": "2",
+  "lastupdated": "2026-07-13"
+ },
+ [
+  {
+   "indicator": {
+    "id": "NY.GDP.PCAP.CD",
+    "value": "GDP per capita (current US$)"
+   },
+   "country": {
+    "id": "XC",
+    "value": "Euro area"
+   },
+   "countryiso3code": "EMU",
+   "date": "2024",
+   "value": 46424.2413084574,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 1
+  },
+  {
+   "indicator": {
+    "id": "NY.GDP.PCAP.CD",
+    "value": "GDP per capita (current US$)"
+   },
+   "country": {
+    "id": "EU",
+    "value": "European Union"
+   },
+   "countryiso3code": "EUU",
+   "date": "2024",
+   "value": 43313.7668203916,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 1
+  },
+  {
+   "indicator": {
+    "id": "NY.GDP.PCAP.CD",
+    "value": "GDP per capita (current US$)"
+   },
+   "country": {
+    "id": "1W",
+    "value": "World"
+   },
+   "countryiso3code": "WLD",
+   "date": "2023",
+   "value": 13313.8575826001,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 1
+  },
+  {
+   "indicator": {
+    "id": "NY.GDP.PCAP.CD",
+    "value": "GDP per capita (current US$)"
+   },
+   "country": {
+    "id": "DE",
+    "value": "Germany"
+   },
+   "countryiso3code": "DEU",
+   "date": "2024",
+   "value": 56103.7323182554,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 1
+  },
+  {
+   "indicator": {
+    "id": "NY.GDP.PCAP.CD",
+    "value": "GDP per capita (current US$)"
+   },
+   "country": {
+    "id": "TR",
+    "value": "Turkiye"
+   },
+   "countryiso3code": "TUR",
+   "date": "2024",
+   "value": 15892.7157287241,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 1
+  },
+  {
+   "indicator": {
+    "id": "NY.GDP.PCAP.CD",
+    "value": "GDP per capita (current US$)"
+   },
+   "country": {
+    "id": "US",
+    "value": "United States"
+   },
+   "countryiso3code": "USA",
+   "date": "1990",
+   "value": 23888.6000088133,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 1
+  },
+  {
+   "indicator": {
+    "id": "NY.GDP.PCAP.CD",
+    "value": "GDP per capita (current US$)"
+   },
+   "country": {
+    "id": "XD",
+    "value": "High income"
+   },
+   "countryiso3code": "",
+   "date": "2025",
+   "value": 53997.2579539931,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 1
+  },
+  {
+   "indicator": {
+    "id": "NY.GDP.PCAP.CD",
+    "value": "GDP per capita (current US$)"
+   },
+   "country": {
+    "id": "AF",
+    "value": "Afghanistan"
+   },
+   "countryiso3code": "AFG",
+   "date": "2025",
+   "value": null,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 1
+  },
+  {
+   "indicator": {
+    "id": "NY.GDP.PCAP.CD"
+   },
+   "country": {
+    "id": "XX",
+    "value": "bad"
+   },
+   "countryiso3code": "XXX",
+   "date": "notayear",
+   "value": 1.0
+  }
+ ]
+]
