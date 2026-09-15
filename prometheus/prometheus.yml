@@ -1,0 +1,19 @@
+# Operational metrics only (collector health, Postgres, Grafana itself) — the business
+# data (weather, reserves, FX, ...) lives in Postgres and is queried by Grafana directly.
+global:
+  scrape_interval: 30s
+  evaluation_interval: 30s
+
+scrape_configs:
+  - job_name: mymon-collector
+    static_configs:
+      - targets: ["collector:9200"]
+
+  - job_name: postgres
+    static_configs:
+      - targets: ["postgres-exporter:9187"]
+
+  - job_name: grafana
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["grafana:3000"]

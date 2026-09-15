@@ -42,6 +42,7 @@ services:
       GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/world-overview.json
       GF_USERS_DEFAULT_THEME: dark
       GF_DATE_FORMATS_DEFAULT_TIMEZONE: utc
+      GF_METRICS_ENABLED: "true"
     volumes:
       - grafana-data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
@@ -58,9 +59,37 @@ services:
     environment:
       PGHOST: postgres
       PGPORT: "5432"
+      MYMON_METRICS_PORT: "9200"
     volumes:
       - ./collector/config:/app/config:ro
+
+  postgres-exporter:
+    image: quay.io/prometheuscommunity/postgres-exporter:v0.15.0
+    container_name: mymon-postgres-exporter
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATA_SOURCE_NAME: "postgresql://${POSTGRES_RO_USER}:${POSTGRES_RO_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable"
+
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    container_name: mymon-prometheus
+    restart: unless-stopped
+    depends_on:
+      - collector
+      - postgres-exporter
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=90d
+      - --web.enable-lifecycle
 
 volumes:
   pg-data:
   grafana-data:
+  prometheus-data:
