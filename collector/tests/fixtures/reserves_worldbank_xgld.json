@@ -1,0 +1,124 @@
+[
+ {
+  "page": 1,
+  "pages": 1,
+  "per_page": 20000,
+  "total": 7,
+  "sourceid": "2",
+  "lastupdated": "2026-07-13"
+ },
+ [
+  {
+   "indicator": {
+    "id": "FI.RES.XGLD.CD",
+    "value": "Total reserves minus gold (current US$)"
+   },
+   "country": {
+    "id": "XC",
+    "value": "Euro area"
+   },
+   "countryiso3code": "EMU",
+   "date": "2024",
+   "value": 546006313388.768,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.XGLD.CD",
+    "value": "Total reserves minus gold (current US$)"
+   },
+   "country": {
+    "id": "1W",
+    "value": "World"
+   },
+   "countryiso3code": "WLD",
+   "date": "2024",
+   "value": null,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.XGLD.CD",
+    "value": "Total reserves minus gold (current US$)"
+   },
+   "country": {
+    "id": "AW",
+    "value": "Aruba"
+   },
+   "countryiso3code": "ABW",
+   "date": "2024",
+   "value": 1641340220,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.XGLD.CD",
+    "value": "Total reserves minus gold (current US$)"
+   },
+   "country": {
+    "id": "TR",
+    "value": "Turkiye"
+   },
+   "countryiso3code": "TUR",
+   "date": "2025",
+   "value": 71620524300.458,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.XGLD.CD",
+    "value": "Total reserves minus gold (current US$)"
+   },
+   "country": {
+    "id": "TR",
+    "value": "Turkiye"
+   },
+   "countryiso3code": "TUR",
+   "date": "2024",
+   "value": 90858657478.1688,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.XGLD.CD",
+    "value": "Total reserves minus gold (current US$)"
+   },
+   "country": {
+    "id": "TR",
+    "value": "Turkiye"
+   },
+   "countryiso3code": "TUR",
+   "date": "2023",
+   "value": 92703190401.6959,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.XGLD.CD",
+    "value": "Total reserves minus gold (current US$)"
+   },
+   "country": {
+    "id": "XD",
+    "value": "High income"
+   },
+   "countryiso3code": "",
+   "date": "2024",
+   "value": null,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  }
+ ]
+]

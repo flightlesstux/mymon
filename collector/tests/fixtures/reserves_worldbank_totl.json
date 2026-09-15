@@ -1,0 +1,156 @@
+[
+ {
+  "page": 1,
+  "pages": 1,
+  "per_page": 20000,
+  "total": 9,
+  "sourceid": "2",
+  "lastupdated": "2026-07-13"
+ },
+ [
+  {
+   "indicator": {
+    "id": "FI.RES.TOTL.CD",
+    "value": "Total reserves (includes gold, current US$)"
+   },
+   "country": {
+    "id": "XC",
+    "value": "Euro area"
+   },
+   "countryiso3code": "EMU",
+   "date": "2024",
+   "value": 1449054959888.77,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.TOTL.CD",
+    "value": "Total reserves (includes gold, current US$)"
+   },
+   "country": {
+    "id": "EU",
+    "value": "European Union"
+   },
+   "countryiso3code": "EUU",
+   "date": "2024",
+   "value": null,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.TOTL.CD",
+    "value": "Total reserves (includes gold, current US$)"
+   },
+   "country": {
+    "id": "1W",
+    "value": "World"
+   },
+   "countryiso3code": "WLD",
+   "date": "2024",
+   "value": null,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.TOTL.CD",
+    "value": "Total reserves (includes gold, current US$)"
+   },
+   "country": {
+    "id": "AW",
+    "value": "Aruba"
+   },
+   "countryiso3code": "ABW",
+   "date": "2024",
+   "value": 1902250220,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.TOTL.CD",
+    "value": "Total reserves (includes gold, current US$)"
+   },
+   "country": {
+    "id": "TR",
+    "value": "Turkiye"
+   },
+   "countryiso3code": "TUR",
+   "date": "2025",
+   "value": 185567690700.458,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.TOTL.CD",
+    "value": "Total reserves (includes gold, current US$)"
+   },
+   "country": {
+    "id": "TR",
+    "value": "Turkiye"
+   },
+   "countryiso3code": "TUR",
+   "date": "2024",
+   "value": 155548682878.169,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.TOTL.CD",
+    "value": "Total reserves (includes gold, current US$)"
+   },
+   "country": {
+    "id": "TR",
+    "value": "Turkiye"
+   },
+   "countryiso3code": "TUR",
+   "date": "2023",
+   "value": 140868480001.696,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.TOTL.CD",
+    "value": "Total reserves (includes gold, current US$)"
+   },
+   "country": {
+    "id": "US",
+    "value": "United States"
+   },
+   "countryiso3code": "USA",
+   "date": "2024",
+   "value": 910036546651.5,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  },
+  {
+   "indicator": {
+    "id": "FI.RES.TOTL.CD",
+    "value": "Total reserves (includes gold, current US$)"
+   },
+   "country": {
+    "id": "XD",
+    "value": "High income"
+   },
+   "countryiso3code": "",
+   "date": "2024",
+   "value": null,
+   "unit": "",
+   "obs_status": "",
+   "decimal": 0
+  }
+ ]
+]

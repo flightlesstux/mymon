@@ -1,0 +1,32 @@
+{
+ "totalCount": 3,
+ "items": [
+  {
+   "Tarih": "07-01-2000",
+   "TP_AB_A01": "23345.6",
+   "TP_AB_A02": "1050.2",
+   "TP_AB_A03": "24395.8",
+   "UNIXTIME": {
+    "$numberLong": "947203200"
+   }
+  },
+  {
+   "Tarih": "14-01-2000",
+   "TP_AB_A01": "23410.1",
+   "TP_AB_A02": null,
+   "TP_AB_A03": "24460.3",
+   "UNIXTIME": {
+    "$numberLong": "947808000"
+   }
+  },
+  {
+   "Tarih": "not-a-date",
+   "TP_AB_A01": "1",
+   "TP_AB_A02": "1",
+   "TP_AB_A03": "2",
+   "UNIXTIME": {
+    "$numberLong": "0"
+   }
+  }
+ ]
+}
