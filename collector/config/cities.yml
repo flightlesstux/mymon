@@ -1,0 +1,23 @@
+# Cities tracked by the weather source. Keep in sync with the city seed in postgres/init/001_schema.sql.
+cities:
+  - {name: Istanbul,      country: TR, lat: 41.0082,  lon: 28.9784,   tz: Europe/Istanbul}
+  - {name: Ankara,        country: TR, lat: 39.9334,  lon: 32.8597,   tz: Europe/Istanbul}
+  - {name: London,        country: GB, lat: 51.5074,  lon: -0.1278,   tz: Europe/London}
+  - {name: Paris,         country: FR, lat: 48.8566,  lon: 2.3522,    tz: Europe/Paris}
+  - {name: Berlin,        country: DE, lat: 52.5200,  lon: 13.4050,   tz: Europe/Berlin}
+  - {name: Amsterdam,     country: NL, lat: 52.3676,  lon: 4.9041,    tz: Europe/Amsterdam}
+  - {name: Madrid,        country: ES, lat: 40.4168,  lon: -3.7038,   tz: Europe/Madrid}
+  - {name: Rome,          country: IT, lat: 41.9028,  lon: 12.4964,   tz: Europe/Rome}
+  - {name: Moscow,        country: RU, lat: 55.7558,  lon: 37.6173,   tz: Europe/Moscow}
+  - {name: Dubai,         country: AE, lat: 25.2048,  lon: 55.2708,   tz: Asia/Dubai}
+  - {name: Cairo,         country: EG, lat: 30.0444,  lon: 31.2357,   tz: Africa/Cairo}
+  - {name: Mumbai,        country: IN, lat: 19.0760,  lon: 72.8777,   tz: Asia/Kolkata}
+  - {name: Singapore,     country: SG, lat: 1.3521,   lon: 103.8198,  tz: Asia/Singapore}
+  - {name: Beijing,       country: CN, lat: 39.9042,  lon: 116.4074,  tz: Asia/Shanghai}
+  - {name: Tokyo,         country: JP, lat: 35.6762,  lon: 139.6503,  tz: Asia/Tokyo}
+  - {name: Sydney,        country: AU, lat: -33.8688, lon: 151.2093,  tz: Australia/Sydney}
+  - {name: New York,      country: US, lat: 40.7128,  lon: -74.0060,  tz: America/New_York}
+  - {name: San Francisco, country: US, lat: 37.7749,  lon: -122.4194, tz: America/Los_Angeles}
+  - {name: Los Angeles,   country: US, lat: 34.0522,  lon: -118.2437, tz: America/Los_Angeles}
+  - {name: Mexico City,   country: MX, lat: 19.4326,  lon: -99.1332,  tz: America/Mexico_City}
+  - {name: São Paulo,     country: BR, lat: -23.5505, lon: -46.6333,  tz: America/Sao_Paulo}
