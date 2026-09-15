@@ -1,0 +1,26 @@
+# secrets
+.env
+
+# AI assistant files (never committed)
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+.claude/
+.cursor/
+.cursorrules
+docs/superpowers/
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.venv/
+*.egg-info/
+build/
+dist/
+
+# editor / os
+.idea/
+.vscode/
+.DS_Store
