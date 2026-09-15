@@ -12,28 +12,41 @@ Live: http://ermis.tplinkdns.com:3000
 internet ──► :3000 grafana ──(read-only role)──► postgres ◄──(writer role)── collector ──► public APIs
 ```
 
-| Service     | Image                        | Role                                                            |
-|-------------|------------------------------|-----------------------------------------------------------------|
-| `grafana`   | `grafana/grafana-oss`        | UI. Only published port. Datasource + dashboards provisioned from files. |
-| `postgres`  | `postgres:17-alpine`         | Storage. Not published. Schema and roles created on first start. |
-| `collector` | built from `./collector`     | Python scheduler polling each source on its own interval, upserting rows. |
+| Service              | Image                                  | Role                                                            |
+|----------------------|-----------------------------------------|-----------------------------------------------------------------|
+| `grafana`            | `grafana/grafana-oss`                   | UI. Only published port. Datasources + dashboards provisioned from files. |
+| `postgres`           | `postgres:17-alpine`                    | Business data. Not published. Schema and roles created on first start. |
+| `collector`          | built from `./collector`                | Python scheduler polling each source on its own interval, upserting rows. Exposes `/metrics` internally. |
+| `prometheus`         | `prom/prometheus`                       | Operational metric history (90 days). Not published. Scrapes `collector`, `postgres-exporter`, `grafana`. |
+| `postgres-exporter`  | `prometheuscommunity/postgres-exporter` | Exposes Postgres stats (`pg_up`, connections, database size) to Prometheus. |
 
 Anonymous visitors get the Grafana *Viewer* role. Grafana connects to Postgres with a
 role that can only `SELECT`, so nothing a viewer does can change data. Dashboards are
 provisioned from JSON files, so they cannot be edited from the UI either; change the
-JSON and the provider reloads it within 30 seconds.
+generator script and regenerate (see below).
+
+Business data (weather, reserves, FX, ...) lives in Postgres, queried straight from the
+dashboards — that already gives full history for every value. Prometheus is separate:
+it only tracks *the collector's own health* (is each source running, how long does a run
+take, is it failing) and basic Postgres server stats, so operational history survives a
+restart and isn't limited to the single "last run" row `collector_run` keeps per source.
+See the **Collector Health** dashboard.
 
 ## Run
 
+Every repeated action goes through the Makefile — see `make help` for the full list.
+
 ```bash
 cp .env.example .env      # set the passwords
-make up                   # docker compose up -d --build
+make up                   # build and start every service
 make logs                 # follow all containers
+make verify               # health, anonymous access, read-only role, prometheus targets
 ```
 
 Grafana is on http://localhost:3000. Admin credentials come from `.env`.
 
-Useful targets: `make ps`, `make restart-collector`, `make psql`, `make test`, `make lint`.
+`make ci` runs lint, tests, dashboard generation and verification together — what a
+change should pass before it's pushed.
 
 ## Data sources
 
@@ -84,13 +97,39 @@ SOURCE = Source(name="<name>", interval=600, fetch=fetch, tables=["some_table"])
 
 Rows are upserted on the table's primary key, so returning overlapping data is fine.
 An optional `backfill(ctx)` runs once when a listed table is empty. Add a fixture-based
-test under `collector/tests/sources/` and run `make test`.
+test under `collector/tests/sources/` and run `make test`. Every run — success or
+failure — updates the Prometheus metrics in `mymon_collector/metrics.py` automatically;
+nothing extra to do there.
+
+## Dashboards
+
+Dashboards are code, not JSON edited by hand. Each file in `grafana/dashgen/` builds one
+dashboard with the helpers in `grafana/dashgen/_lib.py` (panel layout, the shared color
+palette, Postgres and Prometheus query builders) and writes it to `grafana/dashboards/`.
+
+```bash
+make dashboards   # regenerate every dashboard from grafana/dashgen/*.py
+```
+
+Add a new dashboard by adding a new script next to the others; `generate_all.py` picks it
+up automatically. Commit the generated JSON alongside the script that produced it.
+
+## Metrics and history
+
+- **Business data** (weather, FX, reserves, ...): stored in Postgres by the collector,
+  queried directly by the dashboards. This is the primary, long-retention history.
+- **Operational metrics** (is a source healthy, how long did it take, Postgres
+  connections/size): scraped by Prometheus every 30 seconds and kept for 90 days
+  (`prometheus/prometheus.yml`, `--storage.tsdb.retention.time`). Visible on the
+  **Collector Health** dashboard via the `MymonPrometheus` datasource.
+
+Both datasources are provisioned automatically; there's nothing to wire up in the
+Grafana UI.
 
 ## Development
 
 ```bash
-cd collector
-python3 -m venv .venv && . .venv/bin/activate
-pip install -e '.[dev]'
-ruff check . && pytest -q
+make venv    # create collector/.venv with dev dependencies
+make lint    # ruff check
+make test    # pytest
 ```
