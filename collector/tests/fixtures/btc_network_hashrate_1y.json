@@ -1,0 +1,46 @@
+{
+ "hashrates": [
+  {
+   "timestamp": 1757980800,
+   "avgHashrate": 1.099657107671374e+21
+  },
+  {
+   "timestamp": 1758067200,
+   "avgHashrate": 1.088441341664071e+21
+  },
+  {
+   "timestamp": 1758153600,
+   "avgHashrate": 860137919305068300000
+  },
+  {
+   "timestamp": 1758240000,
+   "avgHashrate": 1.088044140362128e+21
+  },
+  {
+   "timestamp": 1758326400,
+   "avgHashrate": 1.185748253556241e+21
+  }
+ ],
+ "difficulty": [
+  {
+   "time": 1758206848,
+   "height": 915264,
+   "difficulty": 142342602928674.9,
+   "adjustment": 1.0463299751281738
+  },
+  {
+   "time": 1759348633,
+   "height": 917280,
+   "difficulty": 150839487445890.5,
+   "adjustment": 1.0596929788589478
+  },
+  {
+   "time": 1760594746,
+   "height": 919296,
+   "difficulty": 146716052770107.5,
+   "adjustment": 0.9726629853248596
+  }
+ ],
+ "currentHashrate": 982685111730926900000,
+ "currentDifficulty": 127450789715843.1
+}

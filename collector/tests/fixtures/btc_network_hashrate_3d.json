@@ -1,0 +1,19 @@
+{
+ "hashrates": [
+  {
+   "timestamp": 1789257600,
+   "avgHashrate": 986700913286280600000
+  },
+  {
+   "timestamp": 1789344000,
+   "avgHashrate": 965565547854360300000
+  },
+  {
+   "timestamp": 1789430400,
+   "avgHashrate": 958286735872078500000
+  }
+ ],
+ "difficulty": [],
+ "currentHashrate": 982685111730926900000,
+ "currentDifficulty": 127450789715843.1
+}
