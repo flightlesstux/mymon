@@ -1,4 +1,6 @@
 # Per-source overrides. Keys are Source.name values. Omitted sources run with module defaults.
 #   enabled: false      -> never scheduled
 #   interval: <seconds> -> override polling interval
-sources: {}
+sources:
+  commodities_stooq:
+    enabled: false  # /q/d/l/ CSV downloads return "Access denied" or empty from this host; see module docstring
