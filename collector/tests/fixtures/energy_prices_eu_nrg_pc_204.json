@@ -1,0 +1,153 @@
+{
+ "version": "2.0",
+ "class": "dataset",
+ "label": "Electricity prices for household consumers - bi-annual data (from 2007 onwards)",
+ "source": "ESTAT",
+ "updated": "2026-08-12T11:00:00+0200",
+ "id": [
+  "freq",
+  "siec",
+  "nrg_cons",
+  "unit",
+  "tax",
+  "currency",
+  "geo",
+  "time"
+ ],
+ "size": [
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  7,
+  3
+ ],
+ "dimension": {
+  "freq": {
+   "label": "Time frequency",
+   "category": {
+    "index": {
+     "S": 0
+    },
+    "label": {
+     "S": "Half-yearly, semesterly"
+    }
+   }
+  },
+  "siec": {
+   "label": "Standard international energy product classification (SIEC)",
+   "category": {
+    "index": {
+     "E7000": 0
+    },
+    "label": {
+     "E7000": "Electricity"
+    }
+   }
+  },
+  "nrg_cons": {
+   "label": "Energy consumption",
+   "category": {
+    "index": {
+     "KWH2500-4999": 0
+    },
+    "label": {
+     "KWH2500-4999": "Consumption from 2 500 kWh to 4 999 kWh - band DC"
+    }
+   }
+  },
+  "unit": {
+   "label": "Unit of measure",
+   "category": {
+    "index": {
+     "KWH": 0
+    },
+    "label": {
+     "KWH": "Kilowatt-hour"
+    }
+   }
+  },
+  "tax": {
+   "label": "Taxes",
+   "category": {
+    "index": {
+     "I_TAX": 0
+    },
+    "label": {
+     "I_TAX": "All taxes and levies included"
+    }
+   }
+  },
+  "currency": {
+   "label": "Currency",
+   "category": {
+    "index": {
+     "EUR": 0
+    },
+    "label": {
+     "EUR": "Euro"
+    }
+   }
+  },
+  "geo": {
+   "label": "Geopolitical entity (reporting)",
+   "category": {
+    "index": {
+     "EU27_2020": 0,
+     "EA": 1,
+     "DE": 2,
+     "EL": 3,
+     "UK": 4,
+     "TR": 5,
+     "XK": 6
+    },
+    "label": {
+     "EU27_2020": "European Union - 27 countries (from 2020)",
+     "EA": "Euro area (EA11-1999, EA12-2001, EA13-2007, EA15-2008, EA16-2009, EA17-2011, EA18-2014, EA19-2015, EA20-2023, EA21-2026)",
+     "DE": "Germany",
+     "EL": "Greece",
+     "UK": "United Kingdom",
+     "TR": "T\u00fcrkiye",
+     "XK": "Kosovo*"
+    }
+   }
+  },
+  "time": {
+   "label": "Time",
+   "category": {
+    "index": {
+     "2023-S2": 0,
+     "2024-S1": 1,
+     "2024-S2": 2
+    },
+    "label": {
+     "2023-S2": "2023-S2",
+     "2024-S1": "2024-S1",
+     "2024-S2": "2024-S2"
+    }
+   }
+  }
+ },
+ "value": {
+  "0": 0.2847,
+  "1": 0.2916,
+  "2": 0.2887,
+  "3": 0.3036,
+  "4": 0.3053,
+  "5": 0.3027,
+  "6": 0.402,
+  "7": 0.3951,
+  "8": 0.3943,
+  "9": 0.2309,
+  "10": 0.2218,
+  "11": 0.2311,
+  "15": 0.0562,
+  "16": 0.0488,
+  "17": 0.062,
+  "18": 0.0749,
+  "19": 0.0736,
+  "20": 0.0746
+ }
+}

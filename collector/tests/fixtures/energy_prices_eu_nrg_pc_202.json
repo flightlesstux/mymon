@@ -1,0 +1,148 @@
+{
+ "version": "2.0",
+ "class": "dataset",
+ "label": "Gas prices for household consumers - bi-annual data (from 2007 onwards)",
+ "source": "ESTAT",
+ "updated": "2026-08-11T23:00:00+0200",
+ "id": [
+  "freq",
+  "siec",
+  "nrg_cons",
+  "unit",
+  "tax",
+  "currency",
+  "geo",
+  "time"
+ ],
+ "size": [
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  6,
+  3
+ ],
+ "dimension": {
+  "freq": {
+   "label": "Time frequency",
+   "category": {
+    "index": {
+     "S": 0
+    },
+    "label": {
+     "S": "Half-yearly, semesterly"
+    }
+   }
+  },
+  "siec": {
+   "label": "Standard international energy product classification (SIEC)",
+   "category": {
+    "index": {
+     "G3000": 0
+    },
+    "label": {
+     "G3000": "Natural gas"
+    }
+   }
+  },
+  "nrg_cons": {
+   "label": "Energy consumption",
+   "category": {
+    "index": {
+     "GJ20-199": 0
+    },
+    "label": {
+     "GJ20-199": "Consumption from 20 GJ to 199 GJ - band D2"
+    }
+   }
+  },
+  "unit": {
+   "label": "Unit of measure",
+   "category": {
+    "index": {
+     "KWH": 0
+    },
+    "label": {
+     "KWH": "Kilowatt-hour"
+    }
+   }
+  },
+  "tax": {
+   "label": "Taxes",
+   "category": {
+    "index": {
+     "I_TAX": 0
+    },
+    "label": {
+     "I_TAX": "All taxes and levies included"
+    }
+   }
+  },
+  "currency": {
+   "label": "Currency",
+   "category": {
+    "index": {
+     "EUR": 0
+    },
+    "label": {
+     "EUR": "Euro"
+    }
+   }
+  },
+  "geo": {
+   "label": "Geopolitical entity (reporting)",
+   "category": {
+    "index": {
+     "EU27_2020": 0,
+     "EA": 1,
+     "DE": 2,
+     "EL": 3,
+     "UK": 4,
+     "TR": 5
+    },
+    "label": {
+     "EU27_2020": "European Union - 27 countries (from 2020)",
+     "EA": "Euro area (EA11-1999, EA12-2001, EA13-2007, EA15-2008, EA16-2009, EA17-2011, EA18-2014, EA19-2015, EA20-2023, EA21-2026)",
+     "DE": "Germany",
+     "EL": "Greece",
+     "UK": "United Kingdom",
+     "TR": "T\u00fcrkiye"
+    }
+   }
+  },
+  "time": {
+   "label": "Time",
+   "category": {
+    "index": {
+     "2023-S2": 0,
+     "2024-S1": 1,
+     "2024-S2": 2
+    },
+    "label": {
+     "2023-S2": "2023-S2",
+     "2024-S1": "2024-S1",
+     "2024-S2": "2024-S2"
+    }
+   }
+  }
+ },
+ "value": {
+  "0": 0.1141,
+  "1": 0.1104,
+  "2": 0.1244,
+  "3": 0.1223,
+  "4": 0.1171,
+  "5": 0.1328,
+  "6": 0.1145,
+  "7": 0.1198,
+  "8": 0.1238,
+  "9": 0.0926,
+  "10": 0.0744,
+  "11": 0.0945,
+  "15": 0.0161,
+  "16": 0.0163,
+  "17": 0.0213
+ }
+}
