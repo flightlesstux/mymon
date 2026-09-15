@@ -9,7 +9,7 @@ from datetime import UTC, datetime, timedelta
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from . import db, retention
+from . import db, metrics, retention
 from .http import make_client
 from .source import Ctx, Rows, Source
 
@@ -44,8 +44,9 @@ def run_source(source: Source, cfg: dict) -> None:
         error = f"{type(exc).__name__}: {exc}"
         log.error("[%s] failed: %s\n%s", source.name, error, traceback.format_exc())
     finished = datetime.now(UTC)
-    log.info("[%s] ok=%s rows=%d in %.1fs", source.name, ok, rows_written,
-             (finished - started).total_seconds())
+    duration = (finished - started).total_seconds()
+    log.info("[%s] ok=%s rows=%d in %.1fs", source.name, ok, rows_written, duration)
+    metrics.record_run(source.name, ok, duration, rows_written, finished.timestamp())
     try:
         with db.pool().connection() as conn:
             db.record_run(conn, source.name, started, finished, ok, rows_written, error)

@@ -6,7 +6,7 @@ import logging
 import os
 import sys
 
-from . import registry, scheduler
+from . import metrics, registry, scheduler
 
 
 def main() -> int:
@@ -24,6 +24,11 @@ def main() -> int:
         return 1
     cfg = registry.load_ctx_config()
     log.info("registered %d sources: %s", len(sources), ", ".join(s.name for s in sources))
+
+    metrics_port = int(os.environ.get("MYMON_METRICS_PORT", "9200"))
+    metrics.serve(metrics_port)
+    metrics.SOURCES_REGISTERED.set(len(sources))
+    log.info("metrics server listening on :%d/metrics", metrics_port)
 
     sched = scheduler.build(sources, cfg)
     try:
