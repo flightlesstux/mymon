@@ -1,0 +1,181 @@
+{
+ "type": "FeatureCollection",
+ "metadata": {
+  "generated": 1789496970000,
+  "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson",
+  "title": "USGS All Earthquakes, Past Day",
+  "status": 200,
+  "api": "2.7.0",
+  "count": 215
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 1.7,
+    "place": "29 km NW of Cooper Landing, Alaska",
+    "time": 1789495477731,
+    "updated": 1789495677731,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/aka2026sibumr",
+    "detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/aka2026sibumr.geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "automatic",
+    "tsunami": 0,
+    "sig": 44,
+    "net": "ak",
+    "code": "a2026sibumr",
+    "ids": ",aka2026sibumr,",
+    "sources": ",ak,",
+    "types": ",origin,phase-data,",
+    "nst": 23,
+    "dmin": 0.2,
+    "rms": 0.6,
+    "gap": 66,
+    "magType": "ml",
+    "type": "earthquake",
+    "title": "M 1.7 - 29 km NW of Cooper Landing, Alaska"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -150.202,
+     60.68,
+     46
+    ]
+   },
+   "id": "aka2026sibumr"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 1.04,
+    "place": "4 km W of Cobb, CA",
+    "time": 1789495406960,
+    "updated": 1789495504637,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nc75436117",
+    "detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/nc75436117.geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "automatic",
+    "tsunami": 0,
+    "sig": 17,
+    "net": "nc",
+    "code": "75436117",
+    "ids": ",nc75436117,",
+    "sources": ",nc,",
+    "types": ",nearby-cities,origin,phase-data,",
+    "nst": 11,
+    "dmin": 0.006005,
+    "rms": 0.02,
+    "gap": 141,
+    "magType": "md",
+    "type": "earthquake",
+    "title": "M 1.0 - 4 km W of Cobb, CA"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -122.764335632324,
+     38.8263320922852,
+     2.0699999332428
+    ]
+   },
+   "id": "nc75436117"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 1.71,
+    "place": "7 km W of Cobb, CA",
+    "time": 1789495309000,
+    "updated": 1789495520260,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nc75436112",
+    "detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/nc75436112.geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "automatic",
+    "tsunami": 0,
+    "sig": 45,
+    "net": "nc",
+    "code": "75436112",
+    "ids": ",nc75436112,",
+    "sources": ",nc,",
+    "types": ",focal-mechanism,nearby-cities,origin,phase-data,",
+    "nst": 35,
+    "dmin": 0.01039,
+    "rms": 0.02,
+    "gap": 32,
+    "magType": "md",
+    "type": "earthquake",
+    "title": "M 1.7 - 7 km W of Cobb, CA"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -122.80549621582,
+     38.8331680297852,
+     1.98000001907349
+    ]
+   },
+   "id": "nc75436112"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 1.59,
+    "place": "40 km SW of Ludlow, CA",
+    "time": 1789495295800,
+    "updated": 1789495504847,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ci41333199",
+    "detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/ci41333199.geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "automatic",
+    "tsunami": 0,
+    "sig": 39,
+    "net": "ci",
+    "code": "41333199",
+    "ids": ",ci41333199,",
+    "sources": ",ci,",
+    "types": ",nearby-cities,origin,phase-data,scitech-link,",
+    "nst": 33,
+    "dmin": 0.1648,
+    "rms": 0.13,
+    "gap": 62,
+    "magType": "ml",
+    "type": "earthquake",
+    "title": "M 1.6 - 40 km SW of Ludlow, CA"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -116.509666666667,
+     34.5086666666667,
+     1.46
+    ]
+   },
+   "id": "ci41333199"
+  }
+ ],
+ "bbox": [
+  -179.863,
+  -40.325,
+  -3.43,
+  179.794,
+  69.542,
+  125.54
+ ]
+}

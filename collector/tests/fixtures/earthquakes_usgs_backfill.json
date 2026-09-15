@@ -1,0 +1,142 @@
+{
+ "type": "FeatureCollection",
+ "metadata": {
+  "generated": 1789496992000,
+  "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2025-09-15&minmagnitude=4.5&orderby=time&limit=20000",
+  "title": "USGS Earthquakes",
+  "status": 200,
+  "api": "2.7.0",
+  "limit": 20000,
+  "offset": 1
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 4.7,
+    "place": "120 km S of Panguna, Papua New Guinea",
+    "time": 1789472098788,
+    "updated": 1789476837040,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000thl5",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000thl5&format=geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 340,
+    "net": "us",
+    "code": "7000thl5",
+    "ids": ",us7000thl5,",
+    "sources": ",us,",
+    "types": ",origin,phase-data,",
+    "nst": 51,
+    "dmin": 4.519,
+    "rms": 0.6,
+    "gap": 62,
+    "magType": "mb",
+    "type": "earthquake",
+    "title": "M 4.7 - 120 km S of Panguna, Papua New Guinea"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     155.3847,
+     -7.3986,
+     10
+    ]
+   },
+   "id": "us7000thl5"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 4.8,
+    "place": "289 km WSW of Tual, Indonesia",
+    "time": 1789452472712,
+    "updated": 1789453615040,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000thjr",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000thjr&format=geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 354,
+    "net": "us",
+    "code": "7000thjr",
+    "ids": ",us7000thjr,",
+    "sources": ",us,",
+    "types": ",origin,phase-data,",
+    "nst": 32,
+    "dmin": 6.218,
+    "rms": 0.57,
+    "gap": 86,
+    "magType": "mb",
+    "type": "earthquake",
+    "title": "M 4.8 - 289 km WSW of Tual, Indonesia"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     130.3422,
+     -6.6349,
+     83.829
+    ]
+   },
+   "id": "us7000thjr"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 4.8,
+    "place": "229 km E of Tadine, New Caledonia",
+    "time": 1789447946905,
+    "updated": 1789450604040,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000thjj",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000thjj&format=geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 354,
+    "net": "us",
+    "code": "7000thjj",
+    "ids": ",us7000thjj,",
+    "sources": ",us,",
+    "types": ",origin,phase-data,",
+    "nst": 27,
+    "dmin": 2.66,
+    "rms": 0.94,
+    "gap": 111,
+    "magType": "mb",
+    "type": "earthquake",
+    "title": "M 4.8 - 229 km E of Tadine, New Caledonia"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     170.0923,
+     -21.5813,
+     98.74
+    ]
+   },
+   "id": "us7000thjj"
+  }
+ ],
+ "bbox": [
+  -179.997,
+  -67.4686,
+  0,
+  179.9899,
+  85.0643,
+  669.556
+ ]
+}
