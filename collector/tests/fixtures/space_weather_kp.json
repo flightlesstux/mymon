@@ -1,0 +1,44 @@
+[
+ {
+  "time_tag": "2026-09-08T00:00:00",
+  "Kp": 4.33,
+  "a_running": 32,
+  "station_count": 8
+ },
+ {
+  "time_tag": "2026-09-08T03:00:00",
+  "Kp": 4.0,
+  "a_running": 27,
+  "station_count": 8
+ },
+ {
+  "time_tag": "2026-09-08T06:00:00",
+  "Kp": 5.0,
+  "a_running": 48,
+  "station_count": 8
+ },
+ {
+  "time_tag": "2026-09-08T09:00:00",
+  "Kp": 4.33,
+  "a_running": 32,
+  "station_count": 8
+ },
+ {
+  "time_tag": "2026-09-15T09:00:00",
+  "Kp": 0.67,
+  "a_running": 3,
+  "station_count": 7
+ },
+ {
+  "time_tag": "2026-09-15T12:00:00",
+  "Kp": 2.33,
+  "a_running": 9,
+  "station_count": 7
+ },
+ {
+  "time_tag": "2026-09-15T15:00:00",
+  "Kp": 0.67,
+  "a_running": 3,
+  "station_count": 7
+ }
+]
