@@ -604,8 +604,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Temperature"
             },
             "properties": [
               {
@@ -619,8 +619,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "Feels like"
             },
             "properties": [
               {
@@ -698,8 +698,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "Min °C"
             },
             "properties": [
               {
@@ -713,8 +713,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "Max °C"
             },
             "properties": [
               {
@@ -800,8 +800,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Humidity %"
             },
             "properties": [
               {
@@ -815,8 +815,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "Cloud cover %"
             },
             "properties": [
               {
@@ -900,8 +900,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Wind km/h"
             },
             "properties": [
               {
@@ -985,8 +985,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Pressure hPa"
             },
             "properties": [
               {
@@ -1069,8 +1069,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "European AQI"
             },
             "properties": [
               {
@@ -1084,8 +1084,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "PM2.5"
             },
             "properties": [
               {
@@ -1099,8 +1099,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "PM10"
             },
             "properties": [
               {
@@ -1324,8 +1324,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Min °C"
             },
             "properties": [
               {
@@ -1339,8 +1339,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "Max °C"
             },
             "properties": [
               {
@@ -1424,8 +1424,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Rain mm"
             },
             "properties": [
               {

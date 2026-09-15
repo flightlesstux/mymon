@@ -70,14 +70,14 @@ panels = [
     gauge("Air quality (EU AQI)", 21, 0, 3, 4, now_col("aqi_eu"), min_=0, max_=100,
           steps=[{"color": "#0ca30c", "value": None}, {"color": "#fab219", "value": 40}, {"color": "#ec835a", "value": 60}, {"color": "#d03b3b", "value": 80}]),
 
-    timeseries("Temperature and feels-like", 0, 4, 12, 9, CURRENT_LINES, unit="celsius", decimals=1, colors=[CAT[1], CAT[3]]),
-    barchart("7-day forecast, min / max °C", 12, 4, 12, 9, FORECAST_BARS, unit="celsius", horizontal=False, colors_by_field=[CAT[0], CAT[1]], legend="bottom", decimals=0),
+    timeseries("Temperature and feels-like", 0, 4, 12, 9, CURRENT_LINES, unit="celsius", decimals=1, colors={"Temperature": CAT[1], "Feels like": CAT[3]}),
+    barchart("7-day forecast, min / max °C", 12, 4, 12, 9, FORECAST_BARS, unit="celsius", horizontal=False, colors_by_field={"Min °C": CAT[0], "Max °C": CAT[1]}, legend="bottom", decimals=0),
 
-    timeseries("Humidity and cloud cover", 0, 13, 8, 8, HUM_CLOUD, unit="percent", decimals=0, colors=[CAT[0], CAT[7]], max_=100, min_=0),
-    timeseries("Wind", 8, 13, 8, 8, WIND, unit="velocitykmh", decimals=0, colors=[CAT[2]]),
-    timeseries("Pressure", 16, 13, 8, 8, PRESSURE, unit="pressurehpa", decimals=0, colors=[CAT[6]], fill=0),
+    timeseries("Humidity and cloud cover", 0, 13, 8, 8, HUM_CLOUD, unit="percent", decimals=0, colors={"Humidity %": CAT[0], "Cloud cover %": CAT[7]}, max_=100, min_=0),
+    timeseries("Wind", 8, 13, 8, 8, WIND, unit="velocitykmh", decimals=0, colors={"Wind km/h": CAT[2]}),
+    timeseries("Pressure", 16, 13, 8, 8, PRESSURE, unit="pressurehpa", decimals=0, colors={"Pressure hPa": CAT[6]}, fill=0),
 
-    timeseries("Air quality", 0, 21, 12, 8, AQ, decimals=0, colors=[CAT[5], CAT[4], CAT[6]], fill=0),
+    timeseries("Air quality", 0, 21, 12, 8, AQ, decimals=0, colors={"European AQI": CAT[5], "PM2.5": CAT[4], "PM10": CAT[6]}, fill=0),
     table("Forecast", 12, 21, 12, 8, FORECAST,
           overrides=[{"matcher": {"id": "byName", "options": "Max °C"},
                       "properties": [{"id": "custom.cellOptions", "value": {"type": "color-background", "mode": "gradient"}},
@@ -88,8 +88,8 @@ panels = [
                      {"matcher": {"id": "byName", "options": "Rain %"},
                       "properties": [{"id": "custom.cellOptions", "value": {"type": "gauge", "mode": "basic"}}, {"id": "min", "value": 0}, {"id": "max", "value": 100}, {"id": "color", "value": {"mode": "fixed", "fixedColor": CAT[0]}}]}]),
 
-    timeseries("Daily min / max, past year (ERA5 archive + recent forecast days)", 0, 29, 16, 9, HISTORY, unit="celsius", decimals=0, colors=[CAT[0], CAT[1]], fill=15),
-    timeseries("Daily rain, past year", 16, 29, 8, 9, HISTORY_RAIN, unit="lengthmm", decimals=1, colors=[CAT[0]], fill=60, lw=1),
+    timeseries("Daily min / max, past year (ERA5 archive + recent forecast days)", 0, 29, 16, 9, HISTORY, unit="celsius", decimals=0, colors={"Min °C": CAT[0], "Max °C": CAT[1]}, fill=15),
+    timeseries("Daily rain, past year", 16, 29, 8, 9, HISTORY_RAIN, unit="lengthmm", decimals=1, colors={"Rain mm": CAT[0]}, fill=60, lw=1),
     timeseries("All cities — hourly temperature", 0, 38, 24, 10, ALL_CITIES_TEMP, unit="celsius", decimals=0, fill=0, legend="right", lw=1,
                description="21 cities on one axis. Click a legend entry to isolate."),
 ]

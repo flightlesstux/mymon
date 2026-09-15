@@ -508,8 +508,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "USD/TRY"
             },
             "properties": [
               {
@@ -523,8 +523,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "EUR/TRY"
             },
             "properties": [
               {
@@ -538,8 +538,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "GBP/TRY"
             },
             "properties": [
               {
@@ -622,8 +622,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "EUR/USD"
             },
             "properties": [
               {
@@ -637,8 +637,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "GBP/USD"
             },
             "properties": [
               {
@@ -721,8 +721,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "USD/EUR"
             },
             "properties": [
               {
@@ -736,8 +736,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "USD/GBP"
             },
             "properties": [
               {
@@ -751,8 +751,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "USD/JPY"
             },
             "properties": [
               {
@@ -766,8 +766,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "USD/TRY"
             },
             "properties": [
               {
@@ -781,8 +781,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "USD/CHF"
             },
             "properties": [
               {
@@ -796,8 +796,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 5
+              "id": "byName",
+              "options": "USD/CNY"
             },
             "properties": [
               {
@@ -805,36 +805,6 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "#008300"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 6
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#9085e9"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 7
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#e66767"
                 }
               }
             ]
@@ -910,8 +880,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "USD/TRY"
             },
             "properties": [
               {
@@ -925,8 +895,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "USD/BRL"
             },
             "properties": [
               {
@@ -940,8 +910,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "USD/MXN"
             },
             "properties": [
               {
@@ -955,8 +925,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "USD/ZAR"
             },
             "properties": [
               {
@@ -970,8 +940,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "USD/INR"
             },
             "properties": [
               {
@@ -979,51 +949,6 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "#d55181"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 5
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#008300"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 6
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#9085e9"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 7
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#e66767"
                 }
               }
             ]
@@ -1099,8 +1024,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "BTC"
             },
             "properties": [
               {
@@ -1114,8 +1039,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "ETH"
             },
             "properties": [
               {
@@ -1129,8 +1054,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "SOL"
             },
             "properties": [
               {
@@ -1144,8 +1069,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "BNB"
             },
             "properties": [
               {
@@ -1159,8 +1084,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "XRP"
             },
             "properties": [
               {
@@ -1244,8 +1169,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "BTC"
             },
             "properties": [
               {
@@ -1458,8 +1383,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "BTC priced in gold ounces"
             },
             "properties": [
               {
@@ -1543,8 +1468,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "PAXG (Binance)"
             },
             "properties": [
               {
@@ -1558,8 +1483,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "Gold spot (Stooq)"
             },
             "properties": [
               {
@@ -1643,8 +1568,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Brent"
             },
             "properties": [
               {
@@ -1658,8 +1583,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "WTI"
             },
             "properties": [
               {
@@ -1743,8 +1668,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "gold"
             },
             "properties": [
               {
@@ -1758,8 +1683,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "silver"
             },
             "properties": [
               {
@@ -1842,8 +1767,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "SPX"
             },
             "properties": [
               {
@@ -1857,8 +1782,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "DJI"
             },
             "properties": [
               {
@@ -1872,8 +1797,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "NDQ"
             },
             "properties": [
               {
@@ -1887,8 +1812,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "DAX"
             },
             "properties": [
               {
@@ -1902,8 +1827,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "UKX"
             },
             "properties": [
               {
@@ -1917,8 +1842,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 5
+              "id": "byName",
+              "options": "NKX"
             },
             "properties": [
               {
@@ -1932,8 +1857,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 6
+              "id": "byName",
+              "options": "XU100"
             },
             "properties": [
               {
@@ -1941,21 +1866,6 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "#9085e9"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 7
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#e66767"
                 }
               }
             ]

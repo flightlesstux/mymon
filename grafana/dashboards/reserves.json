@@ -698,8 +698,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "China"
             },
             "properties": [
               {
@@ -713,8 +713,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "Japan"
             },
             "properties": [
               {
@@ -728,8 +728,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "Switzerland"
             },
             "properties": [
               {
@@ -743,8 +743,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "India"
             },
             "properties": [
               {
@@ -758,8 +758,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "Russian Federation"
             },
             "properties": [
               {
@@ -773,8 +773,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 5
+              "id": "byName",
+              "options": "Saudi Arabia"
             },
             "properties": [
               {
@@ -788,8 +788,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 6
+              "id": "byName",
+              "options": "United States"
             },
             "properties": [
               {
@@ -803,8 +803,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 7
+              "id": "byName",
+              "options": "Turkiye"
             },
             "properties": [
               {
@@ -818,8 +818,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 8
+              "id": "byName",
+              "options": "Korea, Rep."
             },
             "properties": [
               {
@@ -833,8 +833,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 9
+              "id": "byName",
+              "options": "Brazil"
             },
             "properties": [
               {
@@ -917,8 +917,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "gross_fx"
             },
             "properties": [
               {
@@ -932,8 +932,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "gold"
             },
             "properties": [
               {
@@ -947,8 +947,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "total"
             },
             "properties": [
               {
@@ -1031,8 +1031,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "total"
             },
             "properties": [
               {
@@ -1046,8 +1046,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "gold"
             },
             "properties": [
               {
@@ -1061,8 +1061,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "ex_gold"
             },
             "properties": [
               {
@@ -1145,8 +1145,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "total"
             },
             "properties": [
               {
@@ -1160,8 +1160,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "gold"
             },
             "properties": [
               {
@@ -1175,8 +1175,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "ex_gold"
             },
             "properties": [
               {
@@ -1259,8 +1259,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "US reserves ex gold (FRED)"
             },
             "properties": [
               {
@@ -1343,8 +1343,23 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "ecb_usd"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d55181"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ecb_eur"
             },
             "properties": [
               {
@@ -1427,8 +1442,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "total"
             },
             "properties": [
               {
@@ -1442,8 +1457,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "gold"
             },
             "properties": [
               {
@@ -1457,8 +1472,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "ex_gold"
             },
             "properties": [
               {

@@ -60,7 +60,8 @@ panels = [
     stat("Rows written, 24 h", 12, 0, 12, 4, TOTAL_ROWS, unit="short", sparkline=False, color=CAT[0]),
     table("Last run per source", 0, 4, 24, 11, LAST_RUNS, overrides=status_override, sort=("Source", False)),
     timeseries("Rows written per hour by source", 0, 15, 14, 9, ROWS_PER_HOUR, unit="short", stack=True, fill=60, lw=1),
-    timeseries("Failed runs per hour", 14, 15, 10, 9, FAILURES, unit="short", colors=[STATUS["critical"]], fill=40),
+    timeseries("Failed runs per hour", 14, 15, 10, 9, FAILURES, unit="short",
+               colors={"failures": STATUS["critical"]}, fill=40),
 
     # Prometheus scrapes the collector's own /metrics and postgres-exporter every 30s and
     # keeps 90 days of history, so these panels answer "how has this looked over time" —
@@ -83,12 +84,12 @@ panels = [
                    "rate(mymon_collector_run_duration_seconds_sum[15m])"
                    " / rate(mymon_collector_run_duration_seconds_count[15m])",
                    legend="{{source}}")],
-               datasource=PROM_DS, unit="s", decimals=2, colors=CAT, fill=0, legend="right",
+               datasource=PROM_DS, unit="s", decimals=2, fill=0, legend="right",
                description="Histogram average over a 15-minute window, per source."),
     timeseries("Rows written per minute by source (Prometheus)", 12, 28, 12, 9,
                targets=[prom_target("rate(mymon_collector_rows_written_total[15m]) * 60",
                                      legend="{{source}}")],
-               datasource=PROM_DS, unit="short", decimals=1, colors=CAT, fill=0, legend="right"),
+               datasource=PROM_DS, unit="short", decimals=1, fill=0, legend="right"),
 ]
 
 write(dashboard("collector-health", "Collector Health", panels, ["mymon", "ops"],

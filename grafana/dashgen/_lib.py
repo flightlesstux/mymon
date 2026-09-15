@@ -64,6 +64,22 @@ def panel(kind: str, title: str, x: int, y: int, w: int, h: int, targets: list[d
     return p
 
 
+def _name_color_overrides(mapping: dict[str, str]) -> list[dict]:
+    """Fixed colors keyed by exact series/field display name.
+
+    Grafana's fieldConfig overrides only match by name, type, regexp, frame ref id, or
+    value — there is no "byIndex" matcher (a nonexistent id crashes the panel with
+    'byIndex not found in: ...'), so a series can only get a specific color if we know
+    its literal display name in advance (the SQL alias, or a literal string a query
+    selects as the grouping column).
+    """
+    return [
+        {"matcher": {"id": "byName", "options": name},
+         "properties": [{"id": "color", "value": {"mode": "fixed", "fixedColor": color}}]}
+        for name, color in mapping.items()
+    ]
+
+
 def deep_merge(a: dict, b: dict) -> dict:
     for k, v in b.items():
         if isinstance(v, dict) and isinstance(a.get(k), dict):
@@ -90,10 +106,7 @@ def timeseries(title, x, y, w, h, sql=None, unit=None, decimals=None, fill=8, co
         d["min"] = min_
     if max_ is not None:
         d["max"] = max_
-    overrides = []
-    for i, c in enumerate(colors or []):
-        overrides.append({"matcher": {"id": "byIndex", "options": i},
-                          "properties": [{"id": "color", "value": {"mode": "fixed", "fixedColor": c}}]})
+    overrides = _name_color_overrides(colors) if isinstance(colors, dict) else []
     opts = {"legend": {"displayMode": "list", "placement": legend, "showLegend": legend != "hidden",
                        "calcs": []},
             "tooltip": {"mode": "multi", "sort": "desc"}}
@@ -149,10 +162,7 @@ def barchart(title, x, y, w, h, sql, unit=None, color=CAT[0], horizontal=True, d
             "stacking": "normal" if stack else "none",
             "legend": {"displayMode": "list", "placement": "bottom", "showLegend": legend != "hidden"},
             "tooltip": {"mode": "single", "sort": "none"}}
-    overrides = []
-    for i, c in enumerate(colors_by_field or []):
-        overrides.append({"matcher": {"id": "byIndex", "options": i + 1},
-                          "properties": [{"id": "color", "value": {"mode": "fixed", "fixedColor": c}}]})
+    overrides = _name_color_overrides(colors_by_field) if isinstance(colors_by_field, dict) else []
     return panel("barchart", title, x, y, w, h, [target(sql, fmt="table")], unit, decimals, opts, d,
                  overrides, description)
 

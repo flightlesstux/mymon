@@ -337,8 +337,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "DE"
             },
             "properties": [
               {
@@ -352,8 +352,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "FR"
             },
             "properties": [
               {
@@ -367,8 +367,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "NL"
             },
             "properties": [
               {
@@ -382,8 +382,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "IT"
             },
             "properties": [
               {
@@ -397,8 +397,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "ES"
             },
             "properties": [
               {
@@ -412,8 +412,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 5
+              "id": "byName",
+              "options": "PL"
             },
             "properties": [
               {
@@ -427,8 +427,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 6
+              "id": "byName",
+              "options": "GR"
             },
             "properties": [
               {
@@ -436,21 +436,6 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "#9085e9"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 7
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#e66767"
                 }
               }
             ]
@@ -527,8 +512,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "petrol95"
             },
             "properties": [
               {
@@ -542,8 +527,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "diesel"
             },
             "properties": [
               {
@@ -701,8 +686,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "petrol95"
             },
             "properties": [
               {
@@ -716,8 +701,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "diesel"
             },
             "properties": [
               {
@@ -731,8 +716,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "lpg"
             },
             "properties": [
               {
@@ -816,8 +801,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "petrol95"
             },
             "properties": [
               {
@@ -831,8 +816,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "diesel"
             },
             "properties": [
               {
@@ -846,8 +831,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "lpg"
             },
             "properties": [
               {
@@ -931,8 +916,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "petrol_regular"
             },
             "properties": [
               {
@@ -946,8 +931,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "diesel"
             },
             "properties": [
               {
@@ -1031,8 +1016,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "natural_gas_europe"
             },
             "properties": [
               {
@@ -1046,8 +1031,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "natural_gas_us"
             },
             "properties": [
               {
@@ -1061,8 +1046,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "liquefied_natural_gas_japan"
             },
             "properties": [
               {
@@ -1145,8 +1130,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "crude_oil_average"
             },
             "properties": [
               {
@@ -1160,8 +1145,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "coal_australian"
             },
             "properties": [
               {
@@ -1175,8 +1160,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "natural_gas_index"
             },
             "properties": [
               {
@@ -1259,8 +1244,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "wheat_us_hrw"
             },
             "properties": [
               {
@@ -1274,8 +1259,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "rice_thai_5"
             },
             "properties": [
               {
@@ -1289,8 +1274,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "maize"
             },
             "properties": [
               {
@@ -1304,8 +1289,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "sugar_world"
             },
             "properties": [
               {
@@ -1319,8 +1304,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "coffee_arabica"
             },
             "properties": [
               {
@@ -1334,8 +1319,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 5
+              "id": "byName",
+              "options": "cocoa"
             },
             "properties": [
               {
@@ -1343,36 +1328,6 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "#008300"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 6
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#9085e9"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 7
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#e66767"
                 }
               }
             ]
@@ -1448,8 +1403,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "gold"
             },
             "properties": [
               {
@@ -1463,8 +1418,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "silver"
             },
             "properties": [
               {
@@ -1478,8 +1433,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "copper"
             },
             "properties": [
               {
@@ -1493,8 +1448,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "aluminum"
             },
             "properties": [
               {
@@ -1508,8 +1463,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "nickel"
             },
             "properties": [
               {
@@ -1523,8 +1478,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 5
+              "id": "byName",
+              "options": "iron_ore_cfr_spot"
             },
             "properties": [
               {
@@ -1532,36 +1487,6 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "#008300"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 6
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#9085e9"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 7
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#e66767"
                 }
               }
             ]
@@ -1638,8 +1563,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "urea"
             },
             "properties": [
               {
@@ -1653,8 +1578,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "dap"
             },
             "properties": [
               {
@@ -1668,8 +1593,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "potassium_chloride"
             },
             "properties": [
               {
@@ -1862,8 +1787,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "food_index"
             },
             "properties": [
               {
@@ -1877,8 +1802,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "meat"
             },
             "properties": [
               {
@@ -1892,8 +1817,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "dairy"
             },
             "properties": [
               {
@@ -1907,8 +1832,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "cereals"
             },
             "properties": [
               {
@@ -1922,8 +1847,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "oils"
             },
             "properties": [
               {
@@ -1937,8 +1862,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 5
+              "id": "byName",
+              "options": "sugar"
             },
             "properties": [
               {
@@ -1946,36 +1871,6 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "#008300"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 6
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#9085e9"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byIndex",
-              "options": 7
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "#e66767"
                 }
               }
             ]
@@ -2052,8 +1947,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "USA"
             },
             "properties": [
               {
@@ -2067,8 +1962,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "TUR"
             },
             "properties": [
               {
@@ -2082,8 +1977,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "DEU"
             },
             "properties": [
               {
@@ -2097,8 +1992,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "GBR"
             },
             "properties": [
               {
@@ -2112,8 +2007,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "JPN"
             },
             "properties": [
               {
@@ -2127,8 +2022,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 5
+              "id": "byName",
+              "options": "CHN"
             },
             "properties": [
               {
@@ -2142,8 +2037,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 6
+              "id": "byName",
+              "options": "BRA"
             },
             "properties": [
               {
@@ -2157,8 +2052,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 7
+              "id": "byName",
+              "options": "CHE"
             },
             "properties": [
               {
@@ -2497,8 +2392,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "TUR"
             },
             "properties": [
               {
@@ -2512,8 +2407,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "USA"
             },
             "properties": [
               {
@@ -2527,8 +2422,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "EMU"
             },
             "properties": [
               {
@@ -2542,8 +2437,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "GBR"
             },
             "properties": [
               {
@@ -2557,8 +2452,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "DEU"
             },
             "properties": [
               {
@@ -2572,8 +2467,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 5
+              "id": "byName",
+              "options": "JPN"
             },
             "properties": [
               {
@@ -2587,8 +2482,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 6
+              "id": "byName",
+              "options": "ARG"
             },
             "properties": [
               {
@@ -2602,8 +2497,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 7
+              "id": "byName",
+              "options": "BRA"
             },
             "properties": [
               {
@@ -2686,8 +2581,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "DEU"
             },
             "properties": [
               {
@@ -2701,8 +2596,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "NLD"
             },
             "properties": [
               {
@@ -2716,8 +2611,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "ITA"
             },
             "properties": [
               {
@@ -2731,8 +2626,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "ESP"
             },
             "properties": [
               {
@@ -2746,8 +2641,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "FRA"
             },
             "properties": [
               {
@@ -2761,8 +2656,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 5
+              "id": "byName",
+              "options": "POL"
             },
             "properties": [
               {
@@ -2776,8 +2671,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 6
+              "id": "byName",
+              "options": "TUR"
             },
             "properties": [
               {
@@ -2791,8 +2686,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 7
+              "id": "byName",
+              "options": "EUU"
             },
             "properties": [
               {
@@ -2875,8 +2770,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "DEU"
             },
             "properties": [
               {
@@ -2890,8 +2785,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "NLD"
             },
             "properties": [
               {
@@ -2905,8 +2800,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "ITA"
             },
             "properties": [
               {
@@ -2920,8 +2815,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "ESP"
             },
             "properties": [
               {
@@ -2935,8 +2830,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "FRA"
             },
             "properties": [
               {
@@ -2950,8 +2845,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 5
+              "id": "byName",
+              "options": "POL"
             },
             "properties": [
               {
@@ -2965,8 +2860,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 6
+              "id": "byName",
+              "options": "TUR"
             },
             "properties": [
               {
@@ -2980,8 +2875,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 7
+              "id": "byName",
+              "options": "EUU"
             },
             "properties": [
               {
@@ -3128,8 +3023,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "TUR"
             },
             "properties": [
               {
@@ -3143,8 +3038,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "USA"
             },
             "properties": [
               {
@@ -3158,8 +3053,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "EMU"
             },
             "properties": [
               {
@@ -3173,8 +3068,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "GBR"
             },
             "properties": [
               {
@@ -3188,8 +3083,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 4
+              "id": "byName",
+              "options": "JPN"
             },
             "properties": [
               {
@@ -3203,8 +3098,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 5
+              "id": "byName",
+              "options": "BRA"
             },
             "properties": [
               {
@@ -3218,8 +3113,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 6
+              "id": "byName",
+              "options": "CHN"
             },
             "properties": [
               {
@@ -3233,8 +3128,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 7
+              "id": "byName",
+              "options": "RUS"
             },
             "properties": [
               {

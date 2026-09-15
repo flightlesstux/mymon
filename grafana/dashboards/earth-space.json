@@ -770,8 +770,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "M6+"
             },
             "properties": [
               {
@@ -785,8 +785,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "M5-6"
             },
             "properties": [
               {
@@ -800,8 +800,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "M4.5-5"
             },
             "properties": [
               {
@@ -980,8 +980,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Magnitude"
             },
             "properties": [
               {
@@ -1066,8 +1066,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Kp"
             },
             "properties": [
               {
@@ -1151,8 +1151,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Speed km/s"
             },
             "properties": [
               {
@@ -1235,8 +1235,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Bz nT"
             },
             "properties": [
               {
@@ -1250,8 +1250,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "Density p/cm³"
             },
             "properties": [
               {
@@ -1513,8 +1513,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Altitude km"
             },
             "properties": [
               {
@@ -1598,8 +1598,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Velocity km/h"
             },
             "properties": [
               {
@@ -1683,8 +1683,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Monthly mean"
             },
             "properties": [
               {
@@ -1698,8 +1698,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "Trend"
             },
             "properties": [
               {
@@ -1783,8 +1783,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Year-over-year increase ppm"
             },
             "properties": [
               {
@@ -1867,8 +1867,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Hashrate EH/s"
             },
             "properties": [
               {
@@ -1951,8 +1951,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Fast"
             },
             "properties": [
               {
@@ -1966,8 +1966,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 1
+              "id": "byName",
+              "options": "30 min"
             },
             "properties": [
               {
@@ -1981,8 +1981,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 2
+              "id": "byName",
+              "options": "1 h"
             },
             "properties": [
               {
@@ -1996,8 +1996,8 @@
           },
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 3
+              "id": "byName",
+              "options": "Economy"
             },
             "properties": [
               {
@@ -2081,8 +2081,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byIndex",
-              "options": 0
+              "id": "byName",
+              "options": "Unconfirmed tx"
             },
             "properties": [
               {
