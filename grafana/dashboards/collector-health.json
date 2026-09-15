@@ -70,7 +70,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "\nSELECT count(*) FILTER (WHERE ok) AS \"healthy\"\nFROM (SELECT DISTINCT ON (source) source, ok FROM collector_run ORDER BY source, started_at DESC) t\n",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -134,7 +134,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "\nSELECT count(*) FILTER (WHERE NOT ok) AS \"failing\"\nFROM (SELECT DISTINCT ON (source) source, ok FROM collector_run ORDER BY source, started_at DESC) t\n",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -201,7 +201,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "\nSELECT sum(rows) AS \"rows\" FROM collector_run WHERE ok AND started_at > now() - interval '24 hours'\n",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],

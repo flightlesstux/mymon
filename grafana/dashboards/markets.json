@@ -70,7 +70,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, price AS \"BTC\" FROM crypto_tick WHERE symbol='BTC' AND $__timeFilter(ts) ORDER BY 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -136,7 +136,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, price AS \"ETH\" FROM crypto_tick WHERE symbol='ETH' AND $__timeFilter(ts) ORDER BY 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -202,7 +202,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, rate AS \"TRY\" FROM fx_rate\nWHERE base='USD' AND quote='TRY' AND source='frankfurter' AND $__timeFilter(ts) ORDER BY 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -267,7 +267,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, 1/rate AS \"EUR\" FROM fx_rate\nWHERE base='USD' AND quote='EUR' AND source='frankfurter' AND $__timeFilter(ts) ORDER BY 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -332,7 +332,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT period_date AS time, price AS \"gold\" FROM commodity_price\nWHERE commodity='gold' AND source='stooq' AND $__timeFilter(period_date) ORDER BY 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -398,7 +398,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT period_date AS time, price AS \"brent\" FROM commodity_price\nWHERE commodity='brent' AND source='stooq' AND $__timeFilter(period_date) ORDER BY 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],

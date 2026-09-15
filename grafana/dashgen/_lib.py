@@ -126,7 +126,7 @@ def stat(title, x, y, w, h, sql=None, unit=None, decimals=None, color=CAT[0], sp
             "graphMode": "area" if sparkline else "none", "colorMode": color_mode,
             "textMode": text_mode, "justifyMode": "auto", "orientation": "auto",
             "wideLayout": True, "showPercentChange": False}
-    return panel("stat", title, x, y, w, h, targets or [target(sql)], unit, decimals, opts, d,
+    return panel("stat", title, x, y, w, h, targets or [target(sql, fmt="table")], unit, decimals, opts, d,
                  description=description, datasource=datasource)
 
 
@@ -137,7 +137,7 @@ def gauge(title, x, y, w, h, sql, unit=None, min_=0, max_=100, steps=None, decim
          "thresholds": {"mode": "absolute", "steps": steps}}
     opts = {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False},
             "showThresholdLabels": False, "showThresholdMarkers": True, "orientation": "auto"}
-    return panel("gauge", title, x, y, w, h, [target(sql)], unit, decimals, opts, d,
+    return panel("gauge", title, x, y, w, h, [target(sql, fmt="table")], unit, decimals, opts, d,
                  description=description)
 
 

@@ -70,7 +70,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT value_usd FROM reserves WHERE country_iso3='CHN' AND metric='total' AND source='worldbank' AND value_usd IS NOT NULL ORDER BY period_date DESC LIMIT 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -136,7 +136,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT value_usd FROM reserves WHERE country_iso3='JPN' AND metric='total' AND source='worldbank' AND value_usd IS NOT NULL ORDER BY period_date DESC LIMIT 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -202,7 +202,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT value_usd FROM reserves WHERE country_iso3='CHE' AND metric='total' AND source='worldbank' AND value_usd IS NOT NULL ORDER BY period_date DESC LIMIT 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -268,7 +268,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT value_usd FROM reserves WHERE country_iso3='USA' AND metric='total' AND source='worldbank' AND value_usd IS NOT NULL ORDER BY period_date DESC LIMIT 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -334,7 +334,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT value_usd FROM reserves WHERE country_iso3='EMU' AND metric='total' AND source='worldbank' AND value_usd IS NOT NULL ORDER BY period_date DESC LIMIT 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -400,7 +400,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT value_usd FROM reserves WHERE country_iso3='TUR' AND metric='total' AND source='worldbank' AND value_usd IS NOT NULL ORDER BY period_date DESC LIMIT 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],

@@ -92,7 +92,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, temp_c FROM weather_current WHERE city = '${city}' AND ts > now() - interval '24 hours' ORDER BY ts",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -158,7 +158,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, feels_like_c FROM weather_current WHERE city = '${city}' AND ts > now() - interval '24 hours' ORDER BY ts",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -224,7 +224,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "\nSELECT CASE weather_code\n  WHEN 0 THEN 'Clear sky' WHEN 1 THEN 'Mainly clear' WHEN 2 THEN 'Partly cloudy' WHEN 3 THEN 'Overcast'\n  WHEN 45 THEN 'Fog' WHEN 48 THEN 'Rime fog' WHEN 51 THEN 'Light drizzle' WHEN 53 THEN 'Drizzle' WHEN 55 THEN 'Dense drizzle'\n  WHEN 61 THEN 'Slight rain' WHEN 63 THEN 'Rain' WHEN 65 THEN 'Heavy rain' WHEN 66 THEN 'Freezing rain' WHEN 67 THEN 'Heavy freezing rain'\n  WHEN 71 THEN 'Slight snow' WHEN 73 THEN 'Snow' WHEN 75 THEN 'Heavy snow' WHEN 77 THEN 'Snow grains'\n  WHEN 80 THEN 'Rain showers' WHEN 81 THEN 'Heavy showers' WHEN 82 THEN 'Violent showers'\n  WHEN 85 THEN 'Snow showers' WHEN 86 THEN 'Heavy snow showers' WHEN 95 THEN 'Thunderstorm' WHEN 96 THEN 'Thunderstorm, hail' WHEN 99 THEN 'Thunderstorm, heavy hail'\n  ELSE 'Unknown' END AS sky\nFROM weather_current WHERE city='${city}' ORDER BY ts DESC LIMIT 1\n",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -288,7 +288,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, humidity FROM weather_current WHERE city = '${city}' AND ts > now() - interval '24 hours' ORDER BY ts",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -354,7 +354,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, wind_kph FROM weather_current WHERE city = '${city}' AND ts > now() - interval '24 hours' ORDER BY ts",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -420,7 +420,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, pressure_hpa FROM weather_current WHERE city = '${city}' AND ts > now() - interval '24 hours' ORDER BY ts",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -486,7 +486,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, aqi_eu FROM weather_current WHERE city = '${city}' AND ts > now() - interval '24 hours' ORDER BY ts",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],

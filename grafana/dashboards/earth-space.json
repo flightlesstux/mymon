@@ -70,7 +70,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, kp AS \"Kp\" FROM space_weather WHERE $__timeFilter(ts) ORDER BY 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -146,7 +146,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, solar_wind_speed AS \"Speed km/s\" FROM space_weather WHERE $__timeFilter(ts) AND solar_wind_speed IS NOT NULL ORDER BY 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -212,7 +212,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT month AS time, ppm FROM co2_monthly WHERE month > now() - interval '3 years' ORDER BY 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -278,7 +278,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT count(*) FROM earthquake WHERE ts > now() - interval '7 days' AND mag >= 4.5",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -342,7 +342,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, block_height FROM btc_network WHERE $__timeFilter(ts) AND block_height IS NOT NULL ORDER BY 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
@@ -407,7 +407,7 @@
           "refId": "A",
           "rawQuery": true,
           "rawSql": "SELECT ts AS time, fee_fast FROM btc_network WHERE ts > now() - interval '24 hours' AND fee_fast IS NOT NULL ORDER BY 1",
-          "format": "time_series",
+          "format": "table",
           "editorMode": "code"
         }
       ],
