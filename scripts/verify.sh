@@ -20,7 +20,7 @@ code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: applicat
   http://localhost:3000/api/dashboards/db -d '{}')
 [ "$code" = "401" ] || [ "$code" = "403" ] && ok "anonymous write blocked ($code)" || bad "anonymous write blocked ($code)"
 
-for uid in world-overview reserves markets city-weather earth-space fuel-prices collector-health; do
+for uid in world-overview reserves markets city-weather earth-space fuel-prices collector-health nl; do
   code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/api/dashboards/uid/$uid)
   [ "$code" = "200" ] && ok "dashboard $uid ($code)" || bad "dashboard $uid ($code)"
 done
