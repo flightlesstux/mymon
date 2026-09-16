@@ -9,6 +9,8 @@ every dependency installed — see `make fill-gaps`):
     python -m mymon_collector.fill_gaps
     python -m mymon_collector.fill_gaps --start 2026-01-01 --end 2026-09-16
     python -m mymon_collector.fill_gaps --only fx,space_weather
+    python -m mymon_collector.fill_gaps --only weather --start 2025-01-01 \\
+        --cities "Rotterdam,Utrecht"
 """
 
 from __future__ import annotations
@@ -51,11 +53,20 @@ def main() -> int:
     parser.add_argument("--end", type=date.fromisoformat, default=None)
     parser.add_argument("--only", type=str, default=None,
                         help="comma-separated subset of: " + ",".join(JOBS))
+    parser.add_argument("--cities", type=str, default=None,
+                        help="comma-separated city names to restrict the weather job to "
+                             "(default: every configured city)")
     args = parser.parse_args()
     end = args.end or datetime.now(UTC).date()
     names = [n.strip() for n in args.only.split(",")] if args.only else list(JOBS)
 
     cfg = registry.load_ctx_config()
+    if args.cities:
+        wanted = {c.strip() for c in args.cities.split(",")}
+        cfg = {**cfg, "cities": [c for c in cfg["cities"] if c["name"] in wanted]}
+        missing = wanted - {c["name"] for c in cfg["cities"]}
+        if missing:
+            log.warning("--cities: not found in config, ignored: %s", ", ".join(sorted(missing)))
     ok, failed = [], []
     with make_client(timeout=60) as http, db.pool().connection() as conn:
         ctx = Ctx(http=http, cfg=cfg, now=datetime.now(UTC))
