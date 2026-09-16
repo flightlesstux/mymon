@@ -3,7 +3,6 @@
   "title": "Markets",
   "description": "FX, crypto, oil, metals and equity indices from public feeds.",
   "tags": [
-    "mymon",
     "markets"
   ],
   "timezone": "utc",
@@ -35,9 +34,7 @@
     {
       "type": "dashboards",
       "title": "mymon",
-      "tags": [
-        "mymon"
-      ],
+      "tags": [],
       "asDropdown": true,
       "icon": "external link",
       "includeVars": false,

@@ -3,7 +3,6 @@
   "title": "World Overview",
   "description": "One screen: markets, weather in 21 cities, earthquakes and the ISS.",
   "tags": [
-    "mymon",
     "home"
   ],
   "timezone": "utc",
@@ -35,9 +34,7 @@
     {
       "type": "dashboards",
       "title": "mymon",
-      "tags": [
-        "mymon"
-      ],
+      "tags": [],
       "asDropdown": true,
       "icon": "external link",
       "includeVars": false,

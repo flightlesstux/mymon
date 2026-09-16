@@ -3,7 +3,6 @@
   "title": "Fuel & Prices",
   "description": "Pump prices across Europe and Türkiye, natural gas, commodities, food, Big Mac index, inflation, household energy prices.",
   "tags": [
-    "mymon",
     "prices"
   ],
   "timezone": "utc",
@@ -61,9 +60,7 @@
     {
       "type": "dashboards",
       "title": "mymon",
-      "tags": [
-        "mymon"
-      ],
+      "tags": [],
       "asDropdown": true,
       "icon": "external link",
       "includeVars": false,

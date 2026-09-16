@@ -3,7 +3,6 @@
   "title": "NL: Cost of Living",
   "description": "Dutch consumer prices broken down into all 12 COICOP spending categories (CBS), since 2025.",
   "tags": [
-    "mymon",
     "netherlands"
   ],
   "timezone": "utc",
@@ -35,9 +34,7 @@
     {
       "type": "dashboards",
       "title": "mymon",
-      "tags": [
-        "mymon"
-      ],
+      "tags": [],
       "asDropdown": true,
       "icon": "external link",
       "includeVars": false,

@@ -3,7 +3,6 @@
   "title": "Reserve Assets",
   "description": "Official reserve assets (FX + gold) per country: World Bank annual, ECB monthly, TCMB weekly, FRED monthly.",
   "tags": [
-    "mymon",
     "economy"
   ],
   "timezone": "utc",
@@ -35,9 +34,7 @@
     {
       "type": "dashboards",
       "title": "mymon",
-      "tags": [
-        "mymon"
-      ],
+      "tags": [],
       "asDropdown": true,
       "icon": "external link",
       "includeVars": false,

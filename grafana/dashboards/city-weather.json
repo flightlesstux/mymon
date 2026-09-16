@@ -3,7 +3,6 @@
   "title": "City Weather",
   "description": "Current conditions, forecast, air quality and a year of history for one city.",
   "tags": [
-    "mymon",
     "weather"
   ],
   "timezone": "utc",
@@ -57,9 +56,7 @@
     {
       "type": "dashboards",
       "title": "mymon",
-      "tags": [
-        "mymon"
-      ],
+      "tags": [],
       "asDropdown": true,
       "icon": "external link",
       "includeVars": false,

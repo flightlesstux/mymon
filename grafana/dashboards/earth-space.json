@@ -3,7 +3,6 @@
   "title": "Earth & Space",
   "description": "Earthquakes, geomagnetic activity, the ISS, CO₂ and the Bitcoin network.",
   "tags": [
-    "mymon",
     "earth"
   ],
   "timezone": "utc",
@@ -35,9 +34,7 @@
     {
       "type": "dashboards",
       "title": "mymon",
-      "tags": [
-        "mymon"
-      ],
+      "tags": [],
       "asDropdown": true,
       "icon": "external link",
       "includeVars": false,

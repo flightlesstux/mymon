@@ -3,7 +3,6 @@
   "title": "Collector Health",
   "description": "What the collector has been doing: last result per source, rows written, failures.",
   "tags": [
-    "mymon",
     "ops"
   ],
   "timezone": "utc",
@@ -35,9 +34,7 @@
     {
       "type": "dashboards",
       "title": "mymon",
-      "tags": [
-        "mymon"
-      ],
+      "tags": [],
       "asDropdown": true,
       "icon": "external link",
       "includeVars": false,

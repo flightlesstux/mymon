@@ -3,7 +3,6 @@
   "title": "NL: Economy & Rates",
   "description": "Inflation, unemployment, the 10-year government bond yield and FX for the Netherlands, since 2025.",
   "tags": [
-    "mymon",
     "netherlands"
   ],
   "timezone": "utc",
@@ -35,9 +34,7 @@
     {
       "type": "dashboards",
       "title": "mymon",
-      "tags": [
-        "mymon"
-      ],
+      "tags": [],
       "asDropdown": true,
       "icon": "external link",
       "includeVars": false,

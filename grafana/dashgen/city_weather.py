@@ -94,7 +94,7 @@ panels = [
                description="21 cities on one axis. Click a legend entry to isolate."),
 ]
 
-write(dashboard("city-weather", "City Weather", panels, ["mymon", "weather"], refresh="5m", time_from="now-7d",
+write(dashboard("city-weather", "City Weather", panels, ["weather"], refresh="5m", time_from="now-7d",
                 templating=[CITY_VAR],
                 description="Current conditions, forecast, air quality and a year of history for one city."),
       "city-weather")

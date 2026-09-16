@@ -118,6 +118,6 @@ panels = [
                                      {"id": "min", "value": 2}, {"id": "max", "value": 8}, {"id": "decimals", "value": 1}]}]),
 ]
 
-write(dashboard("world-overview", "World Overview", panels, ["mymon", "home"], refresh="1m", time_from="now-24h",
+write(dashboard("world-overview", "World Overview", panels, ["home"], refresh="1m", time_from="now-24h",
                 description="One screen: markets, weather in 21 cities, earthquakes and the ISS."),
       "world-overview")

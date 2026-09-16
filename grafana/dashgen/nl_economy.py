@@ -64,7 +64,7 @@ panels = [
          decimals=0, color=CAT[7]),
 ]
 
-write(dashboard("nl-economy", "NL: Economy & Rates", panels, ["mymon", "netherlands"],
+write(dashboard("nl-economy", "NL: Economy & Rates", panels, ["netherlands"],
                 refresh="1h", time_from="2025-01-01T00:00:00Z",
                 description="Inflation, unemployment, the 10-year government bond yield "
                             "and FX for the Netherlands, since 2025."),

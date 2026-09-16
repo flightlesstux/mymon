@@ -92,7 +92,7 @@ panels = [
                datasource=PROM_DS, unit="short", decimals=1, fill=0, legend="right"),
 ]
 
-write(dashboard("collector-health", "Collector Health", panels, ["mymon", "ops"],
+write(dashboard("collector-health", "Collector Health", panels, ["ops"],
                 refresh="1m", time_from="now-24h",
                 description="What the collector has been doing: last result per source, rows written, failures."),
       "collector-health")

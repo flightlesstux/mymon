@@ -37,7 +37,7 @@ panels = [
                            "axis, use the legend."),
 ]
 
-write(dashboard("nl-housing-energy", "NL: Housing & Energy", panels, ["mymon", "netherlands"],
+write(dashboard("nl-housing-energy", "NL: Housing & Energy", panels, ["netherlands"],
                 refresh="1h", time_from="2025-01-01T00:00:00Z",
                 description="Dutch existing-home prices, sales volume, rent increases and "
                             "consumer energy tariffs, since 2025."),

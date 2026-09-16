@@ -83,7 +83,7 @@ panels = [
                decimals=0, fill=0, colors=CITY_COLORS, legend="right"),
 ]
 
-write(dashboard("nl-weather", "NL: Weather & Air Quality", panels, ["mymon", "netherlands"],
+write(dashboard("nl-weather", "NL: Weather & Air Quality", panels, ["netherlands"],
                 refresh="15m", time_from="2025-01-01T00:00:00Z",
                 description="Weather and air quality for 5 Dutch cities, since 2025."),
       "NL/nl-weather")

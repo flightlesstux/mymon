@@ -211,7 +211,7 @@ panels = [
                        "BRA": CAT[5], "CHN": CAT[6], "RUS": CAT[7]}, fill=0, legend="right"),
 ]
 
-write(dashboard("fuel-prices", "Fuel & Prices", panels, ["mymon", "prices"], refresh="1h", time_from="now-5y",
+write(dashboard("fuel-prices", "Fuel & Prices", panels, ["prices"], refresh="1h", time_from="now-5y",
                 templating=[FUEL_VAR],
                 description="Pump prices across Europe and Türkiye, natural gas, commodities, food, Big Mac index, inflation, household energy prices."),
       "fuel-prices")

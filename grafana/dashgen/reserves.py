@@ -134,6 +134,6 @@ panels += [
                      {"matcher": {"id": "byName", "options": "Year"}, "properties": [{"id": "unit", "value": "dateTimeAsIsoNoDateIfToday"}]}]),
 ]
 
-write(dashboard("reserves", "Reserve Assets", panels, ["mymon", "economy"], refresh="1h", time_from="now-25y",
+write(dashboard("reserves", "Reserve Assets", panels, ["economy"], refresh="1h", time_from="now-25y",
                 description="Official reserve assets (FX + gold) per country: World Bank annual, ECB monthly, TCMB weekly, FRED monthly."),
       "reserves")

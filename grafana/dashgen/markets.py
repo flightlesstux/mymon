@@ -131,6 +131,6 @@ panels = [
                description="S&P 500, Dow, Nasdaq, DAX, FTSE 100, Nikkei 225, BIST 100."),
 ]
 
-write(dashboard("markets", "Markets", panels, ["mymon", "markets"], refresh="1m", time_from="now-90d",
+write(dashboard("markets", "Markets", panels, ["markets"], refresh="1m", time_from="now-90d",
                 description="FX, crypto, oil, metals and equity indices from public feeds."),
       "markets")

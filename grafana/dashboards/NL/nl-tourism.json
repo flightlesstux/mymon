@@ -3,7 +3,6 @@
   "title": "NL: Tourism",
   "description": "Dutch hotel/accommodation guests, overnight stays and occupancy rate, since 2025.",
   "tags": [
-    "mymon",
     "netherlands"
   ],
   "timezone": "utc",
@@ -35,9 +34,7 @@
     {
       "type": "dashboards",
       "title": "mymon",
-      "tags": [
-        "mymon"
-      ],
+      "tags": [],
       "asDropdown": true,
       "icon": "external link",
       "includeVars": false,

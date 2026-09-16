@@ -96,6 +96,6 @@ panels = [
     timeseries("Mempool unconfirmed transactions", 16, 60, 8, 8, BTC_MEMPOOL, unit="short", decimals=0, colors={"Unconfirmed tx": CAT[0]}, fill=30),
 ]
 
-write(dashboard("earth-space", "Earth & Space", panels, ["mymon", "earth"], refresh="5m", time_from="now-7d",
+write(dashboard("earth-space", "Earth & Space", panels, ["earth"], refresh="5m", time_from="now-7d",
                 description="Earthquakes, geomagnetic activity, the ISS, CO₂ and the Bitcoin network."),
       "earth-space")
