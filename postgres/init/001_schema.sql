@@ -202,6 +202,44 @@ CREATE TABLE aircraft_state (
     PRIMARY KEY (ts, icao24)
 );
 
+-- Sub-national regions (currently: the 12 Dutch provinces) for regional breakdowns that a
+-- single country-level row in price_index can't represent (e.g. house prices differ a lot
+-- by province). Mirrors the country_centroid pattern: a small lookup table joined against
+-- a metric table at query time.
+CREATE TABLE region (
+    code    TEXT PRIMARY KEY,   -- e.g. CBS RegioS code 'PV27'
+    country_iso3 TEXT NOT NULL,
+    name    TEXT NOT NULL,
+    lat     DOUBLE PRECISION NOT NULL,
+    lon     DOUBLE PRECISION NOT NULL
+);
+
+CREATE TABLE region_metric (
+    period_date DATE NOT NULL,
+    region_code TEXT NOT NULL,
+    indicator   TEXT NOT NULL,
+    value       NUMERIC,
+    unit        TEXT,
+    source      TEXT NOT NULL,
+    PRIMARY KEY (period_date, region_code, indicator, source)
+);
+CREATE INDEX region_metric_lookup ON region_metric (indicator, region_code, period_date DESC);
+
+-- Seed: the 12 Dutch provinces, centroid-ish coordinates (provincial capital or similar).
+INSERT INTO region (code, country_iso3, name, lat, lon) VALUES
+    ('PV20', 'NLD', 'Groningen',      53.2194, 6.5665),
+    ('PV21', 'NLD', 'Fryslân',        53.1642, 5.7818),
+    ('PV22', 'NLD', 'Drenthe',        52.7981, 6.6528),
+    ('PV23', 'NLD', 'Overijssel',     52.4988, 6.0937),
+    ('PV24', 'NLD', 'Flevoland',      52.5185, 5.4714),
+    ('PV25', 'NLD', 'Gelderland',     52.0452, 5.8717),
+    ('PV26', 'NLD', 'Utrecht',        52.0907, 5.1214),
+    ('PV27', 'NLD', 'Noord-Holland',  52.3874, 4.6462),
+    ('PV28', 'NLD', 'Zuid-Holland',   52.0705, 4.3007),
+    ('PV29', 'NLD', 'Zeeland',        51.4988, 3.6136),
+    ('PV30', 'NLD', 'Noord-Brabant',  51.6978, 5.3037),
+    ('PV31', 'NLD', 'Limburg',        50.8514, 5.6910);
+
 CREATE TABLE collector_run (
     id          BIGSERIAL PRIMARY KEY,
     source      TEXT NOT NULL,
