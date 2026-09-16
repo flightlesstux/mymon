@@ -22,7 +22,8 @@ def test_source_metadata():
 
 def test_symbols_param_is_compact_json():
     assert crypto._symbols_param() == (
-        '["BTCUSDT","ETHUSDT","SOLUSDT","PAXGUSDT","BNBUSDT","XRPUSDT"]'
+        '["BTCUSDT","ETHUSDT","SOLUSDT","PAXGUSDT","BNBUSDT","XRPUSDT",'
+        '"ADAUSDT","DOGEUSDT","DOTUSDT","AVAXUSDT","LINKUSDT","LTCUSDT"]'
     )
 
 
@@ -38,9 +39,9 @@ def test_fetch_binance_primary(ctx):
     assert route.call_count == 1
     assert [t for t, _ in out] == ["crypto_tick"]
     rows = out[0][1]
-    assert len(rows) == 6
+    assert len(rows) == len(crypto.SYMBOLS)
     assert all({"ts", "symbol"} <= r.keys() for r in rows)
-    assert {r["symbol"] for r in rows} == {"BTC", "ETH", "SOL", "PAXG", "BNB", "XRP"}
+    assert {r["symbol"] for r in rows} == set(crypto.SYMBOLS)
 
     btc = next(r for r in rows if r["symbol"] == "BTC")
     assert btc["ts"] == datetime(2026, 9, 15, 12, 0, tzinfo=UTC)
@@ -59,7 +60,7 @@ def test_fetch_falls_back_to_coingecko_on_451(ctx):
     rows = crypto.fetch(ctx)[0][1]
 
     assert gecko.called
-    assert len(rows) == 6
+    assert len(rows) == len(crypto.SYMBOLS)
     btc = next(r for r in rows if r["symbol"] == "BTC")
     assert btc["price"] == Decimal("76611")
     assert btc["ts"] == datetime(2026, 9, 15, 12, 0, tzinfo=UTC)

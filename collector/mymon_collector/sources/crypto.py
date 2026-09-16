@@ -27,7 +27,7 @@ BINANCE = "https://api.binance.com/api/v3"
 COINGECKO_PRICE = "https://api.coingecko.com/api/v3/simple/price"
 
 QUOTE = "USDT"
-SYMBOLS = ["BTC", "ETH", "SOL", "PAXG", "BNB", "XRP"]
+SYMBOLS = ["BTC", "ETH", "SOL", "PAXG", "BNB", "XRP", "ADA", "DOGE", "DOT", "AVAX", "LINK", "LTC"]
 COINGECKO_IDS = {
     "bitcoin": "BTC",
     "ethereum": "ETH",
@@ -35,6 +35,12 @@ COINGECKO_IDS = {
     "pax-gold": "PAXG",
     "binancecoin": "BNB",
     "ripple": "XRP",
+    "cardano": "ADA",
+    "dogecoin": "DOGE",
+    "polkadot": "DOT",
+    "avalanche-2": "AVAX",
+    "chainlink": "LINK",
+    "litecoin": "LTC",
 }
 
 BACKFILL_YEARS = 5

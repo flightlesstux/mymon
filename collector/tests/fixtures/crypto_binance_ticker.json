@@ -136,5 +136,59 @@
   "firstId": 141701,
   "lastId": 141742,
   "count": 42
+ },
+ {
+  "symbol": "ADAUSDT",
+  "priceChange": "-0.01000000",
+  "priceChangePercent": "-4.900",
+  "lastPrice": "0.19390000",
+  "quoteVolume": "50000.00000000",
+  "openTime": 1789410630876,
+  "closeTime": 1789497030876
+ },
+ {
+  "symbol": "DOGEUSDT",
+  "priceChange": "-0.00300000",
+  "priceChangePercent": "-3.630",
+  "lastPrice": "0.07965000",
+  "quoteVolume": "60000.00000000",
+  "openTime": 1789410630876,
+  "closeTime": 1789497030876
+ },
+ {
+  "symbol": "DOTUSDT",
+  "priceChange": "-0.02000000",
+  "priceChangePercent": "-2.070",
+  "lastPrice": "0.94600000",
+  "quoteVolume": "40000.00000000",
+  "openTime": 1789410630876,
+  "closeTime": 1789497030876
+ },
+ {
+  "symbol": "AVAXUSDT",
+  "priceChange": "-0.15000000",
+  "priceChangePercent": "-2.030",
+  "lastPrice": "7.24000000",
+  "quoteVolume": "70000.00000000",
+  "openTime": 1789410630876,
+  "closeTime": 1789497030876
+ },
+ {
+  "symbol": "LINKUSDT",
+  "priceChange": "-0.20000000",
+  "priceChangePercent": "-1.820",
+  "lastPrice": "10.80300000",
+  "quoteVolume": "80000.00000000",
+  "openTime": 1789410630876,
+  "closeTime": 1789497030876
+ },
+ {
+  "symbol": "LTCUSDT",
+  "priceChange": "-1.10000000",
+  "priceChangePercent": "-2.120",
+  "lastPrice": "50.87000000",
+  "quoteVolume": "90000.00000000",
+  "openTime": 1789410630876,
+  "closeTime": 1789497030876
  }
 ]

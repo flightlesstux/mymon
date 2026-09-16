@@ -28,5 +28,35 @@
   "usd": 1.39,
   "usd_24h_vol": 4848943192.68408,
   "usd_24h_change": -4.443073086599681
+ },
+ "cardano": {
+  "usd": 0.1939,
+  "usd_24h_vol": 500000000.0,
+  "usd_24h_change": -4.9
+ },
+ "dogecoin": {
+  "usd": 0.07965,
+  "usd_24h_vol": 600000000.0,
+  "usd_24h_change": -3.63
+ },
+ "polkadot": {
+  "usd": 0.946,
+  "usd_24h_vol": 400000000.0,
+  "usd_24h_change": -2.07
+ },
+ "avalanche-2": {
+  "usd": 7.24,
+  "usd_24h_vol": 700000000.0,
+  "usd_24h_change": -2.03
+ },
+ "chainlink": {
+  "usd": 10.803,
+  "usd_24h_vol": 800000000.0,
+  "usd_24h_change": -1.82
+ },
+ "litecoin": {
+  "usd": 50.87,
+  "usd_24h_vol": 900000000.0,
+  "usd_24h_change": -2.12
  }
 }
