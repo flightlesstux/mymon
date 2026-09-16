@@ -79,19 +79,26 @@ for code, iso3, name, has_agriculture in COUNTRIES:
                                "publish a fuel-type breakdown of new registrations "
                                "either. Coverage starts around the early 2010s and "
                                "varies by country and fuel type."),
+
+        stat("Port cargo, latest year", 0, 32, 8, 4, q_latest(iso3, "port_cargo_1000t"),
+             unit="short", decimals=0, color=CAT[4]),
+        timeseries("National port cargo tonnage", 0, 36, 24, 9, q(iso3, "port_cargo_1000t"),
+                   unit="short", decimals=0, colors={"value": CAT[4]}, fill=15,
+                   description="Eurostat mar_mg_aa_cwh, annual, whole country — not "
+                               "per-port like NL's Ports & Shipping dashboard."),
     ]
 
     if has_agriculture:
         livestock = q_multi(iso3, LIVESTOCK_SLUGS)
         panels += [
-            stat("Cattle", 0, 32, 6, 4, q_latest(iso3, "cattle_count"), unit="short",
+            stat("Cattle", 0, 45, 6, 4, q_latest(iso3, "cattle_count"), unit="short",
                  decimals=0, color=CAT[1]),
-            stat("Pigs", 6, 32, 6, 4, q_latest(iso3, "pig_count"), unit="short",
+            stat("Pigs", 6, 45, 6, 4, q_latest(iso3, "pig_count"), unit="short",
                  decimals=0, color=CAT[3]),
-            stat("Farm holdings with livestock", 12, 32, 12, 4,
+            stat("Farm holdings with livestock", 12, 45, 12, 4,
                  q_latest(iso3, "farm_holdings_with_livestock"), unit="short", decimals=0,
                  color=CAT[4]),
-            timeseries("Livestock", 0, 36, 24, 10, livestock, unit="short", decimals=0,
+            timeseries("Livestock", 0, 49, 24, 10, livestock, unit="short", decimals=0,
                        colors=LIVESTOCK_COLORS, fill=0, legend="right", points=True,
                        description="Eurostat farm structure survey, every ~3 years "
                                    "(2005-2023) — not annual, a real characteristic of "
