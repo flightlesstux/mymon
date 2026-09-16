@@ -9,12 +9,12 @@ import _lib
 from _lib import CAT, dashboard, stat, timeseries, write
 
 COUNTRIES = [
-    ("DE", "DEU", "Germany"),
-    ("IT", "ITA", "Italy"),
-    ("ES", "ESP", "Spain"),
-    ("GR", "GRC", "Greece"),
-    ("TR", "TUR", "Turkey"),
-    ("FR", "FRA", "France"),
+    ("DE", "DEU", "Germany", True),
+    ("IT", "ITA", "Italy", True),
+    ("ES", "ESP", "Spain", True),
+    ("GR", "GRC", "Greece", True),
+    ("TR", "TUR", "Turkey", False),  # not in the euro area, no ECB bond/bank rate data
+    ("FR", "FRA", "France", True),
 ]
 
 RANGE_START = "2000-01-01"
@@ -44,7 +44,7 @@ def q_multi(country_iso3: str, indicators: list[str], source: str = "eurostat") 
     )
 
 
-for code, iso3, name in COUNTRIES:
+for code, iso3, name, has_ecb_rates in COUNTRIES:
     _lib._id = 0  # stable panel ids per dashboard, matching generate_all.py's own reset
 
     inflation = q_multi(iso3, ["cpi_inflation_pct", "food_cpi_inflation_pct"])
@@ -113,10 +113,43 @@ for code, iso3, name in COUNTRIES:
                                "replacement rate."),
     ]
 
+    if has_ecb_rates:
+        bank_rates = q_multi(iso3, ["bank_mortgage_rate_pct", "bank_savings_rate_pct",
+                                     "bank_term_deposit_rate_pct"], "ecb")
+        panels += [
+            stat("10y govt bond yield", 0, 53, 6, 4, q_latest(iso3, "gov_bond_10y_pct", "ecb"),
+                 unit="percent", decimals=2, color=CAT[6]),
+            stat("Bank mortgage rate", 6, 53, 6, 4,
+                 q_latest(iso3, "bank_mortgage_rate_pct", "ecb"), unit="percent", decimals=2,
+                 color=CAT[1]),
+            stat("Bank savings rate", 12, 53, 6, 4,
+                 q_latest(iso3, "bank_savings_rate_pct", "ecb"), unit="percent", decimals=2,
+                 color=CAT[2]),
+            stat("Bank term deposit rate", 18, 53, 6, 4,
+                 q_latest(iso3, "bank_term_deposit_rate_pct", "ecb"), unit="percent",
+                 decimals=2, color=CAT[3]),
+
+            timeseries("10-year government bond yield", 0, 57, 12, 9,
+                       q(iso3, "gov_bond_10y_pct", "ecb"), unit="percent", decimals=2,
+                       colors={"value": CAT[6]}, fill=15,
+                       description="ECB long-term interest rate for convergence purposes."),
+            timeseries("Bank interest rates (what banks actually report to the ECB)",
+                       12, 57, 12, 9, bank_rates, unit="percent", decimals=2,
+                       colors={"bank_mortgage_rate_pct": CAT[1],
+                               "bank_savings_rate_pct": CAT[2],
+                               "bank_term_deposit_rate_pct": CAT[3]}, fill=0,
+                       description="ECB MIR statistics — new-business mortgage rate "
+                                   "vs. what banks pay on savings and term deposits. "
+                                   "Not government bond yields."),
+        ]
+
     write(dashboard(f"{code.lower()}-economy", f"{name}: Economy & Population", panels,
                     [name.lower()], refresh="1h", time_from="2000-01-01T00:00:00Z",
                     description=f"{name}: CPI/food inflation, unemployment, house prices, "
                                 f"population and demographics, life expectancy, "
-                                f"fertility, consumer/producer confidence — via "
-                                f"Eurostat, since 2000 where the data goes back that far."),
+                                f"fertility, consumer/producer confidence"
+                                + (", government bond yield and bank interest rates"
+                                   if has_ecb_rates else "")
+                                + f" — via Eurostat{' and ECB' if has_ecb_rates else ''}, "
+                                  f"since 2000 where the data goes back that far."),
           f"{code}/{code.lower()}-economy")
