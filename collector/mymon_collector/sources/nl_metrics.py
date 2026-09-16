@@ -405,6 +405,64 @@ def _tourism_rows(ctx: Ctx) -> list[dict[str, Any]]:
     return rows
 
 
+# --------------------------------------------------------------------------- CBS: births, detail
+#
+# 85722NED — annual key birth figures back to 1950, far deeper than the monthly headline
+# count from 83474NED (1995+). No dimension filtering: one flat row per year.
+
+BIRTH_DETAIL_COLUMNS: dict[str, str] = {
+    "fertility_rate_children_per_woman": "GemiddeldKindertalPerVrouw_43",
+    "births_per_1000_pop": "LevendGeborenKinderenRelatief_2",
+    "general_fertility_rate_per_1000": "AlgemeenVruchtbaarheidscijfer_3",
+    "avg_mother_age_years": "TotaalAlleKinderen_50",
+    "stillbirth_rate_per_1000": "DoodgeborenKinderen28Relatief_34",
+}
+
+
+def _birth_detail_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for rec in _cbs_get(ctx, "85722NED"):
+        period = _cbs_period(rec.get("Perioden"))
+        if period is None:
+            continue
+        for indicator, col in BIRTH_DETAIL_COLUMNS.items():
+            value = _num(rec.get(col))
+            if value is not None:
+                rows.append(_row(period, indicator, value, "ratio", "cbs"))
+    return rows
+
+
+# --------------------------------------------------------------------------- CBS: life expectancy
+#
+# 37360ned mixes annual (...JJ00) rows with rolling 5-year-window rows (e.g. "1861TM66");
+# _cbs_period() only recognizes the JJ00 form, which conveniently drops the rolling-window
+# rows for free and still leaves an unbroken annual series back to 1950.
+
+LIFE_EXPECTANCY_GENDERS: dict[str, str] = {
+    "T001038": "total",
+    "3000   ": "men",
+    "4000   ": "women",
+}
+LIFE_EXPECTANCY_AGE_ZERO = "10010"  # LeeftijdOp31December code for age 0 (at birth)
+
+
+def _life_expectancy_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for gender_code, suffix in LIFE_EXPECTANCY_GENDERS.items():
+        filt = (
+            f"LeeftijdOp31December eq '{LIFE_EXPECTANCY_AGE_ZERO}' "
+            f"and Geslacht eq '{gender_code}'"
+        )
+        for rec in _cbs_get(ctx, "37360ned", filt):
+            period = _cbs_period(rec.get("Perioden"))
+            if period is None:
+                continue
+            years = _num(rec.get("Levensverwachting_4"))
+            if years is not None:
+                rows.append(_row(period, f"life_expectancy_years_{suffix}", years, "years", "cbs"))
+    return rows
+
+
 # --------------------------------------------------------------------------- ECB: bond yield
 
 
@@ -482,6 +540,8 @@ def fetch(ctx: Ctx) -> Rows:
         ("unemployment", _unemployment_rows),
         ("labour_breakdown", _labour_breakdown_rows),
         ("population", _population_rows),
+        ("birth_detail", _birth_detail_rows),
+        ("life_expectancy", _life_expectancy_rows),
         ("energy_production", _energy_production_rows),
         ("tourism", _tourism_rows),
         ("bond_yield", _bond_yield_rows),
@@ -509,7 +569,7 @@ SOURCE = Source(
     description=(
         "Netherlands: CBS CPI/food CPI, house prices (national + by province), energy "
         "tariffs and production mix, unemployment (headline + age/gender breakdown), "
-        "population, tourism, plus the ECB's Dutch 10-year government bond yield and "
-        "MIR bank interest rates."
+        "population, births/fertility/life expectancy detail back to 1950, tourism, "
+        "plus the ECB's Dutch 10-year government bond yield and MIR bank interest rates."
     ),
 )

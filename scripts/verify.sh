@@ -22,7 +22,7 @@ code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: applicat
 
 for uid in world-overview reserves markets city-weather earth-space fuel-prices collector-health \
            nl-economy nl-cost-of-living nl-housing-energy nl-weather nl-tourism nl-aircraft nl-trains \
-           nl-population-labour nl-energy-production nl-stocks; do
+           nl-population-labour nl-energy-production nl-stocks nl-births-deaths-migration; do
   code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/api/dashboards/uid/$uid)
   [ "$code" = "200" ] && ok "dashboard $uid ($code)" || bad "dashboard $uid ($code)"
 done

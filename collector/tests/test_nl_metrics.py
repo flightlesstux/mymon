@@ -168,6 +168,41 @@ def test_population_rows():
 
 
 @respx.mock
+def test_birth_detail_rows():
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/85722NED/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([
+            {"Perioden": "1950JJ00", "GemiddeldKindertalPerVrouw_43": 3.097,
+             "LevendGeborenKinderenRelatief_2": 22.7, "AlgemeenVruchtbaarheidscijfer_3": 90.5,
+             "TotaalAlleKinderen_50": 30.6, "DoodgeborenKinderen28Relatief_34": 19.3},
+        ]))
+    )
+    rows = nl._birth_detail_rows(_ctx())
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    assert by_indicator["fertility_rate_children_per_woman"] == 3.097
+    assert by_indicator["births_per_1000_pop"] == 22.7
+    assert by_indicator["general_fertility_rate_per_1000"] == 90.5
+    assert by_indicator["avg_mother_age_years"] == 30.6
+    assert by_indicator["stillbirth_rate_per_1000"] == 19.3
+    assert all(r["period_date"] == date(1950, 1, 1) for r in rows)
+
+
+@respx.mock
+def test_life_expectancy_rows_covers_all_genders_and_skips_rolling_windows():
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/37360ned/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([
+            {"Perioden": "1861TM66", "Levensverwachting_4": None},
+            {"Perioden": "1950JJ00", "Levensverwachting_4": 70.6},
+        ]))
+    )
+    rows = nl._life_expectancy_rows(_ctx())
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    assert by_indicator["life_expectancy_years_total"] == 70.6
+    assert by_indicator["life_expectancy_years_men"] == 70.6
+    assert by_indicator["life_expectancy_years_women"] == 70.6
+    assert all(r["period_date"] == date(1950, 1, 1) for r in rows)  # rolling window dropped
+
+
+@respx.mock
 def test_energy_production_rows_covers_all_sources():
     respx.get("https://opendata.cbs.nl/ODataApi/odata/86266NED/TypedDataSet").mock(
         return_value=httpx.Response(200, json=cbs_json([
@@ -247,6 +282,12 @@ def test_fetch_survives_one_upstream_failing():
         return_value=httpx.Response(200, json=cbs_json([]))
     )
     respx.get("https://opendata.cbs.nl/ODataApi/odata/83474NED/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([]))
+    )
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/85722NED/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([]))
+    )
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/37360ned/TypedDataSet").mock(
         return_value=httpx.Response(200, json=cbs_json([]))
     )
     respx.get("https://opendata.cbs.nl/ODataApi/odata/86266NED/TypedDataSet").mock(
