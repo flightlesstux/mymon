@@ -45,15 +45,24 @@ for job in mymon-collector postgres grafana; do
 done
 
 echo "== external reachability =="
-if [ -n "${GRAFANA_ROOT_URL:-}" ]; then
-  host=$(echo "$GRAFANA_ROOT_URL" | sed -E 's#^https?://##; s#:.*##')
-  for flag in -4 -6; do
-    if curl -s $flag --max-time 5 "http://$host:3000/api/health" >/dev/null 2>&1; then
-      ok "reachable $flag over $host"
-    else
-      echo "  skip $flag over $host (not reachable from here, may be normal)"
-    fi
-  done
+for flag in -4 -6; do
+  if curl -s $flag --max-time 5 "http://ermis.tplinkdns.com:3000/api/health" >/dev/null 2>&1; then
+    ok "reachable $flag over ermis.tplinkdns.com:3000 (direct, bypasses Cloudflare)"
+  else
+    echo "  skip $flag over ermis.tplinkdns.com:3000 (not reachable from here, may be normal)"
+  fi
+done
+
+echo "== port 80 (Cloudflare origin) =="
+code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:80/api/health)
+[ "$code" = "200" ] && ok "local :80 /api/health ($code)" || bad "local :80 /api/health ($code)"
+# lyraqpi.com goes through Cloudflare, which blocks non-browser clients (curl/scripts) with
+# error 1010 even when the origin is healthy — a real browser gets through fine, so this is
+# informational only, never a "bad".
+if curl -s --max-time 5 -o /dev/null -w '%{http_code}' "https://lyraqpi.com/api/health" 2>/dev/null | grep -q '^200$'; then
+  ok "https://lyraqpi.com/api/health (200)"
+else
+  echo "  skip https://lyraqpi.com (Cloudflare likely blocked this non-browser request; check in an actual browser)"
 fi
 
 if [ "$fail" -eq 0 ]; then echo; echo "All checks passed."; else echo; echo "Some checks FAILED."; fi

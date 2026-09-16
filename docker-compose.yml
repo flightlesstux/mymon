@@ -24,6 +24,7 @@ services:
         condition: service_healthy
     ports:
       - "3000:3000"
+      - "80:3000"
     env_file: .env
     environment:
       # public, read-only
@@ -39,6 +40,11 @@ services:
       GF_ANALYTICS_REPORTING_ENABLED: "false"
       GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
       GF_SERVER_ROOT_URL: ${GRAFANA_ROOT_URL:-http://localhost:3000}
+      GF_SERVER_DOMAIN: ${GRAFANA_DOMAIN:-localhost}
+      # Cloudflare terminates TLS and proxies to this container over plain HTTP on
+      # port 80 — Grafana itself still serves http, GF_SERVER_ROOT_URL is what makes
+      # it generate https:// links/redirects for the public domain.
+      GF_SERVER_PROTOCOL: http
       GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/world-overview.json
       GF_USERS_DEFAULT_THEME: dark
       GF_DATE_FORMATS_DEFAULT_TIMEZONE: utc
