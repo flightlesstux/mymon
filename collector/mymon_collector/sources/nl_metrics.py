@@ -50,6 +50,7 @@ from ..source import Ctx, Rows, Source
 log = logging.getLogger(__name__)
 
 TABLE = "price_index"
+REGION_TABLE = "region_metric"
 COUNTRY = "NLD"
 
 CBS_BASE = "https://opendata.cbs.nl/ODataApi/odata"
@@ -91,11 +92,32 @@ def _row(period: date, indicator: str, value: float, unit: str, source: str) -> 
     }
 
 
+def _region_row(
+    period: date, region_code: str, indicator: str, value: float, unit: str
+) -> dict[str, Any]:
+    return {
+        "period_date": period,
+        "region_code": region_code,
+        "indicator": indicator,
+        "value": value,
+        "unit": unit,
+        "source": "cbs",
+    }
+
+
 def _cbs_period(value: str) -> date | None:
-    """CBS months look like ``2025MM01``, years like ``2025JJ00``."""
+    """CBS months look like ``2025MM01``, quarters ``2025KW02``, years ``2025JJ00``."""
     s = (value or "").strip()
     if len(s) != 8:
         return None
+    if s[4:6] == "KW":
+        try:
+            year, q = int(s[:4]), int(s[6:8])
+        except ValueError:
+            return None
+        if q not in (1, 2, 3, 4):
+            return None
+        return date(year, (q - 1) * 3 + 1, 1)
     try:
         year = int(s[:4])
     except ValueError:
@@ -181,6 +203,35 @@ def _rent_rows(ctx: Ctx) -> list[dict[str, Any]]:
         value = _num(rec.get("Huurverhoging_1"))
         if value is not None:
             rows.append(_row(period, "rent_increase_pct", value, "%", "cbs"))
+    return rows
+
+
+# ------------------------------------------------------------------- CBS: house prices, by province
+#
+# 85792NED breaks the house-price series down by region (RegioS): the 12 provinces
+# (codes PV20-PV31), 4 landsdelen, the national total and 4 major cities. Only the 12
+# provinces are kept — they match the `region` lookup table exactly, so no city/country
+# rows leak into region_metric. Quarterly, not monthly, hence the 'KW' period format.
+
+
+def _house_price_regional_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for rec in _cbs_get(ctx, "85792NED"):
+        region_code = (rec.get("RegioS") or "").strip()
+        if not region_code.startswith("PV"):
+            continue
+        period = _cbs_period(rec.get("Perioden"))
+        if period is None:
+            continue
+        idx = _num(rec.get("PrijsindexVerkoopprijzen_1"))
+        if idx is not None:
+            rows.append(_region_row(period, region_code, "house_price_index", idx, "2020=100"))
+        avg = _num(rec.get("GemiddeldeVerkoopprijs_7"))
+        if avg is not None:
+            rows.append(_region_row(period, region_code, "house_price_avg_eur", avg, "EUR"))
+        sold = _num(rec.get("VerkochteWoningen_4"))
+        if sold is not None:
+            rows.append(_region_row(period, region_code, "house_sales_count", sold, "count"))
     return rows
 
 
@@ -300,26 +351,18 @@ def _bank_rate_rows(ctx: Ctx) -> list[dict[str, Any]]:
 # --------------------------------------------------------------------------- source
 
 
-def _dedupe(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def _dedupe(rows: list[dict[str, Any]], key_field: str) -> list[dict[str, Any]]:
     seen: dict[tuple, dict] = {}
     for r in rows:
-        seen[(r["period_date"], r["country_iso3"], r["indicator"], r["source"])] = r
+        seen[(r["period_date"], r[key_field], r["indicator"], r["source"])] = r
     return list(seen.values())
 
 
-def fetch(ctx: Ctx) -> Rows:
+def _run_upstreams(
+    ctx: Ctx, upstreams: tuple[tuple[str, Any], ...]
+) -> tuple[list[dict[str, Any]], int]:
     rows: list[dict[str, Any]] = []
     failures = 0
-    upstreams = (
-        ("cpi", _cpi_rows),
-        ("rent", _rent_rows),
-        ("house_prices", _house_price_rows),
-        ("energy", _energy_rows),
-        ("unemployment", _unemployment_rows),
-        ("tourism", _tourism_rows),
-        ("bond_yield", _bond_yield_rows),
-        ("bank_rates", _bank_rate_rows),
-    )
     for name, fn in upstreams:
         try:
             part = fn(ctx)
@@ -333,9 +376,31 @@ def fetch(ctx: Ctx) -> Rows:
             continue
         log.info("nl_metrics: %s -> %d rows", name, len(part))
         rows.extend(part)
-    if not rows:
+    return rows, failures
+
+
+def fetch(ctx: Ctx) -> Rows:
+    country_rows, country_failures = _run_upstreams(ctx, (
+        ("cpi", _cpi_rows),
+        ("rent", _rent_rows),
+        ("house_prices", _house_price_rows),
+        ("energy", _energy_rows),
+        ("unemployment", _unemployment_rows),
+        ("tourism", _tourism_rows),
+        ("bond_yield", _bond_yield_rows),
+        ("bank_rates", _bank_rate_rows),
+    ))
+    region_rows, region_failures = _run_upstreams(ctx, (
+        ("house_prices_regional", _house_price_regional_rows),
+    ))
+    if not country_rows and not region_rows:
         raise RuntimeError("nl_metrics: every upstream failed")
-    return [(TABLE, _dedupe(rows))]
+    log.info("nl_metrics: %d country rows (%d failures), %d region rows (%d failures)",
+              len(country_rows), country_failures, len(region_rows), region_failures)
+    return [
+        (TABLE, _dedupe(country_rows, "country_iso3")),
+        (REGION_TABLE, _dedupe(region_rows, "region_code")),
+    ]
 
 
 SOURCE = Source(
@@ -343,9 +408,10 @@ SOURCE = Source(
     interval=86400,
     fetch=fetch,
     backfill=None,
-    tables=[TABLE],
+    tables=[TABLE, REGION_TABLE],
     description=(
-        "Netherlands: CBS CPI/food CPI, house prices, energy tariffs, unemployment, "
-        "tourism, plus the ECB's Dutch 10-year government bond yield."
+        "Netherlands: CBS CPI/food CPI, house prices (national + by province), energy "
+        "tariffs, unemployment, tourism, plus the ECB's Dutch 10-year government bond "
+        "yield and MIR bank interest rates."
     ),
 )

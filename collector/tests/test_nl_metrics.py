@@ -38,6 +38,27 @@ def test_cpi_rows_headline_food_and_all_categories():
 
 
 @respx.mock
+def test_house_price_regional_rows_keeps_only_provinces():
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/85792NED/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([
+            {"RegioS": "PV27  ", "Perioden": "2025KW02", "PrijsindexVerkoopprijzen_1": 140.4,
+             "GemiddeldeVerkoopprijs_7": 557670, "VerkochteWoningen_4": 1234},
+            {"RegioS": "NL01  ", "Perioden": "2025KW02", "PrijsindexVerkoopprijzen_1": 148.7,
+             "GemiddeldeVerkoopprijs_7": 472710, "VerkochteWoningen_4": 9999},
+            {"RegioS": "GM0363", "Perioden": "2025KW02", "PrijsindexVerkoopprijzen_1": 132.4,
+             "GemiddeldeVerkoopprijs_7": 612399, "VerkochteWoningen_4": 555},
+        ]))
+    )
+    rows = nl._house_price_regional_rows(_ctx())
+    assert {r["region_code"] for r in rows} == {"PV27"}  # NL01 and GM0363 dropped
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    assert by_indicator["house_price_index"] == 140.4
+    assert by_indicator["house_price_avg_eur"] == 557670
+    assert by_indicator["house_sales_count"] == 1234
+    assert all(r["period_date"] == date(2025, 4, 1) for r in rows)  # 2025KW02 -> April 1
+
+
+@respx.mock
 def test_rent_rows_parses_annual_period():
     respx.get("https://opendata.cbs.nl/ODataApi/odata/70675ned/TypedDataSet").mock(
         return_value=httpx.Response(200, json=cbs_json([
@@ -149,6 +170,9 @@ def test_fetch_survives_one_upstream_failing():
     )
     respx.get("https://opendata.cbs.nl/ODataApi/odata/85773NED/TypedDataSet").mock(
         return_value=httpx.Response(500)
+    )
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/85792NED/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([]))
     )
     respx.get("https://opendata.cbs.nl/ODataApi/odata/85592NED/TypedDataSet").mock(
         return_value=httpx.Response(200, json=cbs_json([]))
