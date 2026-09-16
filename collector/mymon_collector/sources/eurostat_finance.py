@@ -1,7 +1,17 @@
-"""Public finance, wages and trade for the same six countries as eurostat_metrics.py.
-Government debt/deficit, minimum wage, and goods+services exports/imports were all
-completely uncovered before this module — grouped together here (and on one combined
-dashboard) rather than as four separate near-empty modules.
+"""Public finance, wages and trade for Germany, Italy, Spain, Greece, Turkey, France
+*and the Netherlands*. Government debt/deficit, minimum wage, and goods+services
+exports/imports were all completely uncovered before this module — grouped together
+here (and on one combined dashboard per country) rather than as four separate
+near-empty modules.
+
+The Netherlands is included here (unlike most eurostat_* modules, which stick to the
+six non-NL countries and leave NL to its own CBS-sourced modules) because these three
+topics have no NL-specific source in this project and Eurostat's own numbers for the
+Netherlands are the same EU-harmonized data as for the other six — there's no
+"national" source being skipped in favour of a worse one. GEO_TO_ISO3 here is a local
+superset of eurostat_metrics.GEO_TO_ISO3 (own HTTP calls, not the shared
+``_eurostat_get``, precisely so adding NL here doesn't cascade into every other
+eurostat_* module that imports the six-country dict).
 
 Confirmed live, real per-indicator gaps (not bugs): government debt/deficit has no
 Turkey data (ESA2010 government finance statistics are an EU/euro-area framework Turkey
@@ -15,11 +25,23 @@ import logging
 from typing import Any
 
 from ..source import Ctx, Rows, Source
-from .eurostat_metrics import GEO_TO_ISO3, _eurostat_get, _period_from_time_code
+from .eurostat_metrics import GEO_TO_ISO3 as _SIX_COUNTRY_GEO_TO_ISO3
+from .eurostat_metrics import _decode, _period_from_time_code
 
 log = logging.getLogger(__name__)
 
 TABLE = "price_index"
+BASE = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data"
+
+GEO_TO_ISO3: dict[str, str] = {**_SIX_COUNTRY_GEO_TO_ISO3, "NL": "NLD"}
+GEOS = list(GEO_TO_ISO3)
+
+
+def _eurostat_get(ctx: Ctx, dataset: str, params: dict[str, Any]):
+    query = {"format": "JSON", "lang": "en", "geo": GEOS, **params}
+    resp = ctx.http.get(f"{BASE}/{dataset}", params=query)
+    resp.raise_for_status()
+    return _decode(resp.json())
 
 
 def _row(period, country_iso3: str, indicator: str, value: float, unit: str) -> dict[str, Any]:
@@ -137,8 +159,8 @@ SOURCE = Source(
     backfill=None,
     tables=[TABLE],
     description=(
-        "Germany, Italy, Spain, Greece, Turkey and France via Eurostat: government "
-        "debt and deficit as % of GDP, statutory minimum wage in EUR, and goods+"
-        "services exports/imports in million EUR."
+        "Germany, Italy, Spain, Greece, Turkey, France and the Netherlands via "
+        "Eurostat: government debt and deficit as % of GDP, statutory minimum wage "
+        "in EUR, and goods+services exports/imports in million EUR."
     ),
 )

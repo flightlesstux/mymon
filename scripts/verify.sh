@@ -24,7 +24,7 @@ for uid in world-overview reserves markets city-weather earth-space fuel-prices 
            nl-economy nl-cost-of-living nl-housing-energy nl-weather nl-tourism nl-aircraft nl-trains \
            nl-population-labour nl-energy-production nl-stocks nl-births-deaths-migration \
            nl-ports nl-agriculture global-energy-grid global-bike-share nl-construction \
-           nl-vehicles nl-grocery-prices global-space-monitor \
+           nl-vehicles nl-grocery-prices global-space-monitor nl-finance nl-safety \
            de-economy it-economy es-economy gr-economy tr-economy fr-economy \
            de-sectors it-sectors es-sectors gr-sectors tr-sectors fr-sectors \
            de-grocery-prices it-grocery-prices es-grocery-prices gr-grocery-prices fr-grocery-prices \

@@ -64,5 +64,21 @@ def test_fetch_survives_one_upstream_failing(monkeypatch):
     assert len(rows) == 1
 
 
+def test_geo_to_iso3_includes_netherlands_as_a_seventh_country():
+    assert ef.GEO_TO_ISO3["NL"] == "NLD"
+    assert set(ef.GEO_TO_ISO3) == {"DE", "IT", "ES", "EL", "TR", "FR", "NL"}
+
+
+@respx.mock
+def test_govt_debt_rows_covers_netherlands():
+    data = jsonstat(["geo", "time"], [1, 1], {"geo": ["NL"], "time": ["2023"]}, {"0": 45.8})
+    respx.get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/gov_10dd_edpt1").mock(
+        return_value=httpx.Response(200, json=data)
+    )
+    rows = ef._govt_debt_rows(_ctx())
+    assert rows[0]["country_iso3"] == "NLD"
+    assert rows[0]["value"] == 45.8
+
+
 def _ctx():
     return ef.Ctx(http=httpx.Client(), cfg={"cities": [], "env": {}}, now=datetime(2026, 9, 16))

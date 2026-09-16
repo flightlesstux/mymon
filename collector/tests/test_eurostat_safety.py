@@ -54,5 +54,21 @@ def test_fetch_survives_one_upstream_failing(monkeypatch):
     assert len(rows) == 1
 
 
+def test_geo_to_iso3_includes_netherlands_as_a_seventh_country():
+    assert es.GEO_TO_ISO3["NL"] == "NLD"
+    assert set(es.GEO_TO_ISO3) == {"DE", "IT", "ES", "EL", "TR", "FR", "NL"}
+
+
+@respx.mock
+def test_road_deaths_rows_covers_netherlands():
+    data = jsonstat(["geo", "time"], [1, 1], {"geo": ["NL"], "time": ["2022"]}, {"0": 42.0})
+    respx.get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_r_acci").mock(
+        return_value=httpx.Response(200, json=data)
+    )
+    rows = es._road_deaths_rows(_ctx())
+    assert rows[0]["country_iso3"] == "NLD"
+    assert rows[0]["value"] == 42.0
+
+
 def _ctx():
     return es.Ctx(http=httpx.Client(), cfg={"cities": [], "env": {}}, now=datetime(2026, 9, 16))

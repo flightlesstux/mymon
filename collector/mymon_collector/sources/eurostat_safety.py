@@ -1,5 +1,5 @@
-"""Crime and road safety for the same six countries as eurostat_metrics.py. Nothing
-safety-related existed before this module.
+"""Crime and road safety for Germany, Italy, Spain, Greece, Turkey, France and the
+Netherlands. Nothing safety-related existed for any of these seven before this module.
 
 Crime rates use Eurostat's harmonized ICCS offence classification, per 100,000
 inhabitants for cross-country comparability (raw counts would just track population
@@ -7,6 +7,9 @@ size). Road deaths use per-million-inhabitants for the same reason. Both dataset
 small per-country/category gaps confirmed live (not every offence category is reported
 by every country every year) — rows simply don't exist for those combinations rather
 than being backfilled with a guess.
+
+NL is included here (see eurostat_finance.py for the same reasoning) with its own local
+GEO_TO_ISO3 and HTTP calls, not the shared six-country ``_eurostat_get``.
 """
 
 from __future__ import annotations
@@ -15,11 +18,23 @@ import logging
 from typing import Any
 
 from ..source import Ctx, Rows, Source
-from .eurostat_metrics import GEO_TO_ISO3, _eurostat_get, _period_from_time_code
+from .eurostat_metrics import GEO_TO_ISO3 as _SIX_COUNTRY_GEO_TO_ISO3
+from .eurostat_metrics import _decode, _period_from_time_code
 
 log = logging.getLogger(__name__)
 
 TABLE = "price_index"
+BASE = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data"
+
+GEO_TO_ISO3: dict[str, str] = {**_SIX_COUNTRY_GEO_TO_ISO3, "NL": "NLD"}
+GEOS = list(GEO_TO_ISO3)
+
+
+def _eurostat_get(ctx: Ctx, dataset: str, params: dict[str, Any]):
+    query = {"format": "JSON", "lang": "en", "geo": GEOS, **params}
+    resp = ctx.http.get(f"{BASE}/{dataset}", params=query)
+    resp.raise_for_status()
+    return _decode(resp.json())
 
 CRIME_CATEGORIES: dict[str, str] = {
     "ICCS0101": "homicide", "ICCS0401": "robbery", "ICCS0501": "burglary",
@@ -102,8 +117,8 @@ SOURCE = Source(
     backfill=None,
     tables=[TABLE],
     description=(
-        "Germany, Italy, Spain, Greece, Turkey and France via Eurostat: recorded crime "
-        "rate by offence category (per 100,000 inhabitants) and road deaths (per "
-        "million inhabitants)."
+        "Germany, Italy, Spain, Greece, Turkey, France and the Netherlands via "
+        "Eurostat: recorded crime rate by offence category (per 100,000 inhabitants) "
+        "and road deaths (per million inhabitants)."
     ),
 )
