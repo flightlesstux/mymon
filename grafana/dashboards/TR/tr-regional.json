@@ -1,0 +1,168 @@
+{
+  "uid": "tr-regional",
+  "title": "Turkey: Regions",
+  "description": "Turkey broken down by NUTS2 region: unemployment rate, GDP per capita and population, via Eurostat.",
+  "tags": [
+    "turkey"
+  ],
+  "timezone": "utc",
+  "editable": false,
+  "graphTooltip": 1,
+  "schemaVersion": 41,
+  "version": 1,
+  "refresh": "1h",
+  "style": "dark",
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "1m",
+      "5m",
+      "15m",
+      "1h"
+    ]
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "type": "dashboards",
+      "title": "lyraqpi",
+      "tags": [],
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "targetBlank": false
+    }
+  ],
+  "panels": [
+    {
+      "id": 1,
+      "type": "table",
+      "title": "Turkey: all NUTS2 regions, latest values",
+      "description": "One row per NUTS2 region (Eurostat's statistical region level, roughly analogous to a US state or a large Dutch province). Unemployment: lfst_r_lfu3rt. GDP per capita: nama_10r_2gdp. Population: demo_r_pjangrp3.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 14
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\n    SELECT CASE right(indicator, 4) WHEN 'TR10' THEN 'İstanbul' WHEN 'TR21' THEN 'Tekirdağ, Edirne, Kırklareli' WHEN 'TR22' THEN 'Balıkesir, Çanakkale' WHEN 'TR31' THEN 'İzmir' WHEN 'TR32' THEN 'Aydın, Denizli, Muğla' WHEN 'TR33' THEN 'Manisa, Afyonkarahisar, Kütahya, Uşak' WHEN 'TR41' THEN 'Bursa, Eskişehir, Bilecik' WHEN 'TR42' THEN 'Kocaeli, Sakarya, Düzce, Bolu, Yalova' WHEN 'TR51' THEN 'Ankara' WHEN 'TR52' THEN 'Konya, Karaman' WHEN 'TR61' THEN 'Antalya, Isparta, Burdur' WHEN 'TR62' THEN 'Adana, Mersin' WHEN 'TR63' THEN 'Hatay, Kahramanmaraş, Osmaniye' WHEN 'TR71' THEN 'Kırıkkale, Aksaray, Niğde, Nevşehir, Kırşehir' WHEN 'TR72' THEN 'Kayseri, Sivas, Yozgat' WHEN 'TR81' THEN 'Zonguldak, Karabük, Bartın' WHEN 'TR82' THEN 'Kastamonu, Çankırı, Sinop' WHEN 'TR83' THEN 'Samsun, Tokat, Çorum, Amasya' WHEN 'TR90' THEN 'Trabzon, Ordu, Giresun, Rize, Artvin, Gümüşhane' WHEN 'TRA1' THEN 'Erzurum, Erzincan, Bayburt' WHEN 'TRA2' THEN 'Ağrı, Kars, Iğdır, Ardahan' WHEN 'TRB1' THEN 'Malatya, Elazığ, Bingöl, Tunceli' WHEN 'TRB2' THEN 'Van, Muş, Bitlis, Hakkari' WHEN 'TRC1' THEN 'Gaziantep, Adıyaman, Kilis' WHEN 'TRC2' THEN 'Şanlıurfa, Diyarbakır' WHEN 'TRC3' THEN 'Mardin, Batman, Şırnak, Siirt' ELSE right(indicator, 4) END AS \"Region\",\n           MAX(CASE WHEN indicator LIKE 'regional_unemployment_pct_%' THEN value END) AS \"Unemployment %\",\n           MAX(CASE WHEN indicator LIKE 'regional_gdp_per_capita_eur_%' THEN value END) AS \"GDP per capita (EUR)\",\n           MAX(CASE WHEN indicator LIKE 'regional_population_%' THEN value END) AS \"Population\"\n    FROM (\n        SELECT DISTINCT ON (indicator) indicator, value\n        FROM price_index\n        WHERE country_iso3='TUR' AND source='eurostat'\n          AND (indicator LIKE 'regional_unemployment_pct_TR%'\n               OR indicator LIKE 'regional_gdp_per_capita_eur_TR%'\n               OR indicator LIKE 'regional_population_TR%')\n        ORDER BY indicator, period_date DESC\n    ) latest\n    GROUP BY 1\n    ORDER BY \"GDP per capita (EUR)\" DESC NULLS LAST\n    ",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "GDP per capita (EUR)",
+            "desc": true
+          }
+        ]
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 2,
+      "type": "barchart",
+      "title": "Turkey: unemployment rate by region, ranked",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 14,
+        "w": 24,
+        "h": 14
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\n    SELECT CASE right(indicator, 4) WHEN 'TR10' THEN 'İstanbul' WHEN 'TR21' THEN 'Tekirdağ, Edirne, Kırklareli' WHEN 'TR22' THEN 'Balıkesir, Çanakkale' WHEN 'TR31' THEN 'İzmir' WHEN 'TR32' THEN 'Aydın, Denizli, Muğla' WHEN 'TR33' THEN 'Manisa, Afyonkarahisar, Kütahya, Uşak' WHEN 'TR41' THEN 'Bursa, Eskişehir, Bilecik' WHEN 'TR42' THEN 'Kocaeli, Sakarya, Düzce, Bolu, Yalova' WHEN 'TR51' THEN 'Ankara' WHEN 'TR52' THEN 'Konya, Karaman' WHEN 'TR61' THEN 'Antalya, Isparta, Burdur' WHEN 'TR62' THEN 'Adana, Mersin' WHEN 'TR63' THEN 'Hatay, Kahramanmaraş, Osmaniye' WHEN 'TR71' THEN 'Kırıkkale, Aksaray, Niğde, Nevşehir, Kırşehir' WHEN 'TR72' THEN 'Kayseri, Sivas, Yozgat' WHEN 'TR81' THEN 'Zonguldak, Karabük, Bartın' WHEN 'TR82' THEN 'Kastamonu, Çankırı, Sinop' WHEN 'TR83' THEN 'Samsun, Tokat, Çorum, Amasya' WHEN 'TR90' THEN 'Trabzon, Ordu, Giresun, Rize, Artvin, Gümüşhane' WHEN 'TRA1' THEN 'Erzurum, Erzincan, Bayburt' WHEN 'TRA2' THEN 'Ağrı, Kars, Iğdır, Ardahan' WHEN 'TRB1' THEN 'Malatya, Elazığ, Bingöl, Tunceli' WHEN 'TRB2' THEN 'Van, Muş, Bitlis, Hakkari' WHEN 'TRC1' THEN 'Gaziantep, Adıyaman, Kilis' WHEN 'TRC2' THEN 'Şanlıurfa, Diyarbakır' WHEN 'TRC3' THEN 'Mardin, Batman, Şırnak, Siirt' ELSE right(indicator, 4) END AS \"Region\", value AS \"Unemployment %\"\n    FROM (\n        SELECT DISTINCT ON (indicator) indicator, value\n        FROM price_index\n        WHERE country_iso3='TUR' AND source='eurostat'\n          AND indicator LIKE 'regional_unemployment_pct_TR%'\n        ORDER BY indicator, period_date DESC\n    ) latest\n    ORDER BY value DESC\n    ",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "orientation": "horizontal",
+        "xTickLabelRotation": 0,
+        "showValue": "auto",
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "barRadius": 0.1,
+        "stacking": "none",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#199e70"
+          },
+          "custom": {
+            "fillOpacity": 85,
+            "lineWidth": 0,
+            "gradientMode": "none",
+            "axisBorderShow": false
+          },
+          "unit": "percent",
+          "decimals": 1
+        },
+        "overrides": []
+      }
+    }
+  ]
+}

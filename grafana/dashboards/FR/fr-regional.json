@@ -1,0 +1,168 @@
+{
+  "uid": "fr-regional",
+  "title": "France: Regions",
+  "description": "France broken down by NUTS2 region: unemployment rate, GDP per capita and population, via Eurostat.",
+  "tags": [
+    "france"
+  ],
+  "timezone": "utc",
+  "editable": false,
+  "graphTooltip": 1,
+  "schemaVersion": 41,
+  "version": 1,
+  "refresh": "1h",
+  "style": "dark",
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "1m",
+      "5m",
+      "15m",
+      "1h"
+    ]
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "type": "dashboards",
+      "title": "lyraqpi",
+      "tags": [],
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "targetBlank": false
+    }
+  ],
+  "panels": [
+    {
+      "id": 1,
+      "type": "table",
+      "title": "France: all NUTS2 regions, latest values",
+      "description": "One row per NUTS2 region (Eurostat's statistical region level, roughly analogous to a US state or a large Dutch province). Unemployment: lfst_r_lfu3rt. GDP per capita: nama_10r_2gdp. Population: demo_r_pjangrp3.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 14
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\n    SELECT CASE right(indicator, 4) WHEN 'FR10' THEN 'Ile de France' WHEN 'FRB0' THEN 'Centre — Val de Loire' WHEN 'FRC1' THEN 'Bourgogne' WHEN 'FRC2' THEN 'Franche-Comté' WHEN 'FRD1' THEN 'Basse-Normandie' WHEN 'FRD2' THEN 'Haute-Normandie' WHEN 'FRE1' THEN 'Nord-Pas de Calais' WHEN 'FRE2' THEN 'Picardie' WHEN 'FRF1' THEN 'Alsace' WHEN 'FRF2' THEN 'Champagne-Ardenne' WHEN 'FRF3' THEN 'Lorraine' WHEN 'FRG0' THEN 'Pays de la Loire' WHEN 'FRH0' THEN 'Bretagne' WHEN 'FRI1' THEN 'Aquitaine' WHEN 'FRI2' THEN 'Limousin' WHEN 'FRI3' THEN 'Poitou-Charentes' WHEN 'FRJ1' THEN 'Languedoc-Roussillon' WHEN 'FRJ2' THEN 'Midi-Pyrénées' WHEN 'FRK1' THEN 'Auvergne' WHEN 'FRK2' THEN 'Rhône-Alpes' WHEN 'FRL0' THEN 'Provence-Alpes-Côte d’Azur' WHEN 'FRM0' THEN 'Corse' WHEN 'FRY1' THEN 'Guadeloupe' WHEN 'FRY2' THEN 'Martinique' WHEN 'FRY3' THEN 'Guyane' WHEN 'FRY4' THEN 'La Réunion' WHEN 'FRY5' THEN 'Mayotte' ELSE right(indicator, 4) END AS \"Region\",\n           MAX(CASE WHEN indicator LIKE 'regional_unemployment_pct_%' THEN value END) AS \"Unemployment %\",\n           MAX(CASE WHEN indicator LIKE 'regional_gdp_per_capita_eur_%' THEN value END) AS \"GDP per capita (EUR)\",\n           MAX(CASE WHEN indicator LIKE 'regional_population_%' THEN value END) AS \"Population\"\n    FROM (\n        SELECT DISTINCT ON (indicator) indicator, value\n        FROM price_index\n        WHERE country_iso3='FRA' AND source='eurostat'\n          AND (indicator LIKE 'regional_unemployment_pct_FR%'\n               OR indicator LIKE 'regional_gdp_per_capita_eur_FR%'\n               OR indicator LIKE 'regional_population_FR%')\n        ORDER BY indicator, period_date DESC\n    ) latest\n    GROUP BY 1\n    ORDER BY \"GDP per capita (EUR)\" DESC NULLS LAST\n    ",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "GDP per capita (EUR)",
+            "desc": true
+          }
+        ]
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 2,
+      "type": "barchart",
+      "title": "France: unemployment rate by region, ranked",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 14,
+        "w": 24,
+        "h": 14
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\n    SELECT CASE right(indicator, 4) WHEN 'FR10' THEN 'Ile de France' WHEN 'FRB0' THEN 'Centre — Val de Loire' WHEN 'FRC1' THEN 'Bourgogne' WHEN 'FRC2' THEN 'Franche-Comté' WHEN 'FRD1' THEN 'Basse-Normandie' WHEN 'FRD2' THEN 'Haute-Normandie' WHEN 'FRE1' THEN 'Nord-Pas de Calais' WHEN 'FRE2' THEN 'Picardie' WHEN 'FRF1' THEN 'Alsace' WHEN 'FRF2' THEN 'Champagne-Ardenne' WHEN 'FRF3' THEN 'Lorraine' WHEN 'FRG0' THEN 'Pays de la Loire' WHEN 'FRH0' THEN 'Bretagne' WHEN 'FRI1' THEN 'Aquitaine' WHEN 'FRI2' THEN 'Limousin' WHEN 'FRI3' THEN 'Poitou-Charentes' WHEN 'FRJ1' THEN 'Languedoc-Roussillon' WHEN 'FRJ2' THEN 'Midi-Pyrénées' WHEN 'FRK1' THEN 'Auvergne' WHEN 'FRK2' THEN 'Rhône-Alpes' WHEN 'FRL0' THEN 'Provence-Alpes-Côte d’Azur' WHEN 'FRM0' THEN 'Corse' WHEN 'FRY1' THEN 'Guadeloupe' WHEN 'FRY2' THEN 'Martinique' WHEN 'FRY3' THEN 'Guyane' WHEN 'FRY4' THEN 'La Réunion' WHEN 'FRY5' THEN 'Mayotte' ELSE right(indicator, 4) END AS \"Region\", value AS \"Unemployment %\"\n    FROM (\n        SELECT DISTINCT ON (indicator) indicator, value\n        FROM price_index\n        WHERE country_iso3='FRA' AND source='eurostat'\n          AND indicator LIKE 'regional_unemployment_pct_FR%'\n        ORDER BY indicator, period_date DESC\n    ) latest\n    ORDER BY value DESC\n    ",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "orientation": "horizontal",
+        "xTickLabelRotation": 0,
+        "showValue": "auto",
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "barRadius": 0.1,
+        "stacking": "none",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#199e70"
+          },
+          "custom": {
+            "fillOpacity": 85,
+            "lineWidth": 0,
+            "gradientMode": "none",
+            "axisBorderShow": false
+          },
+          "unit": "percent",
+          "decimals": 1
+        },
+        "overrides": []
+      }
+    }
+  ]
+}

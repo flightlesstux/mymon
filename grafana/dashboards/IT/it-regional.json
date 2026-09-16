@@ -1,0 +1,168 @@
+{
+  "uid": "it-regional",
+  "title": "Italy: Regions",
+  "description": "Italy broken down by NUTS2 region: unemployment rate, GDP per capita and population, via Eurostat.",
+  "tags": [
+    "italy"
+  ],
+  "timezone": "utc",
+  "editable": false,
+  "graphTooltip": 1,
+  "schemaVersion": 41,
+  "version": 1,
+  "refresh": "1h",
+  "style": "dark",
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "1m",
+      "5m",
+      "15m",
+      "1h"
+    ]
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "type": "dashboards",
+      "title": "lyraqpi",
+      "tags": [],
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "targetBlank": false
+    }
+  ],
+  "panels": [
+    {
+      "id": 1,
+      "type": "table",
+      "title": "Italy: all NUTS2 regions, latest values",
+      "description": "One row per NUTS2 region (Eurostat's statistical region level, roughly analogous to a US state or a large Dutch province). Unemployment: lfst_r_lfu3rt. GDP per capita: nama_10r_2gdp. Population: demo_r_pjangrp3.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 14
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\n    SELECT CASE right(indicator, 4) WHEN 'ITC1' THEN 'Piemonte' WHEN 'ITC2' THEN 'Valle d’Aosta/Vallée d’Aoste' WHEN 'ITC3' THEN 'Liguria' WHEN 'ITC4' THEN 'Lombardia' WHEN 'ITF1' THEN 'Abruzzo' WHEN 'ITF2' THEN 'Molise' WHEN 'ITF3' THEN 'Campania' WHEN 'ITF4' THEN 'Puglia' WHEN 'ITF5' THEN 'Basilicata' WHEN 'ITF6' THEN 'Calabria' WHEN 'ITG1' THEN 'Sicilia' WHEN 'ITG2' THEN 'Sardegna' WHEN 'ITH1' THEN 'Provincia Autonoma di Bolzano/Bozen' WHEN 'ITH2' THEN 'Provincia Autonoma di Trento' WHEN 'ITH3' THEN 'Veneto' WHEN 'ITH4' THEN 'Friuli-Venezia Giulia' WHEN 'ITH5' THEN 'Emilia-Romagna' WHEN 'ITI1' THEN 'Toscana' WHEN 'ITI2' THEN 'Umbria' WHEN 'ITI3' THEN 'Marche' WHEN 'ITI4' THEN 'Lazio' ELSE right(indicator, 4) END AS \"Region\",\n           MAX(CASE WHEN indicator LIKE 'regional_unemployment_pct_%' THEN value END) AS \"Unemployment %\",\n           MAX(CASE WHEN indicator LIKE 'regional_gdp_per_capita_eur_%' THEN value END) AS \"GDP per capita (EUR)\",\n           MAX(CASE WHEN indicator LIKE 'regional_population_%' THEN value END) AS \"Population\"\n    FROM (\n        SELECT DISTINCT ON (indicator) indicator, value\n        FROM price_index\n        WHERE country_iso3='ITA' AND source='eurostat'\n          AND (indicator LIKE 'regional_unemployment_pct_IT%'\n               OR indicator LIKE 'regional_gdp_per_capita_eur_IT%'\n               OR indicator LIKE 'regional_population_IT%')\n        ORDER BY indicator, period_date DESC\n    ) latest\n    GROUP BY 1\n    ORDER BY \"GDP per capita (EUR)\" DESC NULLS LAST\n    ",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "GDP per capita (EUR)",
+            "desc": true
+          }
+        ]
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 2,
+      "type": "barchart",
+      "title": "Italy: unemployment rate by region, ranked",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 14,
+        "w": 24,
+        "h": 14
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\n    SELECT CASE right(indicator, 4) WHEN 'ITC1' THEN 'Piemonte' WHEN 'ITC2' THEN 'Valle d’Aosta/Vallée d’Aoste' WHEN 'ITC3' THEN 'Liguria' WHEN 'ITC4' THEN 'Lombardia' WHEN 'ITF1' THEN 'Abruzzo' WHEN 'ITF2' THEN 'Molise' WHEN 'ITF3' THEN 'Campania' WHEN 'ITF4' THEN 'Puglia' WHEN 'ITF5' THEN 'Basilicata' WHEN 'ITF6' THEN 'Calabria' WHEN 'ITG1' THEN 'Sicilia' WHEN 'ITG2' THEN 'Sardegna' WHEN 'ITH1' THEN 'Provincia Autonoma di Bolzano/Bozen' WHEN 'ITH2' THEN 'Provincia Autonoma di Trento' WHEN 'ITH3' THEN 'Veneto' WHEN 'ITH4' THEN 'Friuli-Venezia Giulia' WHEN 'ITH5' THEN 'Emilia-Romagna' WHEN 'ITI1' THEN 'Toscana' WHEN 'ITI2' THEN 'Umbria' WHEN 'ITI3' THEN 'Marche' WHEN 'ITI4' THEN 'Lazio' ELSE right(indicator, 4) END AS \"Region\", value AS \"Unemployment %\"\n    FROM (\n        SELECT DISTINCT ON (indicator) indicator, value\n        FROM price_index\n        WHERE country_iso3='ITA' AND source='eurostat'\n          AND indicator LIKE 'regional_unemployment_pct_IT%'\n        ORDER BY indicator, period_date DESC\n    ) latest\n    ORDER BY value DESC\n    ",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "orientation": "horizontal",
+        "xTickLabelRotation": 0,
+        "showValue": "auto",
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "barRadius": 0.1,
+        "stacking": "none",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#199e70"
+          },
+          "custom": {
+            "fillOpacity": 85,
+            "lineWidth": 0,
+            "gradientMode": "none",
+            "axisBorderShow": false
+          },
+          "unit": "percent",
+          "decimals": 1
+        },
+        "overrides": []
+      }
+    }
+  ]
+}
