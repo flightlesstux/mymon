@@ -1,9 +1,9 @@
-"""Germany, Italy, Spain, Greece and Turkey: Eurostat's dissemination API, one shared
-module for all five since Eurostat's ``geo`` dimension accepts a list — one HTTP request
-per indicator covers every country at once, rather than five near-identical national
-statistics office integrations (Destatis, ISTAT, INE, ELSTAT, TÜİK all have different
-APIs; Eurostat harmonizes across all of them, Turkey included as a candidate country with
-partial-but-real coverage, confirmed live).
+"""Germany, Italy, Spain, Greece, Turkey and France: Eurostat's dissemination API, one
+shared module for all six since Eurostat's ``geo`` dimension accepts a list — one HTTP
+request per indicator covers every country at once, rather than six near-identical
+national statistics office integrations (Destatis, ISTAT, INE, ELSTAT, TÜİK, INSEE all
+have different APIs; Eurostat harmonizes across all of them, Turkey included as a
+candidate country with partial-but-real coverage, confirmed live).
 
 Eurostat's JSON-stat response packs every dimension combination into one flat ``value``
 dict keyed by a computed linear index (``_decode`` below implements the standard
@@ -36,7 +36,7 @@ BASE = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data"
 SINCE = "2000"
 
 GEO_TO_ISO3: dict[str, str] = {
-    "DE": "DEU", "IT": "ITA", "ES": "ESP", "EL": "GRC", "TR": "TUR",
+    "DE": "DEU", "IT": "ITA", "ES": "ESP", "EL": "GRC", "TR": "TUR", "FR": "FRA",
 }
 GEOS = list(GEO_TO_ISO3)
 

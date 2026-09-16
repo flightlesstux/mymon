@@ -1,8 +1,8 @@
-"""One dashboard generator, five countries — Germany, Italy, Spain, Greece, Turkey all
-share the same eurostat_metrics indicators, so this loops instead of five near-identical
-nl_economy.py-style files. Tier-1 depth (CPI, unemployment, population, demographics,
-house prices, confidence) matching the first pass of the NL folder; ports/agriculture/
-construction/vehicle-style depth is a follow-up, not this script.
+"""One dashboard generator, six countries — Germany, Italy, Spain, Greece, Turkey and
+France all share the same eurostat_metrics indicators, so this loops instead of six
+near-identical nl_economy.py-style files. Tier-1 depth (CPI, unemployment, population,
+demographics, house prices, confidence) matching the first pass of the NL folder;
+ports/agriculture/construction/vehicle-style depth lands in their own shared modules.
 """
 
 import _lib
@@ -14,6 +14,7 @@ COUNTRIES = [
     ("ES", "ESP", "Spain"),
     ("GR", "GRC", "Greece"),
     ("TR", "TUR", "Turkey"),
+    ("FR", "FRA", "France"),
 ]
 
 RANGE_START = "2000-01-01"
