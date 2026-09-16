@@ -295,7 +295,7 @@
     {
       "id": 3,
       "type": "timeseries",
-      "title": "Daily average temperature, since Jan 2025",
+      "title": "Daily average temperature",
       "description": "",
       "datasource": {
         "type": "grafana-postgresql-datasource",

@@ -23,18 +23,19 @@ WHERE country_iso3='NLD' AND source='cbs' AND indicator IN ({CAT_INLIST})
 ORDER BY 1
 """
 
-CHANGE_SINCE_2025 = f"""
+CHANGE_SINCE_RANGE_START = f"""
 WITH bounds AS (
   SELECT indicator,
     (array_agg(value ORDER BY period_date ASC))[1] AS first_value,
     (array_agg(value ORDER BY period_date DESC))[1] AS last_value
   FROM price_index
   WHERE country_iso3='NLD' AND source='cbs' AND indicator IN ({CAT_INLIST})
-    AND period_date >= '{RANGE_START}'
+    AND period_date >= '{RANGE_START}' AND $__timeFilter(period_date)
   GROUP BY indicator
 )
 SELECT {_label_case("indicator")} AS "Category",
-       round((100 * (last_value / NULLIF(first_value, 0) - 1))::numeric, 2) AS "Change since Jan 2025, %"
+       round((100 * (last_value / NULLIF(first_value, 0) - 1))::numeric, 2)
+         AS "Change since ${{__from:date:MMM YYYY}}, %"
 FROM bounds
 ORDER BY 2 DESC
 """
@@ -51,8 +52,8 @@ panels = [
     timeseries("CPI by spending category (2015=100)", 0, 0, 24, 13, CATEGORY_TREND,
                decimals=1, colors={k: v for k, v in CAT_COLORS.items()}, fill=0, legend="right",
                description="All 12 top-level COICOP categories CBS splits the CPI into."),
-    barchart("Change since Jan 2025, by category", 0, 13, 12, 12, CHANGE_SINCE_2025,
-             unit="percent", color=CAT[1], decimals=2),
+    barchart("Change since ${__from:date:MMM YYYY}, by category", 0, 13, 12, 12,
+             CHANGE_SINCE_RANGE_START, unit="percent", color=CAT[1], decimals=2),
     table("Latest index value, by category", 12, 13, 12, 12, LATEST_TABLE,
           sort=("Index (2015=100)", True),
           overrides=[{"matcher": {"id": "byName", "options": "Month"},

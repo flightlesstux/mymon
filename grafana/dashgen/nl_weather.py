@@ -69,7 +69,7 @@ panels = [
                      {"matcher": {"id": "byName", "options": "Observed"},
                       "properties": [{"id": "unit", "value": "dateTimeAsIso"}]}]),
 
-    timeseries("Daily average temperature, since Jan 2025", 0, 22, 12, 9, CITY_TEMP_TREND,
+    timeseries("Daily average temperature", 0, 22, 12, 9, CITY_TEMP_TREND,
                unit="celsius", decimals=1, fill=0, colors=CITY_COLORS, legend="right"),
     timeseries("Daily average wind speed", 12, 22, 12, 9, CITY_WIND_TREND,
                unit="velocitykmh", decimals=0, fill=0, colors=CITY_COLORS, legend="right"),
