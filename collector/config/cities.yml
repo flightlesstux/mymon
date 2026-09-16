@@ -6,6 +6,10 @@ cities:
   - {name: Paris,         country: FR, lat: 48.8566,  lon: 2.3522,    tz: Europe/Paris}
   - {name: Berlin,        country: DE, lat: 52.5200,  lon: 13.4050,   tz: Europe/Berlin}
   - {name: Amsterdam,     country: NL, lat: 52.3676,  lon: 4.9041,    tz: Europe/Amsterdam}
+  - {name: Rotterdam,     country: NL, lat: 51.9244,  lon: 4.4777,    tz: Europe/Amsterdam}
+  - {name: The Hague,     country: NL, lat: 52.0705,  lon: 4.3007,    tz: Europe/Amsterdam}
+  - {name: Utrecht,       country: NL, lat: 52.0907,  lon: 5.1214,    tz: Europe/Amsterdam}
+  - {name: Eindhoven,     country: NL, lat: 51.4416,  lon: 5.4697,    tz: Europe/Amsterdam}
   - {name: Madrid,        country: ES, lat: 40.4168,  lon: -3.7038,   tz: Europe/Madrid}
   - {name: Rome,          country: IT, lat: 41.9028,  lon: 12.4964,   tz: Europe/Rome}
   - {name: Moscow,        country: RU, lat: 55.7558,  lon: 37.6173,   tz: Europe/Moscow}
