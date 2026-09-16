@@ -21,6 +21,8 @@ POLICY: dict[str, tuple[str, str]] = {
     "iss_position": ("ts", "7 days"),
     "aircraft_state": ("ts", "2 days"),
     "btc_network": ("ts", "180 days"),
+    "energy_grid": ("ts", "30 days"),
+    "bike_network": ("ts", "14 days"),
     "collector_run": ("started_at", "30 days"),
 }
 
