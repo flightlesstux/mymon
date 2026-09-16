@@ -21,15 +21,20 @@ CBS tables used (probed live 2026-09, table IDs are stable CBS identifiers):
 - ``82058NED`` Logiesaccommodaties (tourism): total hotel/accommodation guests and
   overnight stays, all accommodation types.
 
-Interest rate: ECB Data Portal ``IRS`` dataflow, the Dutch 10-year government bond yield
-("long-term interest rate for convergence purposes") — same SDMX CSV mechanism already
-used by ``reserves_ecb.py``.
+ECB Data Portal, same SDMX CSV mechanism already used by ``reserves_ecb.py``:
+- ``IRS`` dataflow: the Dutch 10-year government bond yield ("long-term interest rate for
+  convergence purposes").
+- ``MIR`` dataflow (MFI Interest Rate Statistics — what Dutch banks actually report to DNB,
+  not a government proxy): the composite new-business mortgage rate, the overnight
+  deposit/savings rate, and the term-deposit rate. (An earlier pass concluded bank rates
+  "aren't freely available" from searching the DNB and CBS websites directly — that was
+  wrong; ECB's MIR dataflow carries them, confirmed live against the 220 NL series it
+  actually publishes.)
 
 Netherlands-specific things that turned out NOT to be freely available (checked live,
-2026-09): current mortgage/deposit interest rates (no public API found for DNB or CBS
-current series) and road traffic congestion (NDW's open data is a live DATEX II XML
-snapshot with no historical query API; ANWB's traffic page is a JS-rendered app with no
-public API). Neither is faked here.
+2026-09): road traffic congestion (NDW's open data is a live DATEX II XML snapshot with no
+historical query API; ANWB's traffic page is a JS-rendered app with no public API). Not
+faked here.
 """
 
 from __future__ import annotations
@@ -48,10 +53,21 @@ TABLE = "price_index"
 COUNTRY = "NLD"
 
 CBS_BASE = "https://opendata.cbs.nl/ODataApi/odata"
-ECB_URL = (
-    "https://data-api.ecb.europa.eu/service/data/IRS/"
-    "M.NL.L.L40.CI.0000.EUR.N.Z?format=csvdata"
-)
+ECB_BASE = "https://data-api.ecb.europa.eu/service/data"
+ECB_BOND_YIELD_KEY = "IRS/M.NL.L.L40.CI.0000.EUR.N.Z"
+
+# ECB MIR (MFI Interest Rate Statistics) — what Dutch banks actually charge/pay, reported
+# monthly via DNB. Confirmed live (2026-09) against the NL series list (220 series):
+#   A2C = loans to households for house purchase, 'A' = annualised agreed rate (pure
+#         interest, not APRC), new business composite across all maturities.
+#   L22 = overnight deposits (households + non-financial corporations), i.e. ordinary
+#         savings/current accounts.
+#   L23 = deposits with agreed maturity (term deposits/savings).
+ECB_MIR_KEYS: dict[str, str] = {
+    "bank_mortgage_rate_pct": "MIR/M.NL.B.A2C.A.R.A.2250.EUR.N",
+    "bank_savings_rate_pct": "MIR/M.NL.B.L22.A.R.A.2250.EUR.N",
+    "bank_term_deposit_rate_pct": "MIR/M.NL.B.L23.A.R.A.2250.EUR.N",
+}
 
 
 def _num(value: Any) -> float | None:
@@ -247,13 +263,14 @@ def _tourism_rows(ctx: Ctx) -> list[dict[str, Any]]:
 # --------------------------------------------------------------------------- ECB: bond yield
 
 
-def _bond_yield_rows(ctx: Ctx) -> list[dict[str, Any]]:
-    resp = ctx.http.get(ECB_URL)
+def _ecb_series_rows(ctx: Ctx, key: str, indicator: str) -> list[dict[str, Any]]:
+    """One ECB SDMX series (``dataflow/series-key``, e.g. ``IRS/M.NL...``) as monthly rows."""
+    resp = ctx.http.get(f"{ECB_BASE}/{key}", params={"format": "csvdata"})
     resp.raise_for_status()
     text = resp.content.decode("utf-8-sig", errors="replace")
     reader = csv.DictReader(io.StringIO(text))
     if not reader.fieldnames or "TIME_PERIOD" not in reader.fieldnames:
-        raise ValueError(f"ECB IRS CSV missing columns, got {reader.fieldnames}")
+        raise ValueError(f"ECB {key} CSV missing columns, got {reader.fieldnames}")
     rows: list[dict[str, Any]] = []
     for rec in reader:
         period_str = (rec.get("TIME_PERIOD") or "").strip()
@@ -265,7 +282,18 @@ def _bond_yield_rows(ctx: Ctx) -> list[dict[str, Any]]:
         value = _num(rec.get("OBS_VALUE"))
         if value is None:
             continue
-        rows.append(_row(period, "gov_bond_10y_pct", value, "%", "ecb"))
+        rows.append(_row(period, indicator, value, "%", "ecb"))
+    return rows
+
+
+def _bond_yield_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    return _ecb_series_rows(ctx, ECB_BOND_YIELD_KEY, "gov_bond_10y_pct")
+
+
+def _bank_rate_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for indicator, key in ECB_MIR_KEYS.items():
+        rows.extend(_ecb_series_rows(ctx, key, indicator))
     return rows
 
 
@@ -290,6 +318,7 @@ def fetch(ctx: Ctx) -> Rows:
         ("unemployment", _unemployment_rows),
         ("tourism", _tourism_rows),
         ("bond_yield", _bond_yield_rows),
+        ("bank_rates", _bank_rate_rows),
     )
     for name, fn in upstreams:
         try:

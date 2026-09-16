@@ -123,6 +123,21 @@ def test_bond_yield_rows_parses_ecb_csv():
 
 
 @respx.mock
+def test_bank_rate_rows_parses_all_three_mir_series():
+    fixture = (FIXTURES / "nl_metrics_ecb_irs.csv").read_text()
+    for key in nl.ECB_MIR_KEYS.values():
+        respx.get(f"https://data-api.ecb.europa.eu/service/data/{key}").mock(
+            return_value=httpx.Response(200, text=fixture)
+        )
+    rows = nl._bank_rate_rows(_ctx())
+    indicators = {r["indicator"] for r in rows}
+    assert indicators == {"bank_mortgage_rate_pct", "bank_savings_rate_pct",
+                           "bank_term_deposit_rate_pct"}
+    assert len(rows) == 9  # 3 series x 3 observations in the fixture
+    assert all(r["source"] == "ecb" and r["unit"] == "%" for r in rows)
+
+
+@respx.mock
 def test_fetch_survives_one_upstream_failing():
     respx.get("https://opendata.cbs.nl/ODataApi/odata/83131NED/TypedDataSet").mock(
         return_value=httpx.Response(200, json=cbs_json([
@@ -144,9 +159,14 @@ def test_fetch_survives_one_upstream_failing():
     respx.get("https://opendata.cbs.nl/ODataApi/odata/82058NED/TypedDataSet").mock(
         return_value=httpx.Response(200, json=cbs_json([]))
     )
+    fixture = (FIXTURES / "nl_metrics_ecb_irs.csv").read_text()
     respx.get("https://data-api.ecb.europa.eu/service/data/IRS/M.NL.L.L40.CI.0000.EUR.N.Z").mock(
-        return_value=httpx.Response(200, text=(FIXTURES / "nl_metrics_ecb_irs.csv").read_text())
+        return_value=httpx.Response(200, text=fixture)
     )
+    for key in nl.ECB_MIR_KEYS.values():
+        respx.get(f"https://data-api.ecb.europa.eu/service/data/{key}").mock(
+            return_value=httpx.Response(200, text=fixture)
+        )
     result = nl.fetch(_ctx())
     table, rows = result[0]
     assert table == "price_index"
