@@ -24,9 +24,9 @@ EU_AVG = """
 SELECT period_date AS time, fuel_type AS metric, avg(price) AS value
 FROM fuel_price WHERE source='eu_wob' AND $__timeFilter(period_date) GROUP BY 1, 2 ORDER BY 1
 """
-TR_NOW = """
-SELECT DISTINCT ON (region, fuel_type) region AS "Province", fuel_type AS "Fuel", price AS "TRY/L", period_date AS "Date"
-FROM fuel_price WHERE country_iso2='TR' ORDER BY region, fuel_type, period_date DESC
+TR_BY_PROVINCE = """
+SELECT period_date AS time, region AS metric, price AS value
+FROM fuel_price WHERE country_iso2='TR' AND fuel_type='${fuel}' AND $__timeFilter(period_date) ORDER BY 1
 """
 TR_TREND = """
 SELECT period_date AS time, fuel_type AS metric, price AS value
@@ -118,7 +118,11 @@ FROM price_index WHERE indicator='policy_rate_pct' AND country_iso3 IN ('TUR','U
 """
 
 FUEL_VAR = {
-    "name": "fuel", "label": "Fuel", "type": "custom", "query": "petrol95 : Petrol 95,diesel : Diesel",
+    # Grafana's "custom" variable option syntax is "label : value" — the part before the
+    # colon is shown in the dropdown, the part after is what gets substituted into SQL.
+    # This was backwards before (value : label), so every ${fuel} query silently filtered
+    # on the literal string "Petrol 95" instead of "petrol95" and returned zero rows.
+    "name": "fuel", "label": "Fuel", "type": "custom", "query": "Petrol 95 : petrol95,Diesel : diesel",
     "current": {"text": "Petrol 95", "value": "petrol95"}, "options": [
         {"text": "Petrol 95", "value": "petrol95", "selected": True}, {"text": "Diesel", "value": "diesel", "selected": False}],
     "multi": False, "includeAll": False, "hide": 0,
@@ -135,12 +139,13 @@ panels = [
                        "PL": CAT[5], "GR": CAT[6]}, fill=0),
     timeseries("EU average, petrol 95 vs diesel", 12, 13, 12, 9, EU_AVG, unit="currencyEUR", decimals=3, colors={"petrol95": CAT[3], "diesel": CAT[0]}, fill=0),
 
-    table("Türkiye pump prices", 0, 22, 8, 9, TR_NOW, sort=("Province", False),
-          overrides=[{"matcher": {"id": "byName", "options": "TRY/L"}, "properties": [{"id": "unit", "value": "currencyTRY"}, {"id": "decimals", "value": 2}]}]),
+    timeseries("Türkiye ${fuel}, by province, TRY/L", 0, 22, 8, 9, TR_BY_PROVINCE, unit="currencyTRY",
+               decimals=2, colors={"Istanbul": CAT[3], "Ankara": CAT[0], "Izmir": CAT[2]}, fill=0,
+               points=True),
     timeseries("Istanbul pump prices, TRY/L", 8, 22, 8, 9, TR_TREND, unit="currencyTRY", decimals=2,
-               colors={"petrol95": CAT[3], "diesel": CAT[0], "lpg": CAT[2]}, fill=0),
+               colors={"petrol95": CAT[3], "diesel": CAT[0], "lpg": CAT[2]}, fill=0, points=True),
     timeseries("Istanbul pump prices in EUR/L (TCMB rate)", 16, 22, 8, 9, TR_IN_EUR, unit="currencyEUR", decimals=3,
-               colors={"petrol95": CAT[3], "diesel": CAT[0], "lpg": CAT[2]}, fill=0,
+               colors={"petrol95": CAT[3], "diesel": CAT[0], "lpg": CAT[2]}, fill=0, points=True,
                description="Comparable with the EU map above."),
     timeseries("United States retail gasoline and diesel, USD/gal (EIA)", 0, 31, 12, 8, US_FUEL, unit="currencyUSD", decimals=3,
                colors={"petrol_regular": CAT[3], "diesel": CAT[0]}, fill=0,

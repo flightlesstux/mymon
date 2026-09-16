@@ -31,7 +31,7 @@
         "name": "fuel",
         "label": "Fuel",
         "type": "custom",
-        "query": "petrol95 : Petrol 95,diesel : Diesel",
+        "query": "Petrol 95 : petrol95,Diesel : diesel",
         "current": {
           "text": "Petrol 95",
           "value": "petrol95"
@@ -541,8 +541,8 @@
     },
     {
       "id": 57,
-      "type": "table",
-      "title": "Türkiye pump prices",
+      "type": "timeseries",
+      "title": "Türkiye ${fuel}, by province, TRY/L",
       "description": "",
       "datasource": {
         "type": "grafana-postgresql-datasource",
@@ -562,23 +562,22 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "\nSELECT DISTINCT ON (region, fuel_type) region AS \"Province\", fuel_type AS \"Fuel\", price AS \"TRY/L\", period_date AS \"Date\"\nFROM fuel_price WHERE country_iso2='TR' ORDER BY region, fuel_type, period_date DESC\n",
-          "format": "table",
+          "rawSql": "\nSELECT period_date AS time, region AS metric, price AS value\nFROM fuel_price WHERE country_iso2='TR' AND fuel_type='${fuel}' AND $__timeFilter(period_date) ORDER BY 1\n",
+          "format": "time_series",
           "editorMode": "code"
         }
       ],
       "options": {
-        "showHeader": true,
-        "cellHeight": "sm",
-        "footer": {
-          "show": false
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
         },
-        "sortBy": [
-          {
-            "displayName": "Province",
-            "desc": false
-          }
-        ]
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "fieldConfig": {
         "defaults": {
@@ -586,27 +585,69 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 0,
+            "gradientMode": "opacity",
+            "showPoints": "auto",
+            "pointSize": 5,
+            "spanNulls": 3600000,
+            "axisBorderShow": false,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
             },
-            "filterable": false
-          }
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "unit": "currencyTRY",
+          "decimals": 2
         },
         "overrides": [
           {
             "matcher": {
               "id": "byName",
-              "options": "TRY/L"
+              "options": "Istanbul"
             },
             "properties": [
               {
-                "id": "unit",
-                "value": "currencyTRY"
-              },
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#c98500"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Ankara"
+            },
+            "properties": [
               {
-                "id": "decimals",
-                "value": 2
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Izmir"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#199e70"
+                }
               }
             ]
           }
@@ -664,7 +705,7 @@
             "lineWidth": 2,
             "fillOpacity": 0,
             "gradientMode": "opacity",
-            "showPoints": "never",
+            "showPoints": "auto",
             "pointSize": 5,
             "spanNulls": 3600000,
             "axisBorderShow": false,
@@ -779,7 +820,7 @@
             "lineWidth": 2,
             "fillOpacity": 0,
             "gradientMode": "opacity",
-            "showPoints": "never",
+            "showPoints": "auto",
             "pointSize": 5,
             "spanNulls": 3600000,
             "axisBorderShow": false,
