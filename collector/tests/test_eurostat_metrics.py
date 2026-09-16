@@ -174,5 +174,16 @@ def test_fertility_rows_covers_both_indicators():
     assert all(r["country_iso3"] == "ESP" for r in rows)
 
 
+@respx.mock
+def test_unemployment_breakdown_rows():
+    data = jsonstat(["geo", "time"], [1, 1], {"geo": ["DE"], "time": ["2026-08"]}, {"0": 5.0})
+    respx.get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/une_rt_m").mock(
+        return_value=httpx.Response(200, json=data)
+    )
+    assert em._unemployment_men_rows(_ctx())[0]["indicator"] == "unemployment_rate_pct_men"
+    assert em._unemployment_women_rows(_ctx())[0]["indicator"] == "unemployment_rate_pct_women"
+    assert em._unemployment_youth_rows(_ctx())[0]["indicator"] == "unemployment_rate_pct_youth"
+
+
 def _ctx():
     return em.Ctx(http=httpx.Client(), cfg={"cities": [], "env": {}}, now=datetime(2026, 9, 16))

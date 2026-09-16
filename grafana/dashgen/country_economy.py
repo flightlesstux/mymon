@@ -111,6 +111,17 @@ for code, iso3, name, has_ecb_rates in COUNTRIES:
                    colors={"value": CAT[4]}, fill=15,
                    description="Eurostat demo_find, annual. 2.1 is roughly the "
                                "replacement rate."),
+
+        timeseries("Unemployment by gender", 0, 66, 12, 9,
+                   q_multi(iso3, ["unemployment_rate_pct_men", "unemployment_rate_pct_women"]),
+                   unit="percent", decimals=1,
+                   colors={"unemployment_rate_pct_men": CAT[0],
+                           "unemployment_rate_pct_women": CAT[4]}, fill=0),
+        timeseries("Youth unemployment (under 25) vs. overall", 12, 66, 12, 9,
+                   q_multi(iso3, ["unemployment_rate_pct_youth", "unemployment_rate_pct"]),
+                   unit="percent", decimals=1,
+                   colors={"unemployment_rate_pct_youth": CAT[3],
+                           "unemployment_rate_pct": CAT[2]}, fill=0),
     ]
 
     if has_ecb_rates:

@@ -188,6 +188,24 @@ def _unemployment_rows(ctx: Ctx) -> list[dict[str, Any]]:
         "unemployment_rate_pct", "%")
 
 
+def _unemployment_men_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    return _single_series_rows(
+        ctx, "une_rt_m", {"sex": "M", "age": "TOTAL", "unit": "PC_ACT", "s_adj": "SA"},
+        "unemployment_rate_pct_men", "%")
+
+
+def _unemployment_women_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    return _single_series_rows(
+        ctx, "une_rt_m", {"sex": "F", "age": "TOTAL", "unit": "PC_ACT", "s_adj": "SA"},
+        "unemployment_rate_pct_women", "%")
+
+
+def _unemployment_youth_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    return _single_series_rows(
+        ctx, "une_rt_m", {"sex": "T", "age": "Y_LT25", "unit": "PC_ACT", "s_adj": "SA"},
+        "unemployment_rate_pct_youth", "%")
+
+
 # --------------------------------------------------------------------------- population
 
 
@@ -323,6 +341,9 @@ def fetch(ctx: Ctx) -> Rows:
         ("food_cpi_index", _food_cpi_index_rows),
         ("food_cpi_inflation", _food_cpi_inflation_rows),
         ("unemployment", _unemployment_rows),
+        ("unemployment_men", _unemployment_men_rows),
+        ("unemployment_women", _unemployment_women_rows),
+        ("unemployment_youth", _unemployment_youth_rows),
         ("population", _population_rows),
         ("demographics", _demographics_rows),
         ("life_expectancy", _life_expectancy_rows),
