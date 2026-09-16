@@ -14,26 +14,41 @@ def cbs_json(records):
 
 
 @respx.mock
-def test_cpi_rows_overall_and_food():
-    respx.get(
-        "https://opendata.cbs.nl/ODataApi/odata/83131NED/TypedDataSet",
-        params={"$filter": "Bestedingscategorieen eq 'T001112  '"},
-    ).mock(return_value=httpx.Response(200, json=cbs_json([
-        {"Perioden": "2025MM01", "CPI_1": 131.35, "JaarmutatieCPI_5": 3.3},
-    ])))
-    respx.get(
-        "https://opendata.cbs.nl/ODataApi/odata/83131NED/TypedDataSet",
-        params={"$filter": "Bestedingscategorieen eq 'CPI011000'"},
-    ).mock(return_value=httpx.Response(200, json=cbs_json([
-        {"Perioden": "2025MM01", "CPI_1": 141.33, "JaarmutatieCPI_5": 3.1},
-    ])))
+def test_cpi_rows_headline_food_and_all_categories():
+    # One generic response regardless of which category's filter is requested — the
+    # value itself doesn't matter here, only that every category's request is parsed and
+    # lands under the right indicator name.
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/83131NED/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([
+            {"Perioden": "2025MM01", "CPI_1": 131.35, "JaarmutatieCPI_5": 3.3},
+        ]))
+    )
     rows = nl._cpi_rows(_ctx())
-    by_indicator = {r["indicator"]: r for r in rows}
-    assert by_indicator["cpi_index"]["value"] == 131.35
-    assert by_indicator["cpi_inflation_pct"]["value"] == 3.3
-    assert by_indicator["food_cpi_index"]["value"] == 141.33
-    assert by_indicator["food_cpi_inflation_pct"]["value"] == 3.1
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    assert by_indicator["cpi_index"] == 131.35
+    assert by_indicator["cpi_inflation_pct"] == 3.3
+    assert by_indicator["food_cpi_index"] == 131.35
+    assert by_indicator["food_cpi_inflation_pct"] == 3.3
+    # every one of the 12 COICOP categories produced an index-only row, no YoY
+    for slug in nl.CPI_CATEGORIES.values():
+        assert by_indicator[f"cpi_cat_{slug}"] == 131.35
+        assert f"cpi_cat_{slug}_yoy" not in by_indicator
+    assert len(nl.CPI_CATEGORIES) == 12
     assert all(r["country_iso3"] == "NLD" and r["period_date"] == date(2025, 1, 1) for r in rows)
+
+
+@respx.mock
+def test_rent_rows_parses_annual_period():
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/70675ned/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([
+            {"Perioden": "2025JJ00", "Huurverhoging_1": 5.3},
+        ]))
+    )
+    rows = nl._rent_rows(_ctx())
+    assert len(rows) == 1
+    assert rows[0]["indicator"] == "rent_increase_pct"
+    assert rows[0]["value"] == 5.3
+    assert rows[0]["period_date"] == date(2025, 1, 1)
 
 
 @respx.mock
@@ -113,6 +128,9 @@ def test_fetch_survives_one_upstream_failing():
         return_value=httpx.Response(200, json=cbs_json([
             {"Perioden": "2025MM01", "CPI_1": 131.35, "JaarmutatieCPI_5": 3.3},
         ]))
+    )
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/70675ned/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([]))
     )
     respx.get("https://opendata.cbs.nl/ODataApi/odata/85773NED/TypedDataSet").mock(
         return_value=httpx.Response(500)

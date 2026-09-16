@@ -7,9 +7,12 @@ separate backfill — same pattern as ``price_indices.py``.
 
 CBS tables used (probed live 2026-09, table IDs are stable CBS identifiers):
 - ``83131NED`` Consumentenprijzen (CPI): category ``T001112`` (all spending) for headline
-  CPI + YoY inflation, category ``CPI011000`` (Voedingsmiddelen) for food-only CPI.
+  CPI + YoY inflation, ``CPI011000`` (Voedingsmiddelen) for food-only CPI, plus the index
+  value (no YoY) for each of the 12 top-level COICOP spending categories (housing/energy,
+  transport, health, education, ...) — a cost-of-living breakdown.
 - ``85773NED`` Bestaande koopwoningen (existing home sales): price index, average sale
   price, month's transaction count.
+- ``70675ned`` Huurverhoging woningen (annual rent increase, all landlords), 1959-present.
 - ``85592NED`` Gemiddelde energietarieven (average consumer energy tariffs): gas
   (Euro/m3, columns 1-6) and electricity (Euro/kWh, columns 7-15) variable contract price,
   incl. VAT (``Btw='A048944'``).
@@ -73,13 +76,21 @@ def _row(period: date, indicator: str, value: float, unit: str, source: str) -> 
 
 
 def _cbs_period(value: str) -> date | None:
-    """CBS months look like ``2025MM01``; quarters/years are not used by any table here."""
+    """CBS months look like ``2025MM01``, years like ``2025JJ00``."""
     s = (value or "").strip()
-    if len(s) == 8 and s[4:6] == "MM":
+    if len(s) != 8:
+        return None
+    try:
+        year = int(s[:4])
+    except ValueError:
+        return None
+    if s[4:6] == "MM":
         try:
-            return date(int(s[:4]), int(s[6:8]), 1)
+            return date(year, int(s[6:8]), 1)
         except ValueError:
             return None
+    if s[4:6] == "JJ":
+        return date(year, 1, 1)
     return None
 
 
@@ -99,14 +110,34 @@ def _cbs_get(ctx: Ctx, table: str, filt: str | None = None) -> list[dict[str, An
 
 # --------------------------------------------------------------------------- CBS: CPI
 
+# The 12 top-level COICOP spending categories CBS breaks the CPI into. Slugs are used
+# directly as `price_index.indicator` (as `cpi_cat_<slug>`) and are readable enough to use
+# as-is for a dashboard legend — no separate label lookup needed.
+CPI_CATEGORIES: dict[str, str] = {
+    "CPI010000": "food_and_drink",
+    "CPI020000": "alcohol_and_tobacco",
+    "CPI030000": "clothing_and_footwear",
+    "CPI040000": "housing_water_energy",
+    "CPI050000": "furnishings_household",
+    "CPI060000": "health",
+    "CPI070000": "transport",
+    "CPI080000": "communication",
+    "CPI090000": "recreation_and_culture",
+    "CPI100000": "education",
+    "CPI110000": "restaurants_and_hotels",
+    "CPI120000": "misc_goods_and_services",
+}
+
 
 def _cpi_rows(ctx: Ctx) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    categories = [
+    # (CBS category code, index indicator name, YoY indicator name or None)
+    headline = [
         ("T001112  ", "cpi_index", "cpi_inflation_pct"),
         ("CPI011000", "food_cpi_index", "food_cpi_inflation_pct"),
     ]
-    for code, index_name, inflation_name in categories:
+    categories = [(code, f"cpi_cat_{slug}", None) for code, slug in CPI_CATEGORIES.items()]
+    for code, index_name, inflation_name in headline + categories:
         recs = _cbs_get(ctx, "83131NED", f"Bestedingscategorieen eq '{code}'")
         for rec in recs:
             period = _cbs_period(rec.get("Perioden"))
@@ -115,9 +146,25 @@ def _cpi_rows(ctx: Ctx) -> list[dict[str, Any]]:
             idx = _num(rec.get("CPI_1"))
             if idx is not None:
                 rows.append(_row(period, index_name, idx, "2015=100", "cbs"))
-            yoy = _num(rec.get("JaarmutatieCPI_5"))
-            if yoy is not None:
-                rows.append(_row(period, inflation_name, yoy, "%", "cbs"))
+            if inflation_name:
+                yoy = _num(rec.get("JaarmutatieCPI_5"))
+                if yoy is not None:
+                    rows.append(_row(period, inflation_name, yoy, "%", "cbs"))
+    return rows
+
+
+# --------------------------------------------------------------------------- CBS: rent
+
+
+def _rent_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for rec in _cbs_get(ctx, "70675ned"):
+        period = _cbs_period(rec.get("Perioden"))
+        if period is None:
+            continue
+        value = _num(rec.get("Huurverhoging_1"))
+        if value is not None:
+            rows.append(_row(period, "rent_increase_pct", value, "%", "cbs"))
     return rows
 
 
@@ -237,6 +284,7 @@ def fetch(ctx: Ctx) -> Rows:
     failures = 0
     upstreams = (
         ("cpi", _cpi_rows),
+        ("rent", _rent_rows),
         ("house_prices", _house_price_rows),
         ("energy", _energy_rows),
         ("unemployment", _unemployment_rows),
