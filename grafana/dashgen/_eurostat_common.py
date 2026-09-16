@@ -44,3 +44,19 @@ PRODUCT_LABELS = {
     "mineral_or_spring_waters": "Mineral water", "soft_drinks": "Soft drinks",
     "fruit_and_vegetable_juices": "Fruit & vegetable juices",
 }
+
+# Mirrors eurostat_cost_of_living.CATEGORIES slugs on the collector side.
+COST_OF_LIVING_LABELS = {
+    "food_and_drink": "Food & non-alc. drink",
+    "alcohol_and_tobacco": "Alcohol & tobacco",
+    "clothing_and_footwear": "Clothing & footwear",
+    "housing_water_energy": "Housing, water & energy",
+    "furnishings_household": "Furnishings & household",
+    "health": "Health",
+    "transport": "Transport",
+    "communication": "Communication",
+    "recreation_and_culture": "Recreation & culture",
+    "education": "Education",
+    "restaurants_and_hotels": "Restaurants & hotels",
+    "misc_goods_and_services": "Misc. goods & services",
+}
