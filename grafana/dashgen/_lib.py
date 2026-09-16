@@ -256,7 +256,10 @@ NAV_LINKS = [{"type": "dashboards", "title": "mymon", "tags": ["mymon"], "asDrop
 
 
 def write(dash: dict, name: str):
-    OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / f"{name}.json").write_text(json.dumps(dash, indent=2, ensure_ascii=False) + "\n",
-                                      encoding="utf-8")
+    """``name`` may include a subdirectory (e.g. ``"NL/nl-economy"``), which becomes a
+    Grafana folder — see foldersFromFilesStructure in provisioning/dashboards/dashboards.yml.
+    """
+    path = OUT / f"{name}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(dash, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print("wrote", name, "panels:", len(dash["panels"]))

@@ -10,4 +10,6 @@ providers:
     updateIntervalSeconds: 30
     options:
       path: /var/lib/grafana/dashboards
-      foldersFromFilesStructure: false
+      # Subdirectories under grafana/dashboards/ become Grafana folders (e.g. NL/*.json
+      # -> folder "NL"); files directly in grafana/dashboards/ stay in the root.
+      foldersFromFilesStructure: true

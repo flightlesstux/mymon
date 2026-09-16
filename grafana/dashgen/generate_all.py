@@ -12,13 +12,16 @@ import runpy
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SKIP = {"_lib.py", "generate_all.py"}
+SKIP = {"generate_all.py"}
 
 
 def main() -> None:
     import _lib
 
-    scripts = sorted(p for p in HERE.glob("*.py") if p.name not in SKIP)
+    # Files starting with "_" (like _lib.py) are shared helpers, not dashboard scripts.
+    scripts = sorted(
+        p for p in HERE.glob("*.py") if p.name not in SKIP and not p.name.startswith("_")
+    )
     if not scripts:
         raise SystemExit("no dashboard scripts found next to generate_all.py")
     for script in scripts:
