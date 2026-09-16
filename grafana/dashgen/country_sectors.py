@@ -9,13 +9,20 @@ import _lib
 from _lib import CAT, dashboard, stat, timeseries, write
 
 COUNTRIES = [
-    ("DE", "DEU", "Germany", True),
-    ("IT", "ITA", "Italy", True),
-    ("ES", "ESP", "Spain", True),
-    ("GR", "GRC", "Greece", True),
-    ("TR", "TUR", "Turkey", False),  # no eurostat_agriculture data for Turkey
-    ("FR", "FRA", "France", True),
+    ("DE", "DEU", "Germany", True, True),
+    ("IT", "ITA", "Italy", True, False),
+    ("ES", "ESP", "Spain", True, False),
+    ("GR", "GRC", "Greece", True, False),
+    ("TR", "TUR", "Turkey", False, False),  # no eurostat_agriculture data for Turkey
+    ("FR", "FRA", "France", True, True),
 ]
+# (code, iso3, name, has_agriculture, has_bankruptcy — only DE/FR have bankruptcy data)
+
+BANKRUPTCY_SECTORS = ["total", "industry", "construction", "trade", "transport",
+                      "hospitality", "ict", "finance_real_estate_professional",
+                      "other_services"]
+BANKRUPTCY_COLORS = {f"bankruptcy_index_{s}": CAT[i % len(CAT)]
+                     for i, s in enumerate(BANKRUPTCY_SECTORS)}
 
 RANGE_START = "2000-01-01"
 
@@ -49,7 +56,7 @@ def q_multi(country_iso3: str, indicators: list[str]) -> str:
     )
 
 
-for code, iso3, name, has_agriculture in COUNTRIES:
+for code, iso3, name, has_agriculture, has_bankruptcy in COUNTRIES:
     _lib._id = 0
 
     fleet = q_multi(iso3, [f"vehicle_fleet_{s}" for s in FUEL_SLUGS])
@@ -103,6 +110,19 @@ for code, iso3, name, has_agriculture in COUNTRIES:
                        description="Eurostat farm structure survey, every ~3 years "
                                    "(2005-2023) — not annual, a real characteristic of "
                                    "this upstream data."),
+        ]
+
+    if has_bankruptcy:
+        bankruptcy = q_multi(iso3, [f"bankruptcy_index_{s}" for s in BANKRUPTCY_SECTORS])
+        panels += [
+            stat("Bankruptcy index, total", 0, 60, 8, 4,
+                 q_latest(iso3, "bankruptcy_index_total"), decimals=1, color=CAT[7]),
+            timeseries("Business bankruptcy index by sector", 0, 64, 24, 10, bankruptcy,
+                       decimals=1, colors=BANKRUPTCY_COLORS, fill=0, legend="right",
+                       description="Eurostat sts_rb_m, monthly since 2015, 2021=100. "
+                                   "Only Germany and France have data for this "
+                                   "indicator — Italy/Spain/Greece/Turkey are empty "
+                                   "in Eurostat's own dataset."),
         ]
 
     write(dashboard(f"{code.lower()}-sectors", f"{name}: Sectors", panels, [name.lower()],
