@@ -1,7 +1,7 @@
 {
-  "uid": "nl-transport",
-  "title": "NL: Transport",
-  "description": "Aircraft currently over the Netherlands (OpenSky) and NS train disruptions — both live-only, no historical backfill possible.",
+  "uid": "nl-aircraft",
+  "title": "NL: Aircraft",
+  "description": "Aircraft currently over the Netherlands (OpenSky), live only, no historical backfill possible for this one.",
   "tags": [
     "netherlands"
   ],
@@ -55,7 +55,7 @@
       "gridPos": {
         "x": 0,
         "y": 0,
-        "w": 8,
+        "w": 6,
         "h": 4
       },
       "targets": [
@@ -111,16 +111,16 @@
     {
       "id": 2,
       "type": "stat",
-      "title": "NS active train disruptions",
-      "description": "Live-only (no historical API); shows 'No data' until NS_API_KEY is set — free instant signup at apiportal.ns.nl.",
+      "title": "Distinct aircraft, last 24h",
+      "description": "",
       "datasource": {
         "type": "grafana-postgresql-datasource",
         "uid": "mymon-pg"
       },
       "gridPos": {
-        "x": 8,
+        "x": 6,
         "y": 0,
-        "w": 8,
+        "w": 6,
         "h": 4
       },
       "targets": [
@@ -131,7 +131,72 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='ns_disruptions_active' AND source='ns' ORDER BY period_date DESC LIMIT 1",
+          "rawSql": "\nSELECT count(DISTINCT icao24) AS aircraft FROM aircraft_state\nWHERE ts > now() - interval '24 hours' AND lat BETWEEN 50.6 AND 53.7 AND lon BETWEEN 3.2 AND 7.3\n",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "graphMode": "area",
+        "colorMode": "value",
+        "textMode": "value",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true,
+        "showPercentChange": false
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#3987e5"
+          },
+          "custom": {},
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#3987e5",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Average altitude now",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT round(avg(alt_m)::numeric, 0) AS value FROM aircraft_state\nWHERE ts = (SELECT max(ts) FROM aircraft_state) AND lat BETWEEN 50.6 AND 53.7 AND lon BETWEEN 3.2 AND 7.3 AND alt_m IS NOT NULL\n",
           "format": "table",
           "editorMode": "code"
         }
@@ -159,6 +224,7 @@
             "fixedColor": "#d95926"
           },
           "custom": {},
+          "unit": "lengthm",
           "decimals": 0,
           "thresholds": {
             "mode": "absolute",
@@ -174,18 +240,18 @@
       }
     },
     {
-      "id": 3,
+      "id": 4,
       "type": "stat",
-      "title": "...of which unplanned (STORING)",
+      "title": "Average speed now",
       "description": "",
       "datasource": {
         "type": "grafana-postgresql-datasource",
         "uid": "mymon-pg"
       },
       "gridPos": {
-        "x": 16,
+        "x": 18,
         "y": 0,
-        "w": 8,
+        "w": 6,
         "h": 4
       },
       "targets": [
@@ -196,7 +262,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='ns_disruptions_unplanned' AND source='ns' ORDER BY period_date DESC LIMIT 1",
+          "rawSql": "\nSELECT round(avg(velocity)::numeric, 0) AS value FROM aircraft_state\nWHERE ts = (SELECT max(ts) FROM aircraft_state) AND lat BETWEEN 50.6 AND 53.7 AND lon BETWEEN 3.2 AND 7.3 AND velocity IS NOT NULL\n",
           "format": "table",
           "editorMode": "code"
         }
@@ -221,15 +287,16 @@
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#e66767"
+            "fixedColor": "#c98500"
           },
           "custom": {},
+          "unit": "velocityms",
           "decimals": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "#e66767",
+                "color": "#c98500",
                 "value": null
               }
             ]
@@ -239,10 +306,10 @@
       }
     },
     {
-      "id": 4,
+      "id": 5,
       "type": "geomap",
-      "title": "Aircraft currently over the Netherlands",
-      "description": "OpenSky Network, latest snapshot (live only, no historical query).",
+      "title": "Aircraft currently over the Netherlands, by altitude",
+      "description": "OpenSky Network, latest snapshot (live only, no historical query). Colour = altitude, dark blue near ground to yellow/red cruising.",
       "datasource": {
         "type": "grafana-postgresql-datasource",
         "uid": "mymon-pg"
@@ -293,14 +360,15 @@
             "config": {
               "style": {
                 "size": {
-                  "fixed": 5,
-                  "min": 5,
-                  "max": 5
+                  "fixed": 6,
+                  "min": 6,
+                  "max": 6
                 },
                 "color": {
-                  "fixed": "#199e70"
+                  "field": "Altitude m",
+                  "fixed": "#3987e5"
                 },
-                "opacity": 0.85,
+                "opacity": 0.9,
                 "symbol": {
                   "mode": "fixed",
                   "fixed": "img/icons/marker/circle.svg"
@@ -337,7 +405,17 @@
               "id": "byRefId",
               "options": "aircraft"
             },
-            "tooltip": true
+            "tooltip": true,
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "continuous-BlYlRd"
+                },
+                "min": 0,
+                "max": 12000
+              },
+              "overrides": []
+            }
           }
         ],
         "tooltip": {
@@ -355,10 +433,10 @@
       }
     },
     {
-      "id": 5,
+      "id": 6,
       "type": "timeseries",
-      "title": "Aircraft count over NL, last 24 h",
-      "description": "Day/night flight pattern — expect it to drop overnight.",
+      "title": "Aircraft count over NL",
+      "description": "Day/night flight pattern — expect it to drop overnight. Depth grows from whenever OpenSky was enabled; not backfillable.",
       "datasource": {
         "type": "grafana-postgresql-datasource",
         "uid": "mymon-pg"
@@ -366,7 +444,7 @@
       "gridPos": {
         "x": 0,
         "y": 17,
-        "w": 24,
+        "w": 12,
         "h": 8
       },
       "targets": [
@@ -377,7 +455,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "\nSELECT ts AS time, count(*) AS value FROM aircraft_state\nWHERE ts > now() - interval '24 hours' AND lat BETWEEN 50.6 AND 53.7 AND lon BETWEEN 3.2 AND 7.3\nGROUP BY ts ORDER BY ts\n",
+          "rawSql": "\nSELECT ts AS time, count(*) AS value FROM aircraft_state\nWHERE $__timeFilter(ts) AND lat BETWEEN 50.6 AND 53.7 AND lon BETWEEN 3.2 AND 7.3\nGROUP BY ts ORDER BY ts\n",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -439,7 +517,240 @@
       }
     },
     {
-      "id": 6,
+      "id": 7,
+      "type": "barchart",
+      "title": "Aircraft by country of registration, right now",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 17,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT country AS \"Country of registration\", count(*) AS \"Aircraft\"\nFROM aircraft_state\nWHERE ts = (SELECT max(ts) FROM aircraft_state) AND lat BETWEEN 50.6 AND 53.7 AND lon BETWEEN 3.2 AND 7.3 AND country IS NOT NULL\nGROUP BY country ORDER BY count(*) DESC LIMIT 12\n",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "orientation": "horizontal",
+        "xTickLabelRotation": 0,
+        "showValue": "auto",
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "barRadius": 0.1,
+        "stacking": "none",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#3987e5"
+          },
+          "custom": {
+            "fillOpacity": 85,
+            "lineWidth": 0,
+            "gradientMode": "none",
+            "axisBorderShow": false
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 8,
+      "type": "timeseries",
+      "title": "Average altitude over NL",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 25,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT ts AS time, avg(alt_m) AS value FROM aircraft_state\nWHERE $__timeFilter(ts) AND lat BETWEEN 50.6 AND 53.7 AND lon BETWEEN 3.2 AND 7.3 AND alt_m IS NOT NULL\nGROUP BY ts ORDER BY ts\n",
+          "format": "time_series",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "pointSize": 5,
+            "spanNulls": 3600000,
+            "axisBorderShow": false,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "unit": "lengthm",
+          "decimals": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d95926"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Average speed over NL",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 25,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT ts AS time, avg(velocity) AS value FROM aircraft_state\nWHERE $__timeFilter(ts) AND lat BETWEEN 50.6 AND 53.7 AND lon BETWEEN 3.2 AND 7.3 AND velocity IS NOT NULL\nGROUP BY ts ORDER BY ts\n",
+          "format": "time_series",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "pointSize": 5,
+            "spanNulls": 3600000,
+            "axisBorderShow": false,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "unit": "velocityms",
+          "decimals": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#c98500"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
       "type": "table",
       "title": "Aircraft over NL now, by altitude",
       "description": "",
@@ -449,7 +760,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 25,
+        "y": 33,
         "w": 24,
         "h": 12
       },
