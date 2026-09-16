@@ -52,7 +52,7 @@ mag_overrides = [{"matcher": {"id": "byName", "options": "Time"}, "properties": 
 panels = [
     stat("Kp now", 0, 0, 4, 4, KP, decimals=1,
          thresholds=[{"color": "#0ca30c", "value": None}, {"color": "#fab219", "value": 4}, {"color": "#ec835a", "value": 5}, {"color": "#d03b3b", "value": 7}]),
-    stat("Solar wind", 4, 0, 4, 4, WIND, unit="velocitykms", decimals=0, color=CAT[3]),
+    stat("Solar wind", 4, 0, 4, 4, WIND, unit="km/s", decimals=0, color=CAT[3]),
     stat("CO₂ Mauna Loa", 8, 0, 4, 4, "SELECT month AS time, ppm FROM co2_monthly WHERE month > now() - interval '3 years' ORDER BY 1", unit="ppm", decimals=1, color=CAT[7]),
     stat("Quakes M4.5+, 7 d", 12, 0, 4, 4, "SELECT count(*) FROM earthquake WHERE ts > now() - interval '7 days' AND mag >= 4.5", color=CAT[1], sparkline=False),
     stat("Bitcoin block height", 16, 0, 4, 4, BTC_HEIGHT, decimals=0, color=CAT[3]),
@@ -74,7 +74,7 @@ panels = [
 
     timeseries("Planetary Kp index (3-hour)", 0, 33, 8, 8, KP, decimals=1, colors={"Kp": CAT[6]}, fill=40, min_=0, max_=9,
                description="Kp 5+ = geomagnetic storm, aurora possible at mid-latitudes."),
-    timeseries("Solar wind speed", 8, 33, 8, 8, WIND, unit="velocitykms", decimals=0, colors={"Speed km/s": CAT[3]}),
+    timeseries("Solar wind speed", 8, 33, 8, 8, WIND, unit="km/s", decimals=0, colors={"Speed km/s": CAT[3]}),
     timeseries("Bz and proton density", 16, 33, 8, 8, BZ, decimals=1, colors={"Bz nT": CAT[0], "Density p/cm³": CAT[4]}, fill=0,
                description="Sustained negative Bz couples the solar wind into Earth's magnetosphere."),
 

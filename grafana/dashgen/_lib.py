@@ -116,13 +116,22 @@ def timeseries(title, x, y, w, h, sql=None, unit=None, decimals=None, fill=8, co
 
 def stat(title, x, y, w, h, sql=None, unit=None, decimals=None, color=CAT[0], sparkline=True,
          description="", thresholds=None, text_mode="value", color_mode="value",
-         targets=None, datasource=None):
+         targets=None, datasource=None, text_value=False):
+    """`text_value=True` for a panel whose query returns a string, not a number.
+
+    The Stat panel's default field matcher (an empty `fields` string, meaning "Numeric
+    Fields") silently excludes text-typed fields, so a query like `SELECT city || ...`
+    shows "No data" even though it returned a row. `"/.*/"` matches any field regardless
+    of type; safe here because these queries return exactly one field, so there's no
+    risk of it also picking up a stray time column from a multi-field time series.
+    """
     d = {"color": {"mode": "fixed", "fixedColor": color},
          "thresholds": {"mode": "absolute", "steps": [{"color": color, "value": None}]}}
     if thresholds:
         d["color"] = {"mode": "thresholds"}
         d["thresholds"] = {"mode": "absolute", "steps": thresholds}
-    opts = {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False},
+    fields = "/.*/" if text_value else ""
+    opts = {"reduceOptions": {"calcs": ["lastNotNull"], "fields": fields, "values": False},
             "graphMode": "area" if sparkline else "none", "colorMode": color_mode,
             "textMode": text_mode, "justifyMode": "auto", "orientation": "auto",
             "wideLayout": True, "showPercentChange": False}
@@ -169,11 +178,15 @@ def barchart(title, x, y, w, h, sql, unit=None, color=CAT[0], horizontal=True, d
 
 def geomap(title, x, y, w, h, layers: list[dict], view: dict | None = None, description="",
            targets: list[dict] | None = None, basemap_dark=True):
+    # Carto's free raster tile CDN (the "carto" basemap type) Referer-gates unrecognized
+    # domains and serves an "API KEY REQUIRED" placeholder image instead of a 4xx, so it
+    # looks fine in isolation (curl, no Referer) but breaks silently in a real browser.
+    # OpenStreetMap's standard tiles have no such gate and need no key or config.
     opts = {
         "view": view or {"id": "zero", "lat": 20, "lon": 10, "zoom": 1.6, "allLayers": True},
         "controls": {"showZoom": True, "mouseWheelZoom": False, "showAttribution": True,
                      "showScale": False, "showMeasure": False, "showDebug": False},
-        "basemap": {"type": "carto", "name": "Basemap", "config": {"theme": "dark" if basemap_dark else "light", "showLabels": True}},
+        "basemap": {"type": "osm-standard", "name": "Basemap"},
         "layers": layers,
         "tooltip": {"mode": "details"},
     }

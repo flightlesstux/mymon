@@ -63,7 +63,7 @@ FROM weather_current WHERE city='${city}' ORDER BY ts DESC LIMIT 1
 panels = [
     stat("Temperature", 0, 0, 4, 4, now_col("temp_c"), unit="celsius", decimals=1, color=CAT[1]),
     stat("Feels like", 4, 0, 4, 4, now_col("feels_like_c"), unit="celsius", decimals=1, color=CAT[3]),
-    stat("Sky", 8, 0, 4, 4, WEATHER_CODE, sparkline=False, color_mode="none"),
+    stat("Sky", 8, 0, 4, 4, WEATHER_CODE, sparkline=False, color_mode="none", text_value=True),
     stat("Humidity", 12, 0, 3, 4, now_col("humidity"), unit="humidity", decimals=0, color=CAT[0]),
     stat("Wind", 15, 0, 3, 4, now_col("wind_kph"), unit="velocitykmh", decimals=0, color=CAT[2]),
     stat("Pressure", 18, 0, 3, 4, now_col("pressure_hpa"), unit="pressurehpa", decimals=0, color=CAT[6]),

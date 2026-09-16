@@ -117,12 +117,8 @@
           "showDebug": false
         },
         "basemap": {
-          "type": "carto",
-          "name": "Basemap",
-          "config": {
-            "theme": "dark",
-            "showLabels": true
-          }
+          "type": "osm-standard",
+          "name": "Basemap"
         },
         "layers": [
           {
@@ -2177,12 +2173,8 @@
           "showDebug": false
         },
         "basemap": {
-          "type": "carto",
-          "name": "Basemap",
-          "config": {
-            "theme": "dark",
-            "showLabels": true
-          }
+          "type": "osm-standard",
+          "name": "Basemap"
         },
         "layers": [
           {

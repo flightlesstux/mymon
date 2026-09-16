@@ -173,7 +173,7 @@
             "fixedColor": "#c98500"
           },
           "custom": {},
-          "unit": "velocitykms",
+          "unit": "km/s",
           "decimals": 0,
           "thresholds": {
             "mode": "absolute",
@@ -493,12 +493,8 @@
           "showDebug": false
         },
         "basemap": {
-          "type": "carto",
-          "name": "Basemap",
-          "config": {
-            "theme": "dark",
-            "showLabels": true
-          }
+          "type": "osm-standard",
+          "name": "Basemap"
         },
         "layers": [
           {
@@ -620,12 +616,8 @@
           "showDebug": false
         },
         "basemap": {
-          "type": "carto",
-          "name": "Basemap",
-          "config": {
-            "theme": "dark",
-            "showLabels": true
-          }
+          "type": "osm-standard",
+          "name": "Basemap"
         },
         "layers": [
           {
@@ -1145,7 +1137,7 @@
               "mode": "off"
             }
           },
-          "unit": "velocitykms",
+          "unit": "km/s",
           "decimals": 0
         },
         "overrides": [
@@ -1322,12 +1314,8 @@
           "showDebug": false
         },
         "basemap": {
-          "type": "carto",
-          "name": "Basemap",
-          "config": {
-            "theme": "dark",
-            "showLabels": true
-          }
+          "type": "osm-standard",
+          "name": "Basemap"
         },
         "layers": [
           {
