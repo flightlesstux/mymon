@@ -345,3 +345,61 @@ INSERT INTO country_centroid (iso3, iso2, name, lat, lon) VALUES
 ('UZB','UZ','Uzbekistan',41.38,64.59),('VEN','VE','Venezuela',6.42,-66.59),('VNM','VN','Viet Nam',14.06,108.28),
 ('YEM','YE','Yemen',15.55,48.52),('ZMB','ZM','Zambia',-13.13,27.85),('ZWE','ZW','Zimbabwe',-19.02,29.15),
 ('EMU','EU','Euro area',50.0,9.0),('WLD','WW','World',0.0,0.0);
+
+-- Dutch seaports (NL: Ports & Shipping) — mirrors the region/region_metric pattern above,
+-- keyed by CBS's NederlandseZeehavens codes instead of provinces.
+CREATE TABLE port (
+    code    TEXT PRIMARY KEY,   -- CBS NederlandseZeehavens code, e.g. 'A041797'
+    country_iso3 TEXT NOT NULL,
+    name    TEXT NOT NULL,
+    lat     DOUBLE PRECISION NOT NULL,
+    lon     DOUBLE PRECISION NOT NULL
+);
+
+CREATE TABLE port_metric (
+    period_date DATE NOT NULL,
+    port_code   TEXT NOT NULL,
+    indicator   TEXT NOT NULL,
+    value       NUMERIC,
+    unit        TEXT,
+    source      TEXT NOT NULL,
+    PRIMARY KEY (period_date, port_code, indicator, source)
+);
+CREATE INDEX port_metric_lookup ON port_metric (indicator, port_code, period_date DESC);
+
+INSERT INTO port (code, country_iso3, name, lat, lon) VALUES
+    ('A041797', 'NLD', 'Rotterdam',        51.9481, 4.1425),
+    ('A041794', 'NLD', 'Amsterdam',        52.4084, 4.8523),
+    ('A041795', 'NLD', 'Groningen Seaports', 53.4478, 6.8397),
+    ('A041798', 'NLD', 'Zeeland Seaports', 51.4494, 3.7250);
+
+-- Global electricity grid data (Denmark's Energi Data Service, UK's Carbon Intensity
+-- API) — live/near-live snapshots, not backfillable, hence ts (not period_date) and a
+-- retention policy (see retention.py) instead of unbounded history like price_index.
+CREATE TABLE energy_grid (
+    ts        TIMESTAMPTZ NOT NULL,
+    region    TEXT NOT NULL,   -- e.g. 'DK1', 'DK2', 'GB'
+    indicator TEXT NOT NULL,
+    value     NUMERIC,
+    unit      TEXT,
+    source    TEXT NOT NULL,
+    PRIMARY KEY (ts, region, indicator, source)
+);
+CREATE INDEX energy_grid_lookup ON energy_grid (indicator, region, ts DESC);
+
+-- Global bike-share station snapshots (CityBikes) — live-only, no history endpoint
+-- upstream, so this is a snapshot table with retention like aircraft_state/iss_position.
+CREATE TABLE bike_network (
+    ts           TIMESTAMPTZ NOT NULL,
+    network_id   TEXT NOT NULL,
+    city         TEXT NOT NULL,
+    country      TEXT,
+    lat          DOUBLE PRECISION,
+    lon          DOUBLE PRECISION,
+    free_bikes   INTEGER,
+    empty_slots  INTEGER,
+    stations     INTEGER,
+    source       TEXT NOT NULL,
+    PRIMARY KEY (ts, network_id, source)
+);
+CREATE INDEX bike_network_lookup ON bike_network (network_id, ts DESC);

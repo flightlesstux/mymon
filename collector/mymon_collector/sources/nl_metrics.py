@@ -463,6 +463,52 @@ def _life_expectancy_rows(ctx: Ctx) -> list[dict[str, Any]]:
     return rows
 
 
+# ------------------------------------------------------------- CBS: producer confidence
+#
+# 81234ned — monthly producer confidence (industry sentiment), back to 1985. Industrie
+# totaal (307500), value margin (MW00000, not the 95% CI bounds), seasonally adjusted
+# (A042500, the only Seizoencorrectie value this table has).
+
+
+def _producer_confidence_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    filt = (
+        "BedrijfstakkenBranchesSBI2008 eq '307500' and Marges eq 'MW00000' "
+        "and Seizoencorrectie eq 'A042500'"
+    )
+    for rec in _cbs_get(ctx, "81234ned", filt):
+        period = _cbs_period(rec.get("Perioden"))
+        if period is None:
+            continue
+        value = _num(rec.get("Producentenvertrouwen_1"))
+        if value is not None:
+            rows.append(_row(period, "producer_confidence_index", value, "index", "cbs"))
+    return rows
+
+
+# ------------------------------------------------------------- CBS: consumer confidence
+#
+# 83693NED — monthly consumer confidence, economic climate and willingness to buy, back
+# to 1986. Flat table, single row per period, no dimension filtering needed.
+
+
+def _consumer_confidence_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for rec in _cbs_get(ctx, "83693NED"):
+        period = _cbs_period(rec.get("Perioden"))
+        if period is None:
+            continue
+        for col, indicator in (
+            ("Consumentenvertrouwen_1", "consumer_confidence_index"),
+            ("EconomischKlimaat_2", "economic_climate_index"),
+            ("Koopbereidheid_3", "willingness_to_buy_index"),
+        ):
+            value = _num(rec.get(col))
+            if value is not None:
+                rows.append(_row(period, indicator, value, "index", "cbs"))
+    return rows
+
+
 # --------------------------------------------------------------------------- ECB: bond yield
 
 
@@ -542,6 +588,8 @@ def fetch(ctx: Ctx) -> Rows:
         ("population", _population_rows),
         ("birth_detail", _birth_detail_rows),
         ("life_expectancy", _life_expectancy_rows),
+        ("producer_confidence", _producer_confidence_rows),
+        ("consumer_confidence", _consumer_confidence_rows),
         ("energy_production", _energy_production_rows),
         ("tourism", _tourism_rows),
         ("bond_yield", _bond_yield_rows),
@@ -569,7 +617,8 @@ SOURCE = Source(
     description=(
         "Netherlands: CBS CPI/food CPI, house prices (national + by province), energy "
         "tariffs and production mix, unemployment (headline + age/gender breakdown), "
-        "population, births/fertility/life expectancy detail back to 1950, tourism, "
-        "plus the ECB's Dutch 10-year government bond yield and MIR bank interest rates."
+        "population, births/fertility/life expectancy detail back to 1950, producer and "
+        "consumer confidence, tourism, plus the ECB's Dutch 10-year government bond "
+        "yield and MIR bank interest rates."
     ),
 )

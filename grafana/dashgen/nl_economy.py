@@ -15,6 +15,7 @@ SELECT ts AS time, rate AS "EUR/TRY" FROM fx_rate
 WHERE base='EUR' AND quote='TRY' AND source='tcmb' AND ts >= '2000-01-01' AND $__timeFilter(ts)
 ORDER BY 1
 """
+SENTIMENT = nl_multi(["producer_confidence_index", "consumer_confidence_index"], "cbs")
 
 panels = [
     stat("CPI inflation, YoY", 0, 0, 4, 4, nl_latest("cpi_inflation_pct", "cbs"),
@@ -69,6 +70,20 @@ panels = [
                        "bank_term_deposit_rate_pct": CAT[3]}, fill=0,
                description="ECB MIR statistics — new-business mortgage rate vs. what banks "
                            "pay on savings and term deposits. Not government bond yields."),
+
+    stat("Producer confidence", 0, 44, 8, 4, nl_latest("producer_confidence_index", "cbs"),
+         decimals=1, color=CAT[4], description="CBS 81234ned, industry sector, monthly."),
+    stat("Consumer confidence", 8, 44, 8, 4, nl_latest("consumer_confidence_index", "cbs"),
+         decimals=1, color=CAT[5]),
+    stat("Willingness to buy", 16, 44, 8, 4, nl_latest("willingness_to_buy_index", "cbs"),
+         decimals=1, color=CAT[6]),
+
+    timeseries("Producer vs. consumer confidence", 0, 48, 24, 9, SENTIMENT, decimals=1,
+               colors={"producer_confidence_index": CAT[4], "consumer_confidence_index": CAT[5]},
+               fill=0, points=True,
+               description="Both indices are balances of positive vs. negative responses "
+                           "(can go negative) — producer confidence back to 1985, "
+                           "consumer confidence back to 1986."),
 ]
 
 write(dashboard("nl-economy", "NL: Economy & Rates", panels, ["netherlands"],

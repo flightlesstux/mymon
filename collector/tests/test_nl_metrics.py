@@ -203,6 +203,36 @@ def test_life_expectancy_rows_covers_all_genders_and_skips_rolling_windows():
 
 
 @respx.mock
+def test_producer_confidence_rows():
+    respx.get(
+        "https://opendata.cbs.nl/ODataApi/odata/81234ned/TypedDataSet",
+        params={"$filter": "BedrijfstakkenBranchesSBI2008 eq '307500' and Marges eq 'MW00000' "
+                           "and Seizoencorrectie eq 'A042500'"},
+    ).mock(return_value=httpx.Response(200, json=cbs_json([
+        {"Perioden": "2026MM08", "Producentenvertrouwen_1": 3.7},
+    ])))
+    rows = nl._producer_confidence_rows(_ctx())
+    assert len(rows) == 1
+    assert rows[0]["indicator"] == "producer_confidence_index"
+    assert rows[0]["value"] == 3.7
+
+
+@respx.mock
+def test_consumer_confidence_rows():
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/83693NED/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([
+            {"Perioden": "2026MM07", "Consumentenvertrouwen_1": -35,
+             "EconomischKlimaat_2": -59, "Koopbereidheid_3": -19},
+        ]))
+    )
+    rows = nl._consumer_confidence_rows(_ctx())
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    assert by_indicator["consumer_confidence_index"] == -35
+    assert by_indicator["economic_climate_index"] == -59
+    assert by_indicator["willingness_to_buy_index"] == -19
+
+
+@respx.mock
 def test_energy_production_rows_covers_all_sources():
     respx.get("https://opendata.cbs.nl/ODataApi/odata/86266NED/TypedDataSet").mock(
         return_value=httpx.Response(200, json=cbs_json([
@@ -288,6 +318,12 @@ def test_fetch_survives_one_upstream_failing():
         return_value=httpx.Response(200, json=cbs_json([]))
     )
     respx.get("https://opendata.cbs.nl/ODataApi/odata/37360ned/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([]))
+    )
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/81234ned/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([]))
+    )
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/83693NED/TypedDataSet").mock(
         return_value=httpx.Response(200, json=cbs_json([]))
     )
     respx.get("https://opendata.cbs.nl/ODataApi/odata/86266NED/TypedDataSet").mock(
