@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17-alpine
-    container_name: mymon-postgres
+    container_name: lyraqpi-postgres
     restart: unless-stopped
     env_file: .env
     environment:
@@ -17,7 +17,7 @@ services:
 
   grafana:
     image: grafana/grafana-oss:12.4.3
-    container_name: mymon-grafana
+    container_name: lyraqpi-grafana
     restart: unless-stopped
     depends_on:
       postgres:
@@ -66,7 +66,7 @@ services:
 
   collector:
     build: ./collector
-    container_name: mymon-collector
+    container_name: lyraqpi-collector
     restart: unless-stopped
     depends_on:
       postgres:
@@ -81,7 +81,7 @@ services:
 
   postgres-exporter:
     image: quay.io/prometheuscommunity/postgres-exporter:v0.15.0
-    container_name: mymon-postgres-exporter
+    container_name: lyraqpi-postgres-exporter
     restart: unless-stopped
     depends_on:
       postgres:
@@ -91,7 +91,7 @@ services:
 
   prometheus:
     image: prom/prometheus:v3.1.0
-    container_name: mymon-prometheus
+    container_name: lyraqpi-prometheus
     restart: unless-stopped
     depends_on:
       - collector

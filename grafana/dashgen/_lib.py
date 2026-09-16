@@ -251,7 +251,7 @@ def dashboard(uid, title, panels, tags, refresh="5m", time_from="now-7d", templa
     }
 
 
-NAV_LINKS = [{"type": "dashboards", "title": "mymon", "tags": [], "asDropdown": True,
+NAV_LINKS = [{"type": "dashboards", "title": "lyraqpi", "tags": [], "asDropdown": True,
               "icon": "external link", "includeVars": False, "keepTime": True, "targetBlank": False}]
 
 

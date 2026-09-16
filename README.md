@@ -1,10 +1,10 @@
-# mymon
+# lyraqpi
 
 Public, read-only Grafana dashboards fed by free public data: weather for 21 world cities,
 central-bank reserve assets, FX and crypto, earthquakes, the ISS, Bitcoin network stats,
 space weather, CO₂, fuel and commodity prices, consumer-price indices.
 
-Live: http://ermis.tplinkdns.com:3000
+Live: https://lyraqpi.com
 
 ## How it works
 
