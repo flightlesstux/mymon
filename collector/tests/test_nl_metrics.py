@@ -117,6 +117,72 @@ def test_unemployment_rows_uses_seasonally_adjusted():
 
 
 @respx.mock
+def test_unemployment_rows_also_emits_participation_rate():
+    respx.get(
+        "https://opendata.cbs.nl/ODataApi/odata/80590ned/TypedDataSet",
+        params={"$filter": "Geslacht eq 'T001038' and Leeftijd eq '52052   '"},
+    ).mock(return_value=httpx.Response(200, json=cbs_json([
+        {"Perioden": "2025MM01", "Seizoengecorrigeerd_8": 3.8, "Seizoengecorrigeerd_14": 72.1},
+    ])))
+    rows = nl._unemployment_rows(_ctx())
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    assert by_indicator["unemployment_rate_pct"] == 3.8
+    assert by_indicator["labour_participation_pct"] == 72.1
+
+
+@respx.mock
+def test_labour_breakdown_rows_covers_age_and_gender():
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/80590ned/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([
+            {"Perioden": "2025MM01", "Seizoengecorrigeerd_8": 5.5},
+        ]))
+    )
+    rows = nl._labour_breakdown_rows(_ctx())
+    indicators = {r["indicator"] for r in rows}
+    assert indicators == {
+        "unemployment_rate_pct_15_24", "unemployment_rate_pct_25_44",
+        "unemployment_rate_pct_45_74", "unemployment_rate_pct_men",
+        "unemployment_rate_pct_women",
+    }
+    assert all(r["value"] == 5.5 and r["source"] == "cbs" for r in rows)
+
+
+@respx.mock
+def test_population_rows():
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/83474NED/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([
+            {"Perioden": "2025MM01", "BevolkingAanHetEindVanDePeriode_8": 17900000,
+             "LevendGeborenKinderen_2": 13000, "Overledenen_3": 15000,
+             "Immigratie_4": 12000, "EmigratieInclusiefAdministratieveC_5": 9000,
+             "TotaleBevolkingsgroei_7": 4000},
+        ]))
+    )
+    rows = nl._population_rows(_ctx())
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    assert by_indicator["population_total"] == 17900000
+    assert by_indicator["births"] == 13000
+    assert by_indicator["deaths"] == 15000
+    assert by_indicator["immigration"] == 12000
+    assert by_indicator["emigration"] == 9000
+    assert by_indicator["population_growth"] == 4000
+
+
+@respx.mock
+def test_energy_production_rows_covers_all_sources():
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/86266NED/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([
+            {"Perioden": "2024JJ00", "ElektriciteitGWh_2": 15000, "Elektriciteit_4": 12.5},
+        ]))
+    )
+    rows = nl._energy_production_rows(_ctx())
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    for name in nl.ENERGY_PRODUCTION_SOURCES.values():
+        assert by_indicator[f"electricity_production_gwh_{name}"] == 15000
+        assert by_indicator[f"electricity_share_pct_{name}"] == 12.5
+    assert all(r["period_date"] == date(2024, 1, 1) for r in rows)
+
+
+@respx.mock
 def test_tourism_rows():
     respx.get("https://opendata.cbs.nl/ODataApi/odata/82058NED/TypedDataSet").mock(
         return_value=httpx.Response(200, json=cbs_json([
@@ -178,6 +244,12 @@ def test_fetch_survives_one_upstream_failing():
         return_value=httpx.Response(200, json=cbs_json([]))
     )
     respx.get("https://opendata.cbs.nl/ODataApi/odata/80590ned/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([]))
+    )
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/83474NED/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([]))
+    )
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/86266NED/TypedDataSet").mock(
         return_value=httpx.Response(200, json=cbs_json([]))
     )
     respx.get("https://opendata.cbs.nl/ODataApi/odata/82058NED/TypedDataSet").mock(

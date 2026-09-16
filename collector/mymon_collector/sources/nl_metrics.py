@@ -287,6 +287,100 @@ def _unemployment_rows(ctx: Ctx) -> list[dict[str, Any]]:
         rate = _num(rec.get("Seizoengecorrigeerd_8"))
         if rate is not None:
             rows.append(_row(period, "unemployment_rate_pct", rate, "%", "cbs"))
+        participation = _num(rec.get("Seizoengecorrigeerd_14"))  # netto arbeidsparticipatie
+        if participation is not None:
+            rows.append(_row(period, "labour_participation_pct", participation, "%", "cbs"))
+    return rows
+
+
+# ------------------------------------------------------------- CBS: labour market, by age/gender
+#
+# Same table (80590ned) as unemployment above, just other Geslacht/Leeftijd combinations —
+# CBS's fixed-width dimension codes need the exact padding these use, copied from a live
+# probe of the Geslacht/Leeftijd dimension lists.
+
+LABOUR_BREAKDOWN_DIMENSIONS: dict[str, tuple[str, str]] = {
+    # indicator suffix -> (Geslacht code, Leeftijd code)
+    "15_24": ("T001038", "53050   "),
+    "25_44": ("T001038", "53310   "),
+    "45_74": ("T001038", "53825   "),
+    "men": ("3000   ", "52052   "),
+    "women": ("4000   ", "52052   "),
+}
+
+
+def _labour_breakdown_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for suffix, (gender, age) in LABOUR_BREAKDOWN_DIMENSIONS.items():
+        filt = f"Geslacht eq '{gender}' and Leeftijd eq '{age}'"
+        for rec in _cbs_get(ctx, "80590ned", filt):
+            period = _cbs_period(rec.get("Perioden"))
+            if period is None:
+                continue
+            rate = _num(rec.get("Seizoengecorrigeerd_8"))
+            if rate is not None:
+                rows.append(_row(period, f"unemployment_rate_pct_{suffix}", rate, "%", "cbs"))
+    return rows
+
+
+# --------------------------------------------------------------------------- CBS: population
+
+
+def _population_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    columns = {
+        "population_total": "BevolkingAanHetEindVanDePeriode_8",
+        "births": "LevendGeborenKinderen_2",
+        "deaths": "Overledenen_3",
+        "immigration": "Immigratie_4",
+        "emigration": "EmigratieInclusiefAdministratieveC_5",
+        "population_growth": "TotaleBevolkingsgroei_7",
+    }
+    for rec in _cbs_get(ctx, "83474NED"):
+        period = _cbs_period(rec.get("Perioden"))
+        if period is None:
+            continue
+        for indicator, col in columns.items():
+            value = _num(rec.get(col))
+            if value is not None:
+                rows.append(_row(period, indicator, value, "count", "cbs"))
+    return rows
+
+
+# ------------------------------------------------------------------ CBS: electricity production
+#
+# 86266NED breaks gross electricity production down by energy carrier — annual, not
+# monthly, hence sparser than the rest of this module. CentraleDecentraleProductie codes
+# aren't padded in this table (unlike Geslacht/Leeftijd above); confirmed via a live probe
+# of both dimension lists.
+
+ENERGY_PRODUCTION_SOURCES: dict[str, str] = {
+    # Energiedragers code -> our indicator suffix
+    "E006565": "renewable_total",
+    "E006620": "nonrenewable_total",
+    "E006589": "solar",
+    "E006588": "wind",
+    "E006560": "natural_gas",
+    "E006461": "coal",
+    "E006602": "nuclear",
+    "E006566": "biomass",
+}
+
+
+def _energy_production_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for code, name in ENERGY_PRODUCTION_SOURCES.items():
+        filt = f"CentraleDecentraleProductie eq 'E007022' and Energiedragers eq '{code}'"
+        for rec in _cbs_get(ctx, "86266NED", filt):
+            period = _cbs_period(rec.get("Perioden"))
+            if period is None:
+                continue
+            gwh = _num(rec.get("ElektriciteitGWh_2"))
+            if gwh is not None:
+                rows.append(_row(period, f"electricity_production_gwh_{name}", gwh, "GWh", "cbs"))
+            share = _num(rec.get("Elektriciteit_4"))
+            if share is not None:
+                rows.append(_row(period, f"electricity_share_pct_{name}", share, "%", "cbs"))
     return rows
 
 
@@ -386,6 +480,9 @@ def fetch(ctx: Ctx) -> Rows:
         ("house_prices", _house_price_rows),
         ("energy", _energy_rows),
         ("unemployment", _unemployment_rows),
+        ("labour_breakdown", _labour_breakdown_rows),
+        ("population", _population_rows),
+        ("energy_production", _energy_production_rows),
         ("tourism", _tourism_rows),
         ("bond_yield", _bond_yield_rows),
         ("bank_rates", _bank_rate_rows),
@@ -411,7 +508,8 @@ SOURCE = Source(
     tables=[TABLE, REGION_TABLE],
     description=(
         "Netherlands: CBS CPI/food CPI, house prices (national + by province), energy "
-        "tariffs, unemployment, tourism, plus the ECB's Dutch 10-year government bond "
-        "yield and MIR bank interest rates."
+        "tariffs and production mix, unemployment (headline + age/gender breakdown), "
+        "population, tourism, plus the ECB's Dutch 10-year government bond yield and "
+        "MIR bank interest rates."
     ),
 )
