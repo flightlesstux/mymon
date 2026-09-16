@@ -11,13 +11,16 @@ from . import db
 log = logging.getLogger(__name__)
 
 # table -> (timestamp column, keep interval)
+#
+# weather_current and space_weather used to be here (730d / 365d) but both are now backfilled
+# with decades of history for the dashboards that chart them long-range (NL: Weather, Earth &
+# Space's Kp panel) — a nightly delete would have undone that backfill within a year. Only
+# genuinely-high-frequency, dashboard-doesn't-need-the-deep-past tables stay policed.
 POLICY: dict[str, tuple[str, str]] = {
     "crypto_tick": ("ts", "90 days"),
     "iss_position": ("ts", "7 days"),
     "aircraft_state": ("ts", "2 days"),
     "btc_network": ("ts", "180 days"),
-    "space_weather": ("ts", "365 days"),
-    "weather_current": ("ts", "730 days"),
     "collector_run": ("started_at", "30 days"),
 }
 
