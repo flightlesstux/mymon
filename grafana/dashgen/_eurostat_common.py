@@ -217,3 +217,9 @@ AGE_BRACKET_LABELS = {
     "30_34": "30-34", "35_39": "35-39", "40_44": "40-44", "45_49": "45-49",
     "50_plus": "50+",
 }
+
+# Mirrors eurostat_safety.CRIME_CATEGORIES slugs.
+CRIME_LABELS = {
+    "homicide": "Homicide", "robbery": "Robbery", "burglary": "Burglary",
+    "theft": "Theft", "drug_offences": "Drug offences", "fraud": "Fraud",
+}
