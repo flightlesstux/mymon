@@ -7,6 +7,7 @@ ports/agriculture/construction/vehicle-style depth lands in their own shared mod
 
 import _lib
 from _lib import CAT, dashboard, stat, timeseries, write
+from _eurostat_common import AGE_BRACKET_LABELS
 
 COUNTRIES = [
     ("DE", "DEU", "Germany", True),
@@ -18,6 +19,10 @@ COUNTRIES = [
 ]
 
 RANGE_START = "2000-01-01"
+
+BIRTH_BRACKET_KEYS = list(AGE_BRACKET_LABELS)
+BIRTH_BRACKET_COLORS = {label: CAT[i % len(CAT)]
+                        for i, label in enumerate(AGE_BRACKET_LABELS.values())}
 
 
 def q(country_iso3: str, indicator: str, source: str = "eurostat") -> str:
@@ -41,6 +46,19 @@ def q_multi(country_iso3: str, indicators: list[str], source: str = "eurostat") 
         f"SELECT period_date AS time, indicator AS metric, value FROM price_index "
         f"WHERE country_iso3='{country_iso3}' AND indicator IN ({inlist}) AND source='{source}' "
         f"AND period_date >= '{RANGE_START}' AND $__timeFilter(period_date) ORDER BY 1"
+    )
+
+
+def q_births_by_age(country_iso3: str) -> str:
+    whens = " ".join(
+        f"WHEN 'births_by_mother_age_{k}' THEN '{label}'"
+        for k, label in AGE_BRACKET_LABELS.items()
+    )
+    inlist = ",".join(f"'births_by_mother_age_{k}'" for k in BIRTH_BRACKET_KEYS)
+    return (
+        f"SELECT period_date AS time, CASE indicator {whens} ELSE indicator END AS metric, value "
+        f"FROM price_index WHERE country_iso3='{country_iso3}' AND indicator IN ({inlist}) "
+        f"AND source='eurostat' AND $__timeFilter(period_date) ORDER BY 1"
     )
 
 
@@ -122,6 +140,12 @@ for code, iso3, name, has_ecb_rates in COUNTRIES:
                    unit="percent", decimals=1,
                    colors={"unemployment_rate_pct_youth": CAT[3],
                            "unemployment_rate_pct": CAT[2]}, fill=0),
+
+        timeseries("Live births by mother's age bracket", 0, 75, 24, 10,
+                   q_births_by_age(iso3), unit="short", decimals=0,
+                   colors=BIRTH_BRACKET_COLORS, fill=0, legend="right", points=True,
+                   description="Eurostat demo_fasec, annual since 2007. 5-year "
+                               "brackets."),
     ]
 
     if has_ecb_rates:

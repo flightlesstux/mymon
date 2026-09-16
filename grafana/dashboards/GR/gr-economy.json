@@ -1808,6 +1808,211 @@
     },
     {
       "id": 23,
+      "type": "timeseries",
+      "title": "Live births by mother's age bracket",
+      "description": "Eurostat demo_fasec, annual since 2007. 5-year brackets.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 75,
+        "w": 24,
+        "h": 10
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "SELECT period_date AS time, CASE indicator WHEN 'births_by_mother_age_10_14' THEN '10-14' WHEN 'births_by_mother_age_15_19' THEN '15-19' WHEN 'births_by_mother_age_20_24' THEN '20-24' WHEN 'births_by_mother_age_25_29' THEN '25-29' WHEN 'births_by_mother_age_30_34' THEN '30-34' WHEN 'births_by_mother_age_35_39' THEN '35-39' WHEN 'births_by_mother_age_40_44' THEN '40-44' WHEN 'births_by_mother_age_45_49' THEN '45-49' WHEN 'births_by_mother_age_50_plus' THEN '50+' ELSE indicator END AS metric, value FROM price_index WHERE country_iso3='GRC' AND indicator IN ('births_by_mother_age_10_14','births_by_mother_age_15_19','births_by_mother_age_20_24','births_by_mother_age_25_29','births_by_mother_age_30_34','births_by_mother_age_35_39','births_by_mother_age_40_44','births_by_mother_age_45_49','births_by_mother_age_50_plus') AND source='eurostat' AND $__timeFilter(period_date) ORDER BY 1",
+          "format": "time_series",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 0,
+            "gradientMode": "opacity",
+            "showPoints": "auto",
+            "pointSize": 5,
+            "spanNulls": 3600000,
+            "axisBorderShow": false,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "unit": "short",
+          "decimals": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "10-14"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "15-19"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d95926"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "20-24"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#199e70"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "25-29"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#c98500"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "30-34"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d55181"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "35-39"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#008300"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "40-44"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#9085e9"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "45-49"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#e66767"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "50+"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 24,
       "type": "stat",
       "title": "10y govt bond yield",
       "description": "",
@@ -1873,7 +2078,7 @@
       }
     },
     {
-      "id": 24,
+      "id": 25,
       "type": "stat",
       "title": "Bank mortgage rate",
       "description": "",
@@ -1939,7 +2144,7 @@
       }
     },
     {
-      "id": 25,
+      "id": 26,
       "type": "stat",
       "title": "Bank savings rate",
       "description": "",
@@ -2005,7 +2210,7 @@
       }
     },
     {
-      "id": 26,
+      "id": 27,
       "type": "stat",
       "title": "Bank term deposit rate",
       "description": "",
@@ -2071,7 +2276,7 @@
       }
     },
     {
-      "id": 27,
+      "id": 28,
       "type": "timeseries",
       "title": "10-year government bond yield",
       "description": "ECB long-term interest rate for convergence purposes.",
@@ -2156,7 +2361,7 @@
       }
     },
     {
-      "id": 28,
+      "id": 29,
       "type": "timeseries",
       "title": "Bank interest rates (what banks actually report to the ECB)",
       "description": "ECB MIR statistics — new-business mortgage rate vs. what banks pay on savings and term deposits. Not government bond yields.",

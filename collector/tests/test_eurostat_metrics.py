@@ -185,5 +185,23 @@ def test_unemployment_breakdown_rows():
     assert em._unemployment_youth_rows(_ctx())[0]["indicator"] == "unemployment_rate_pct_youth"
 
 
+@respx.mock
+def test_births_by_mother_age_rows_maps_brackets():
+    data = jsonstat(
+        ["age", "geo", "time"], [2, 1, 1],
+        {"age": ["Y15-19", "Y30-34"], "geo": ["ES"], "time": ["2022"]},
+        {"0": 4200.0, "1": 61000.0},
+    )
+    respx.get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_fasec").mock(
+        return_value=httpx.Response(200, json=data)
+    )
+    rows = em._births_by_mother_age_rows(_ctx())
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    assert by_indicator["births_by_mother_age_15_19"] == 4200.0
+    assert by_indicator["births_by_mother_age_30_34"] == 61000.0
+    assert all(r["country_iso3"] == "ESP" for r in rows)
+    assert all(r["period_date"] == date(2022, 1, 1) for r in rows)
+
+
 def _ctx():
     return em.Ctx(http=httpx.Client(), cfg={"cities": [], "env": {}}, now=datetime(2026, 9, 16))

@@ -281,6 +281,31 @@ def _fertility_rows(ctx: Ctx) -> list[dict[str, Any]]:
     return rows
 
 
+# ------------------------------------------------------------------- births by mother's age
+#
+# demo_fasec — live births by mother's 5-year age bracket, annual since 2007. Individual-
+# year and TOTAL/UNK codes exist in this dataset too; only the 5-year brackets are used.
+
+AGE_BRACKETS: dict[str, str] = {
+    "Y10-14": "10_14", "Y15-19": "15_19", "Y20-24": "20_24", "Y25-29": "25_29",
+    "Y30-34": "30_34", "Y35-39": "35_39", "Y40-44": "40_44", "Y45-49": "45_49",
+    "Y_GE50": "50_plus",
+}
+
+
+def _births_by_mother_age_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    query = {"sex": "T", "age": list(AGE_BRACKETS)}
+    for dims, value in _eurostat_get(ctx, "demo_fasec", query):
+        slug = AGE_BRACKETS.get(dims.get("age", ""))
+        iso3 = GEO_TO_ISO3.get(dims.get("geo", ""))
+        period = _period_from_time_code(dims.get("time", ""))
+        if slug is None or iso3 is None or period is None:
+            continue
+        rows.append(_row(period, iso3, f"births_by_mother_age_{slug}", value, "count"))
+    return rows
+
+
 # --------------------------------------------------------------------------- house prices
 
 
@@ -348,6 +373,7 @@ def fetch(ctx: Ctx) -> Rows:
         ("demographics", _demographics_rows),
         ("life_expectancy", _life_expectancy_rows),
         ("fertility", _fertility_rows),
+        ("births_by_mother_age", _births_by_mother_age_rows),
         ("house_prices", _house_price_rows),
         ("consumer_confidence", _consumer_confidence_rows),
         ("producer_confidence", _producer_confidence_rows),
@@ -366,8 +392,8 @@ SOURCE = Source(
     tables=[TABLE],
     description=(
         "Germany, Italy, Spain, Greece and Turkey via Eurostat: CPI/food CPI (index + "
-        "YoY), unemployment, population, births/deaths/migration, house price index, "
-        "consumer and producer confidence — since 2000 where each series goes back "
-        "that far."
+        "YoY), unemployment (total/men/women/youth), population, births/deaths/"
+        "migration, births by mother's age bracket, house price index, consumer and "
+        "producer confidence — since 2000 where each series goes back that far."
     ),
 )
