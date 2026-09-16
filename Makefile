@@ -19,6 +19,8 @@ help:
 	@echo "make ci                lint + test + dashboards + verify (what a PR should pass)"
 	@echo "make psql              open a psql shell as the writer role"
 	@echo "make prom-reload       hot-reload prometheus.yml without restarting the container"
+	@echo "make fill-gaps         one-off retroactive fill for fx/space_weather/weather/fuel_tr"
+	@echo "                       (ARGS='--start 2026-01-01 --end 2026-09-16 --only fx')"
 	@echo "make clean             stop the stack and remove all data volumes (DESTRUCTIVE)"
 
 # --- stack lifecycle ------------------------------------------------------
@@ -82,3 +84,10 @@ psql:
 
 prom-reload:
 	docker compose kill -s SIGHUP prometheus
+
+# One-off retroactive fill for the pre-collector-startup gap, where a free historical API
+# exists (TCMB fx, GFZ Kp, Open-Meteo hourly weather/AQI, Petrol Ofisi via Wayback Machine).
+# Idempotent: safe to re-run. Runs inside the collector container so it reuses its network
+# access to postgres and its already-installed dependencies.
+fill-gaps:
+	docker compose exec collector python -m mymon_collector.fill_gaps $(ARGS)
