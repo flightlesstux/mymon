@@ -1075,6 +1075,181 @@
           }
         ]
       }
+    },
+    {
+      "id": 14,
+      "type": "timeseries",
+      "title": "Live births by mother's age bracket",
+      "description": "CBS 37744ned, annual since 1950. Own bracket boundaries (<20, 20-25, ..., 45+), coarser at the tails than the 5-year-everywhere scheme used for the other six countries.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 40,
+        "w": 24,
+        "h": 10
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT period_date AS time, CASE indicator WHEN 'births_by_mother_age_under_20' THEN '<20' WHEN 'births_by_mother_age_20_25' THEN '20-25' WHEN 'births_by_mother_age_25_30' THEN '25-30' WHEN 'births_by_mother_age_30_35' THEN '30-35' WHEN 'births_by_mother_age_35_40' THEN '35-40' WHEN 'births_by_mother_age_40_45' THEN '40-45' WHEN 'births_by_mother_age_45_plus' THEN '45+' ELSE indicator END AS metric, value\nFROM price_index\nWHERE country_iso3='NLD' AND source='cbs' AND indicator IN ('births_by_mother_age_under_20','births_by_mother_age_20_25','births_by_mother_age_25_30','births_by_mother_age_30_35','births_by_mother_age_35_40','births_by_mother_age_40_45','births_by_mother_age_45_plus')\n  AND $__timeFilter(period_date) ORDER BY 1\n",
+          "format": "time_series",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 0,
+            "gradientMode": "opacity",
+            "showPoints": "auto",
+            "pointSize": 5,
+            "spanNulls": 3600000,
+            "axisBorderShow": false,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "unit": "short",
+          "decimals": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "<20"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "20-25"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d95926"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "25-30"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#199e70"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "30-35"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#c98500"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "35-40"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d55181"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "40-45"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#008300"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "45+"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#9085e9"
+                }
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

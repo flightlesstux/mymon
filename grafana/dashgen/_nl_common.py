@@ -84,6 +84,16 @@ def nl_latest(indicator: str, source: str | None = None) -> str:
     )
 
 
+# Mirrors nl_metrics.BIRTH_AGE_BRACKETS slugs on the collector side. CBS's own bracket
+# boundaries (<20, 20-25, ..., 45+) are coarser at the tails than the 5-year-everywhere
+# scheme Eurostat uses for the other six countries, so this is its own dict rather than
+# a copy of _eurostat_common.AGE_BRACKET_LABELS.
+BIRTH_AGE_BRACKET_LABELS = {
+    "under_20": "<20", "20_25": "20-25", "25_30": "25-30", "30_35": "30-35",
+    "35_40": "35-40", "40_45": "40-45", "45_plus": "45+",
+}
+
+
 def nl_multi(indicators: list[str], source: str | None = None) -> str:
     """Long-format ``time, metric, value`` for several indicators in one panel."""
     src = f"AND source='{source}' " if source else ""

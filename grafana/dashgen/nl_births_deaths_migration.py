@@ -1,4 +1,5 @@
 from _lib import CAT, dashboard, stat, timeseries, write
+from _nl_common import BIRTH_AGE_BRACKET_LABELS
 
 # This dashboard deliberately doesn't use _nl_common's nl()/nl_multi() helpers — those
 # floor every query at RANGE_START (2000-01-01), but the annual CBS series here (births
@@ -51,6 +52,18 @@ WHERE country_iso3='NLD' AND source='cbs' AND indicator='stillbirth_rate_per_100
   AND $__timeFilter(period_date) ORDER BY 1
 """
 
+BIRTH_AGE_WHENS = " ".join(
+    f"WHEN 'births_by_mother_age_{k}' THEN '{label}'" for k, label in BIRTH_AGE_BRACKET_LABELS.items()
+)
+BIRTH_AGE_INLIST = ",".join(f"'births_by_mother_age_{k}'" for k in BIRTH_AGE_BRACKET_LABELS)
+BIRTHS_BY_MOTHER_AGE = f"""
+SELECT period_date AS time, CASE indicator {BIRTH_AGE_WHENS} ELSE indicator END AS metric, value
+FROM price_index
+WHERE country_iso3='NLD' AND source='cbs' AND indicator IN ({BIRTH_AGE_INLIST})
+  AND $__timeFilter(period_date) ORDER BY 1
+"""
+BIRTH_AGE_COLORS = {label: CAT[i % len(CAT)] for i, label in enumerate(BIRTH_AGE_BRACKET_LABELS.values())}
+
 
 def _latest(indicator: str) -> str:
     return (
@@ -93,6 +106,13 @@ panels = [
                description="CBS 85722NED, annual, back to 1950."),
     timeseries("Stillbirth rate (per 1,000 births, 28+ weeks)", 12, 31, 12, 9, STILLBIRTH,
                decimals=1, colors={"value": CAT[7]}, fill=40, lw=1),
+
+    timeseries("Live births by mother's age bracket", 0, 40, 24, 10, BIRTHS_BY_MOTHER_AGE,
+               unit="short", decimals=0, colors=BIRTH_AGE_COLORS, fill=0, legend="right",
+               points=True,
+               description="CBS 37744ned, annual since 1950. Own bracket boundaries "
+                           "(<20, 20-25, ..., 45+), coarser at the tails than the "
+                           "5-year-everywhere scheme used for the other six countries."),
 ]
 
 write(dashboard("nl-births-deaths-migration", "NL: Births, Deaths & Migration", panels,

@@ -218,6 +218,24 @@ def test_birth_detail_rows():
 
 
 @respx.mock
+def test_births_by_mother_age_rows_maps_cbs_brackets():
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/37744ned/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([
+            {"Perioden": "2022JJ00", "LeeftijdVanDeMoeder": "70600",
+             "LevendgebLeeftijdMoederOp3112_1": 45000},
+            {"Perioden": "2022JJ00", "LeeftijdVanDeMoeder": "21100",
+             "LevendgebLeeftijdMoederOp3112_1": 1200},
+        ]))
+    )
+    rows = nl._births_by_mother_age_rows(_ctx())
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    assert by_indicator["births_by_mother_age_25_30"] == 45000
+    assert by_indicator["births_by_mother_age_45_plus"] == 1200
+    assert all(r["source"] == "cbs" for r in rows)
+    assert all(r["period_date"] == date(2022, 1, 1) for r in rows)
+
+
+@respx.mock
 def test_life_expectancy_rows_covers_all_genders_and_skips_rolling_windows():
     respx.get("https://opendata.cbs.nl/ODataApi/odata/37360ned/TypedDataSet").mock(
         return_value=httpx.Response(200, json=cbs_json([

@@ -488,6 +488,35 @@ def _birth_detail_rows(ctx: Ctx) -> list[dict[str, Any]]:
     return rows
 
 
+# ------------------------------------------------------------ CBS: births by mother's age
+#
+# 37744ned — live births by mother's age bracket, birth order and marital status, annual
+# back to 1950. Filtered server-side to the totals across marital status and birth order
+# (BurgerlijkeStaatMoeder='T001019', VolgordeGeboorteUitDeMoeder='T001111') so only the
+# age-bracket dimension varies. CBS's own bracket boundaries (<20, 20-25, ..., 45+) don't
+# line up with Eurostat's 5-year-everywhere scheme used for the other six countries, so
+# this uses its own slugs rather than reusing eurostat_metrics.AGE_BRACKETS.
+
+BIRTH_AGE_BRACKETS: dict[str, str] = {
+    "41400": "under_20", "70500": "20_25", "70600": "25_30", "70700": "30_35",
+    "70800": "35_40", "70900": "40_45", "21100": "45_plus",
+}
+BIRTH_AGE_COUNT_COLUMN = "LevendgebLeeftijdMoederOp3112_1"
+
+
+def _births_by_mother_age_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    filt = "BurgerlijkeStaatMoeder eq 'T001019' and VolgordeGeboorteUitDeMoeder eq 'T001111'"
+    for rec in _cbs_get(ctx, "37744ned", filt):
+        slug = BIRTH_AGE_BRACKETS.get(rec.get("LeeftijdVanDeMoeder", ""))
+        period = _cbs_period(rec.get("Perioden"))
+        value = _num(rec.get(BIRTH_AGE_COUNT_COLUMN))
+        if slug is None or period is None or value is None:
+            continue
+        rows.append(_row(period, f"births_by_mother_age_{slug}", value, "count", "cbs"))
+    return rows
+
+
 # --------------------------------------------------------------------------- CBS: life expectancy
 #
 # 37360ned mixes annual (...JJ00) rows with rolling 5-year-window rows (e.g. "1861TM66");
@@ -644,6 +673,7 @@ def fetch(ctx: Ctx) -> Rows:
         ("labour_breakdown", _labour_breakdown_rows),
         ("population", _population_rows),
         ("birth_detail", _birth_detail_rows),
+        ("births_by_mother_age", _births_by_mother_age_rows),
         ("life_expectancy", _life_expectancy_rows),
         ("producer_confidence", _producer_confidence_rows),
         ("consumer_confidence", _consumer_confidence_rows),
