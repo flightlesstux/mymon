@@ -26,6 +26,16 @@ ISS_TRAIL = """
 SELECT ts, lat, lon FROM iss_position WHERE ts > now() - interval '92 minutes' ORDER BY ts
 """
 
+AIRCRAFT = """
+SELECT icao24, callsign, country AS "Country", lat, lon, alt_m AS "Altitude m", heading
+FROM aircraft_state
+WHERE ts = (SELECT max(ts) FROM aircraft_state) AND lat IS NOT NULL AND lon IS NOT NULL
+"""
+
+AIRCRAFT_COUNT = """
+SELECT count(*) AS aircraft FROM aircraft_state WHERE ts = (SELECT max(ts) FROM aircraft_state)
+"""
+
 def last(table, col, where="", order="ts"):
     return f"SELECT {col} FROM {table} {where} ORDER BY {order} DESC LIMIT 1"
 
@@ -46,8 +56,13 @@ map_targets = [
     target(CITY_NOW, "cities", "table"),
     target(QUAKES, "quakes", "table"),
     target(ISS, "iss", "table"),
+    target(AIRCRAFT, "aircraft", "table"),
 ]
 layers = [
+    # Drawn first (bottom): thousands of small, low-opacity dots so they never compete
+    # visually with the cities/quakes/ISS layers drawn on top of them.
+    marker_layer("Aircraft (live)", "aircraft", size=(2, 2), fixed_color=CAT[2], opacity=0.45,
+                 text_field=None),
     marker_layer("Earthquakes 24h", "quakes", size_field="Magnitude", color_field="Magnitude",
                  size=(3, 22), color_scheme="continuous-YlRd", min_=2.5, max_=7.5, opacity=0.65),
     marker_layer("Cities (temperature)", "cities", color_field="Temp °C", size=(9, 9),
@@ -65,15 +80,21 @@ panels = [
     stat("Kp index", 20, 0, 4, 4, KP, decimals=1, sparkline=True,
          thresholds=[{"color": "#0ca30c", "value": None}, {"color": "#fab219", "value": 4},
                      {"color": "#ec835a", "value": 5}, {"color": "#d03b3b", "value": 7}]),
-    geomap("World right now — city temperatures, earthquakes (24 h, M2.5+), ISS", 0, 4, 24, 18, layers,
+    geomap("World right now — city temperatures, earthquakes (24 h, M2.5+), ISS, live aircraft",
+           0, 4, 24, 18, layers,
            view={"id": "zero", "lat": 25, "lon": 15, "zoom": 1.7, "allLayers": True},
            targets=map_targets,
-           description="Cities coloured by current temperature. Earthquake bubbles sized and coloured by magnitude. Star = International Space Station."),
-    stat("Hottest city", 0, 22, 6, 4, HOTTEST, color=CAT[7], sparkline=False, text_mode="value", color_mode="none"),
-    stat("Coldest city", 6, 22, 6, 4, COLDEST, color=CAT[0], sparkline=False, text_mode="value", color_mode="none"),
-    stat("M4.5+ quakes, 24 h", 12, 22, 6, 4, QUAKE_COUNT, color=CAT[1], sparkline=False),
-    stat("ISS altitude", 18, 22, 6, 4, "SELECT ts AS time, altitude_km FROM iss_position WHERE ts > now() - interval '3 hours' ORDER BY ts",
+           description="Cities coloured by current temperature. Earthquake bubbles sized and coloured by "
+                       "magnitude. Star = International Space Station. Small dots = aircraft over Europe "
+                       "(OpenSky), latest snapshot — toggle the layer off in the panel legend if it's too busy."),
+    stat("Hottest city", 0, 22, 5, 4, HOTTEST, color=CAT[7], sparkline=False, text_mode="value",
+         color_mode="none", text_value=True),
+    stat("Coldest city", 5, 22, 5, 4, COLDEST, color=CAT[0], sparkline=False, text_mode="value",
+         color_mode="none", text_value=True),
+    stat("M4.5+ quakes, 24 h", 10, 22, 5, 4, QUAKE_COUNT, color=CAT[1], sparkline=False),
+    stat("ISS altitude", 15, 22, 5, 4, "SELECT ts AS time, altitude_km FROM iss_position WHERE ts > now() - interval '3 hours' ORDER BY ts",
          unit="lengthkm", decimals=0, color=CAT[6]),
+    stat("Aircraft tracked", 20, 22, 4, 4, AIRCRAFT_COUNT, color=CAT[2], sparkline=False),
     table("Cities now", 0, 26, 12, 12,
           """SELECT DISTINCT ON (city) city AS "City", temp_c AS "°C", feels_like_c AS "Feels", humidity AS "Hum %",
                     wind_kph AS "Wind", aqi_eu AS "AQI", precip_mm AS "Rain mm"

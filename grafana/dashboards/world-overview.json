@@ -455,8 +455,8 @@
     {
       "id": 118,
       "type": "geomap",
-      "title": "World right now — city temperatures, earthquakes (24 h, M2.5+), ISS",
-      "description": "Cities coloured by current temperature. Earthquake bubbles sized and coloured by magnitude. Star = International Space Station.",
+      "title": "World right now — city temperatures, earthquakes (24 h, M2.5+), ISS, live aircraft",
+      "description": "Cities coloured by current temperature. Earthquake bubbles sized and coloured by magnitude. Star = International Space Station. Small dots = aircraft over Europe (OpenSky), latest snapshot — toggle the layer off in the panel legend if it's too busy.",
       "datasource": {
         "type": "grafana-postgresql-datasource",
         "uid": "mymon-pg"
@@ -500,6 +500,17 @@
           "rawSql": "\nSELECT ts AS \"Time\", lat, lon, altitude_km AS \"Altitude km\", velocity_kmh AS \"Velocity km/h\", 'ISS' AS name\nFROM iss_position ORDER BY ts DESC LIMIT 1\n",
           "format": "table",
           "editorMode": "code"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "aircraft",
+          "rawQuery": true,
+          "rawSql": "\nSELECT icao24, callsign, country AS \"Country\", lat, lon, alt_m AS \"Altitude m\", heading\nFROM aircraft_state\nWHERE ts = (SELECT max(ts) FROM aircraft_state) AND lat IS NOT NULL AND lon IS NOT NULL\n",
+          "format": "table",
+          "editorMode": "code"
         }
       ],
       "options": {
@@ -519,14 +530,57 @@
           "showDebug": false
         },
         "basemap": {
-          "type": "carto",
-          "name": "Basemap",
-          "config": {
-            "theme": "dark",
-            "showLabels": true
-          }
+          "type": "osm-standard",
+          "name": "Basemap"
         },
         "layers": [
+          {
+            "type": "markers",
+            "name": "Aircraft (live)",
+            "config": {
+              "style": {
+                "size": {
+                  "fixed": 2,
+                  "min": 2,
+                  "max": 2
+                },
+                "color": {
+                  "fixed": "#199e70"
+                },
+                "opacity": 0.45,
+                "symbol": {
+                  "mode": "fixed",
+                  "fixed": "img/icons/marker/circle.svg"
+                },
+                "symbolAlign": {
+                  "horizontal": "center",
+                  "vertical": "center"
+                },
+                "rotation": {
+                  "fixed": 0,
+                  "mode": "mod",
+                  "min": -360,
+                  "max": 360
+                },
+                "textConfig": {
+                  "fontSize": 11,
+                  "offsetX": 0,
+                  "offsetY": 12,
+                  "textAlign": "center",
+                  "textBaseline": "middle"
+                }
+              },
+              "showLegend": false
+            },
+            "location": {
+              "mode": "auto"
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "aircraft"
+            },
+            "tooltip": true
+          },
           {
             "type": "markers",
             "name": "Earthquakes 24h",
@@ -728,7 +782,7 @@
       "gridPos": {
         "x": 0,
         "y": 22,
-        "w": 6,
+        "w": 5,
         "h": 4
       },
       "targets": [
@@ -749,7 +803,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/.*/",
           "values": false
         },
         "graphMode": "none",
@@ -790,9 +844,9 @@
         "uid": "mymon-pg"
       },
       "gridPos": {
-        "x": 6,
+        "x": 5,
         "y": 22,
-        "w": 6,
+        "w": 5,
         "h": 4
       },
       "targets": [
@@ -813,7 +867,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/.*/",
           "values": false
         },
         "graphMode": "none",
@@ -854,9 +908,9 @@
         "uid": "mymon-pg"
       },
       "gridPos": {
-        "x": 12,
+        "x": 10,
         "y": 22,
-        "w": 6,
+        "w": 5,
         "h": 4
       },
       "targets": [
@@ -918,9 +972,9 @@
         "uid": "mymon-pg"
       },
       "gridPos": {
-        "x": 18,
+        "x": 15,
         "y": 22,
-        "w": 6,
+        "w": 5,
         "h": 4
       },
       "targets": [
@@ -976,6 +1030,70 @@
     },
     {
       "id": 123,
+      "type": "stat",
+      "title": "Aircraft tracked",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 20,
+        "y": 22,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT count(*) AS aircraft FROM aircraft_state WHERE ts = (SELECT max(ts) FROM aircraft_state)\n",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "graphMode": "none",
+        "colorMode": "value",
+        "textMode": "value",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true,
+        "showPercentChange": false
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#199e70"
+          },
+          "custom": {},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#199e70",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 124,
       "type": "table",
       "title": "Cities now",
       "description": "",
@@ -1091,7 +1209,7 @@
       }
     },
     {
-      "id": 124,
+      "id": 125,
       "type": "table",
       "title": "Strongest earthquakes, 24 h",
       "description": "",
