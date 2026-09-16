@@ -60,7 +60,7 @@ panels = [
 ]
 
 write(dashboard("nl-cost-of-living", "NL: Cost of Living", panels, ["netherlands"],
-                refresh="1h", time_from="2025-01-01T00:00:00Z",
+                refresh="1h", time_from="2000-01-01T00:00:00Z",
                 description="Dutch consumer prices broken down into all 12 COICOP "
-                            "spending categories (CBS), since 2025."),
+                            "spending categories (CBS), since 2000, where the data goes back that far."),
       "NL/nl-cost-of-living")

@@ -84,6 +84,6 @@ panels = [
 ]
 
 write(dashboard("nl-weather", "NL: Weather & Air Quality", panels, ["netherlands"],
-                refresh="15m", time_from="2025-01-01T00:00:00Z",
-                description="Weather and air quality for 5 Dutch cities, since 2025."),
+                refresh="15m", time_from="2000-01-01T00:00:00Z",
+                description="Weather and air quality for 5 Dutch cities, since 2000, where the data goes back that far."),
       "NL/nl-weather")

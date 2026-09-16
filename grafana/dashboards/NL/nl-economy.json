@@ -1,7 +1,7 @@
 {
   "uid": "nl-economy",
   "title": "NL: Economy & Rates",
-  "description": "Inflation, unemployment, the government bond yield, actual Dutch bank interest rates and FX, since 2025.",
+  "description": "Inflation, unemployment, the government bond yield, actual Dutch bank interest rates and FX, since 2000, where the data goes back that far.",
   "tags": [
     "netherlands"
   ],
@@ -13,7 +13,7 @@
   "refresh": "1h",
   "style": "dark",
   "time": {
-    "from": "2025-01-01T00:00:00Z",
+    "from": "2000-01-01T00:00:00Z",
     "to": "now"
   },
   "timepicker": {
@@ -460,7 +460,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='cpi_index' AND source='cbs' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='cpi_index' AND source='cbs' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -544,7 +544,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, indicator AS metric, value FROM price_index WHERE country_iso3='NLD' AND indicator IN ('cpi_inflation_pct','food_cpi_inflation_pct') AND source='cbs' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, indicator AS metric, value FROM price_index WHERE country_iso3='NLD' AND indicator IN ('cpi_inflation_pct','food_cpi_inflation_pct') AND source='cbs' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -644,7 +644,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='unemployment_rate_pct' AND source='cbs' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='unemployment_rate_pct' AND source='cbs' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -729,7 +729,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='gov_bond_10y_pct' AND source='ecb' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='gov_bond_10y_pct' AND source='ecb' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -814,7 +814,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "\nSELECT ts AS time, 1/rate AS \"EUR/USD\" FROM fx_rate\nWHERE base='USD' AND quote='EUR' AND source='frankfurter' AND ts >= '2025-01-01' AND $__timeFilter(ts)\nORDER BY 1\n",
+          "rawSql": "\nSELECT ts AS time, 1/rate AS \"EUR/USD\" FROM fx_rate\nWHERE base='USD' AND quote='EUR' AND source='frankfurter' AND ts >= '2000-01-01' AND $__timeFilter(ts)\nORDER BY 1\n",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -899,7 +899,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "\nSELECT ts AS time, rate AS \"EUR/TRY\" FROM fx_rate\nWHERE base='EUR' AND quote='TRY' AND source='tcmb' AND ts >= '2025-01-01' AND $__timeFilter(ts)\nORDER BY 1\n",
+          "rawSql": "\nSELECT ts AS time, rate AS \"EUR/TRY\" FROM fx_rate\nWHERE base='EUR' AND quote='TRY' AND source='tcmb' AND ts >= '2000-01-01' AND $__timeFilter(ts)\nORDER BY 1\n",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -1182,7 +1182,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, indicator AS metric, value FROM price_index WHERE country_iso3='NLD' AND indicator IN ('bank_mortgage_rate_pct','bank_savings_rate_pct','bank_term_deposit_rate_pct') AND source='ecb' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, indicator AS metric, value FROM price_index WHERE country_iso3='NLD' AND indicator IN ('bank_mortgage_rate_pct','bank_savings_rate_pct','bank_term_deposit_rate_pct') AND source='ecb' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "time_series",
           "editorMode": "code"
         }

@@ -7,12 +7,12 @@ BANK_RATES = nl_multi(
 )
 FX_EUR_USD = """
 SELECT ts AS time, 1/rate AS "EUR/USD" FROM fx_rate
-WHERE base='USD' AND quote='EUR' AND source='frankfurter' AND ts >= '2025-01-01' AND $__timeFilter(ts)
+WHERE base='USD' AND quote='EUR' AND source='frankfurter' AND ts >= '2000-01-01' AND $__timeFilter(ts)
 ORDER BY 1
 """
 FX_EUR_TRY = """
 SELECT ts AS time, rate AS "EUR/TRY" FROM fx_rate
-WHERE base='EUR' AND quote='TRY' AND source='tcmb' AND ts >= '2025-01-01' AND $__timeFilter(ts)
+WHERE base='EUR' AND quote='TRY' AND source='tcmb' AND ts >= '2000-01-01' AND $__timeFilter(ts)
 ORDER BY 1
 """
 
@@ -72,7 +72,7 @@ panels = [
 ]
 
 write(dashboard("nl-economy", "NL: Economy & Rates", panels, ["netherlands"],
-                refresh="1h", time_from="2025-01-01T00:00:00Z",
+                refresh="1h", time_from="2000-01-01T00:00:00Z",
                 description="Inflation, unemployment, the government bond yield, actual "
-                            "Dutch bank interest rates and FX, since 2025."),
+                            "Dutch bank interest rates and FX, since 2000, where the data goes back that far."),
       "NL/nl-economy")

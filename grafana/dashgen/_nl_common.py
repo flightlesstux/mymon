@@ -3,7 +3,7 @@
 Not a dashboard script itself — generate_all.py skips any file starting with "_".
 """
 
-RANGE_START = "2025-01-01"
+RANGE_START = "2000-01-01"
 NL_CITIES = ["Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Eindhoven"]
 CITY_LIST_SQL = ",".join(f"'{c}'" for c in NL_CITIES)
 

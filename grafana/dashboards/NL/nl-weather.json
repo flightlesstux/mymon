@@ -1,7 +1,7 @@
 {
   "uid": "nl-weather",
   "title": "NL: Weather & Air Quality",
-  "description": "Weather and air quality for 5 Dutch cities, since 2025.",
+  "description": "Weather and air quality for 5 Dutch cities, since 2000, where the data goes back that far.",
   "tags": [
     "netherlands"
   ],
@@ -13,7 +13,7 @@
   "refresh": "15m",
   "style": "dark",
   "time": {
-    "from": "2025-01-01T00:00:00Z",
+    "from": "2000-01-01T00:00:00Z",
     "to": "now"
   },
   "timepicker": {
@@ -315,7 +315,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "\nSELECT $__timeGroupAlias(ts, '1d'), city AS metric, avg(temp_c) AS value\nFROM weather_current\nWHERE city IN ('Amsterdam','Rotterdam','The Hague','Utrecht','Eindhoven') AND ts >= '2025-01-01' AND $__timeFilter(ts)\nGROUP BY 1, 2 ORDER BY 1\n",
+          "rawSql": "\nSELECT $__timeGroupAlias(ts, '1d'), city AS metric, avg(temp_c) AS value\nFROM weather_current\nWHERE city IN ('Amsterdam','Rotterdam','The Hague','Utrecht','Eindhoven') AND ts >= '2000-01-01' AND $__timeFilter(ts)\nGROUP BY 1, 2 ORDER BY 1\n",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -460,7 +460,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "\nSELECT $__timeGroupAlias(ts, '1d'), city AS metric, avg(wind_kph) AS value\nFROM weather_current\nWHERE city IN ('Amsterdam','Rotterdam','The Hague','Utrecht','Eindhoven') AND ts >= '2025-01-01' AND $__timeFilter(ts)\nGROUP BY 1, 2 ORDER BY 1\n",
+          "rawSql": "\nSELECT $__timeGroupAlias(ts, '1d'), city AS metric, avg(wind_kph) AS value\nFROM weather_current\nWHERE city IN ('Amsterdam','Rotterdam','The Hague','Utrecht','Eindhoven') AND ts >= '2000-01-01' AND $__timeFilter(ts)\nGROUP BY 1, 2 ORDER BY 1\n",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -605,7 +605,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "\nSELECT $__timeGroupAlias(ts, '1d'), city AS metric, avg(humidity) AS value\nFROM weather_current\nWHERE city IN ('Amsterdam','Rotterdam','The Hague','Utrecht','Eindhoven') AND ts >= '2025-01-01' AND $__timeFilter(ts)\nGROUP BY 1, 2 ORDER BY 1\n",
+          "rawSql": "\nSELECT $__timeGroupAlias(ts, '1d'), city AS metric, avg(humidity) AS value\nFROM weather_current\nWHERE city IN ('Amsterdam','Rotterdam','The Hague','Utrecht','Eindhoven') AND ts >= '2000-01-01' AND $__timeFilter(ts)\nGROUP BY 1, 2 ORDER BY 1\n",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -750,7 +750,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "\nSELECT $__timeGroupAlias(ts, '1d'), city AS metric, sum(precip_mm) AS value\nFROM weather_current\nWHERE city IN ('Amsterdam','Rotterdam','The Hague','Utrecht','Eindhoven') AND ts >= '2025-01-01' AND $__timeFilter(ts)\nGROUP BY 1, 2 ORDER BY 1\n",
+          "rawSql": "\nSELECT $__timeGroupAlias(ts, '1d'), city AS metric, sum(precip_mm) AS value\nFROM weather_current\nWHERE city IN ('Amsterdam','Rotterdam','The Hague','Utrecht','Eindhoven') AND ts >= '2000-01-01' AND $__timeFilter(ts)\nGROUP BY 1, 2 ORDER BY 1\n",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -895,7 +895,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "\nSELECT $__timeGroupAlias(ts, '1d'), city AS metric, avg(aqi_eu) AS value\nFROM weather_current\nWHERE city IN ('Amsterdam','Rotterdam','The Hague','Utrecht','Eindhoven') AND ts >= '2025-01-01' AND $__timeFilter(ts)\nGROUP BY 1, 2 ORDER BY 1\n",
+          "rawSql": "\nSELECT $__timeGroupAlias(ts, '1d'), city AS metric, avg(aqi_eu) AS value\nFROM weather_current\nWHERE city IN ('Amsterdam','Rotterdam','The Hague','Utrecht','Eindhoven') AND ts >= '2000-01-01' AND $__timeFilter(ts)\nGROUP BY 1, 2 ORDER BY 1\n",
           "format": "time_series",
           "editorMode": "code"
         }

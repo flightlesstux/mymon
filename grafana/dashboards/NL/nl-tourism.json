@@ -1,7 +1,7 @@
 {
   "uid": "nl-tourism",
   "title": "NL: Tourism",
-  "description": "Dutch hotel/accommodation guests, overnight stays and occupancy rate, since 2025.",
+  "description": "Dutch hotel/accommodation guests, overnight stays and occupancy rate, since 2000, where the data goes back that far.",
   "tags": [
     "netherlands"
   ],
@@ -13,7 +13,7 @@
   "refresh": "1h",
   "style": "dark",
   "time": {
-    "from": "2025-01-01T00:00:00Z",
+    "from": "2000-01-01T00:00:00Z",
     "to": "now"
   },
   "timepicker": {
@@ -329,7 +329,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, indicator AS metric, value FROM price_index WHERE country_iso3='NLD' AND indicator IN ('tourism_guests_thousands','tourism_overnight_stays_thousands') AND source='cbs' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, indicator AS metric, value FROM price_index WHERE country_iso3='NLD' AND indicator IN ('tourism_guests_thousands','tourism_overnight_stays_thousands') AND source='cbs' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -429,7 +429,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='tourism_occupancy_pct' AND source='cbs' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='tourism_occupancy_pct' AND source='cbs' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -514,7 +514,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='tourism_overnight_stays_thousands' AND source='cbs' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='tourism_overnight_stays_thousands' AND source='cbs' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "table",
           "editorMode": "code"
         }
