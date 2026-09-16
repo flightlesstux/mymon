@@ -178,6 +178,18 @@ CREATE TABLE stock_index (
     PRIMARY KEY (day, symbol)
 );
 
+CREATE TABLE nl_us_stock (
+    day      DATE NOT NULL,
+    symbol   TEXT NOT NULL,
+    name     TEXT,
+    close    NUMERIC,
+    volume   BIGINT,
+    currency TEXT,
+    source   TEXT NOT NULL,
+    PRIMARY KEY (day, symbol, source)
+);
+CREATE INDEX nl_us_stock_lookup ON nl_us_stock (symbol, source, day DESC);
+
 CREATE TABLE price_index (
     period_date  DATE NOT NULL,
     country_iso3 TEXT NOT NULL,
