@@ -1,7 +1,7 @@
 {
   "uid": "nl-housing-energy",
   "title": "NL: Housing & Energy",
-  "description": "Dutch existing-home prices, sales volume, rent increases and consumer energy tariffs, since 2025.",
+  "description": "Dutch existing-home prices (national and by province), sales volume, rent increases and consumer energy tariffs, since 2000 where the data goes back that far.",
   "tags": [
     "netherlands"
   ],
@@ -13,7 +13,7 @@
   "refresh": "1h",
   "style": "dark",
   "time": {
-    "from": "2025-01-01T00:00:00Z",
+    "from": "2000-01-01T00:00:00Z",
     "to": "now"
   },
   "timepicker": {
@@ -395,7 +395,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='house_price_index' AND source='cbs' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='house_price_index' AND source='cbs' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -479,7 +479,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='house_price_avg_eur' AND source='cbs' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='house_price_avg_eur' AND source='cbs' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -564,7 +564,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='house_sales_count' AND source='cbs' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='house_sales_count' AND source='cbs' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "table",
           "editorMode": "code"
         }
@@ -627,7 +627,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='rent_increase_pct' AND source='cbs' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='rent_increase_pct' AND source='cbs' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "time_series",
           "editorMode": "code"
         }
@@ -691,6 +691,444 @@
     },
     {
       "id": 10,
+      "type": "geomap",
+      "title": "Average sale price by province, latest quarter",
+      "description": "CBS 85792NED, house prices by province — one country-level number can't show that Utrecht and Fryslân aren't the same market.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 22,
+        "w": 14,
+        "h": 13
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT DISTINCT ON (m.region_code) r.name AS \"Province\", r.lat, r.lon,\n       m.value AS \"Avg price EUR\", m.period_date AS \"Quarter\"\nFROM region_metric m JOIN region r ON r.code = m.region_code\nWHERE m.indicator='house_price_avg_eur' AND m.source='cbs'\nORDER BY m.region_code, m.period_date DESC\n",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "view": {
+          "id": "coords",
+          "lat": 52.1,
+          "lon": 5.4,
+          "zoom": 6.8,
+          "allLayers": true
+        },
+        "controls": {
+          "showZoom": true,
+          "mouseWheelZoom": false,
+          "showAttribution": true,
+          "showScale": false,
+          "showMeasure": false,
+          "showDebug": false
+        },
+        "basemap": {
+          "type": "osm-standard",
+          "name": "Basemap"
+        },
+        "layers": [
+          {
+            "type": "markers",
+            "name": "Provinces",
+            "config": {
+              "style": {
+                "size": {
+                  "fixed": 10,
+                  "min": 10,
+                  "max": 32,
+                  "field": "Avg price EUR"
+                },
+                "color": {
+                  "field": "Avg price EUR",
+                  "fixed": "#3987e5"
+                },
+                "opacity": 0.85,
+                "symbol": {
+                  "mode": "fixed",
+                  "fixed": "img/icons/marker/circle.svg"
+                },
+                "symbolAlign": {
+                  "horizontal": "center",
+                  "vertical": "center"
+                },
+                "rotation": {
+                  "fixed": 0,
+                  "mode": "mod",
+                  "min": -360,
+                  "max": 360
+                },
+                "textConfig": {
+                  "fontSize": 11,
+                  "offsetX": 0,
+                  "offsetY": 12,
+                  "textAlign": "center",
+                  "textBaseline": "middle"
+                },
+                "text": {
+                  "field": "Province",
+                  "fixed": "",
+                  "mode": "field"
+                }
+              },
+              "showLegend": false
+            },
+            "location": {
+              "mode": "auto"
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "tooltip": true,
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "continuous-BlPu"
+                }
+              },
+              "overrides": []
+            }
+          }
+        ],
+        "tooltip": {
+          "mode": "details"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {}
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 11,
+      "type": "barchart",
+      "title": "Average sale price by province, ranked",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 14,
+        "y": 22,
+        "w": 10,
+        "h": 13
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT r.name AS \"Province\", m.value AS \"Avg sale price EUR\"\nFROM region_metric m JOIN region r ON r.code = m.region_code\nWHERE m.indicator='house_price_avg_eur' AND m.source='cbs'\n  AND m.period_date = (SELECT max(period_date) FROM region_metric\n                        WHERE indicator='house_price_avg_eur' AND source='cbs')\nORDER BY m.value DESC\n",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "orientation": "horizontal",
+        "xTickLabelRotation": 0,
+        "showValue": "auto",
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "barRadius": 0.1,
+        "stacking": "none",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#3987e5"
+          },
+          "custom": {
+            "fillOpacity": 85,
+            "lineWidth": 0,
+            "gradientMode": "none",
+            "axisBorderShow": false
+          },
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 12,
+      "type": "timeseries",
+      "title": "Price index by province (2020=100)",
+      "description": "All 12 provinces — quarterly, so this fills in more slowly than the monthly national panels above.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 35,
+        "w": 24,
+        "h": 10
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT m.period_date AS time, r.name AS metric, m.value\nFROM region_metric m JOIN region r ON r.code = m.region_code\nWHERE m.indicator='house_price_index' AND m.source='cbs' AND $__timeFilter(m.period_date)\nORDER BY 1\n",
+          "format": "time_series",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 0,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "pointSize": 5,
+            "spanNulls": 3600000,
+            "axisBorderShow": false,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 1
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Groningen"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fryslân"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d95926"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Drenthe"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#199e70"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Overijssel"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#c98500"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Flevoland"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d55181"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Gelderland"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#008300"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Utrecht"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#9085e9"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Noord-Holland"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#e66767"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Zuid-Holland"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Zeeland"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d95926"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Noord-Brabant"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#199e70"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Limburg"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#c98500"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 13,
       "type": "timeseries",
       "title": "Energy tariffs, incl. VAT (variable contract price)",
       "description": "Gas in EUR/m3, electricity in EUR/kWh — different units on one axis, use the legend.",
@@ -700,7 +1138,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 22,
+        "y": 45,
         "w": 24,
         "h": 9
       },
@@ -712,7 +1150,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, indicator AS metric, value FROM price_index WHERE country_iso3='NLD' AND indicator IN ('gas_variable_price_eur_m3','electricity_variable_price_eur_kwh') AND source='cbs' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "rawSql": "SELECT period_date AS time, indicator AS metric, value FROM price_index WHERE country_iso3='NLD' AND indicator IN ('gas_variable_price_eur_m3','electricity_variable_price_eur_kwh') AND source='cbs' AND period_date >= '2000-01-01' AND $__timeFilter(period_date) ORDER BY 1",
           "format": "time_series",
           "editorMode": "code"
         }
