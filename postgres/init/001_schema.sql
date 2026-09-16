@@ -403,3 +403,56 @@ CREATE TABLE bike_network (
     PRIMARY KEY (ts, network_id, source)
 );
 CREATE INDEX bike_network_lookup ON bike_network (network_id, ts DESC);
+
+-- Space weather gets three more live columns from a second source module
+-- (space_monitor.py) — solar X-ray flux/flare class (NOAA SWPC) and active satellite
+-- count (Celestrak) — sharing this table with the existing kp/solar-wind columns rather
+-- than a new one, since it's the same "what's happening in near-Earth space right now"
+-- concept. upsert() only ever writes the columns present in a given row, so the two
+-- source modules don't clobber each other's columns even when their ts values differ.
+ALTER TABLE space_weather ADD COLUMN IF NOT EXISTS xray_flux NUMERIC;
+ALTER TABLE space_weather ADD COLUMN IF NOT EXISTS xray_flare_class TEXT;
+ALTER TABLE space_weather ADD COLUMN IF NOT EXISTS satellites_active INTEGER;
+
+-- NASA EONET natural events (volcanoes, storms, sea/lake ice, floods, etc. —
+-- deliberately excludes wildfires, which run into the thousands of small local fires
+-- and would swamp everything else). Live snapshot, not backfillable; see retention.py.
+CREATE TABLE natural_event (
+    id              TEXT PRIMARY KEY,   -- EONET event id, e.g. 'EONET_24184'
+    title           TEXT NOT NULL,
+    category        TEXT NOT NULL,
+    lat             DOUBLE PRECISION,
+    lon             DOUBLE PRECISION,
+    event_date      TIMESTAMPTZ,        -- most recent known position/observation time
+    magnitude_value NUMERIC,
+    magnitude_unit  TEXT,
+    source          TEXT NOT NULL
+);
+CREATE INDEX natural_event_category ON natural_event (category, event_date DESC);
+
+-- The Space Devs' Launch Library 2: upcoming + recently-flown orbital launches.
+CREATE TABLE space_launch (
+    id       TEXT PRIMARY KEY,
+    name     TEXT NOT NULL,
+    status   TEXT,
+    provider TEXT,
+    rocket   TEXT,
+    net      TIMESTAMPTZ,               -- scheduled/actual liftoff time
+    pad_name TEXT,
+    lat      DOUBLE PRECISION,
+    lon      DOUBLE PRECISION,
+    country  TEXT,
+    orbit    TEXT,
+    source   TEXT NOT NULL
+);
+CREATE INDEX space_launch_net ON space_launch (net DESC);
+
+-- Open Notify: who's currently in space. Small live roster; see retention.py — a short
+-- retention window on ts self-cleans anyone who's landed since the last fetch.
+CREATE TABLE astronaut (
+    name   TEXT NOT NULL,
+    craft  TEXT,
+    ts     TIMESTAMPTZ NOT NULL,
+    source TEXT NOT NULL,
+    PRIMARY KEY (name, source)
+);

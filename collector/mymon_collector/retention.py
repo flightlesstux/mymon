@@ -23,6 +23,9 @@ POLICY: dict[str, tuple[str, str]] = {
     "btc_network": ("ts", "180 days"),
     "energy_grid": ("ts", "30 days"),
     "bike_network": ("ts", "14 days"),
+    "natural_event": ("event_date", "45 days"),
+    "astronaut": ("ts", "3 days"),
+    "space_launch": ("net", "400 days"),
     "collector_run": ("started_at", "30 days"),
 }
 

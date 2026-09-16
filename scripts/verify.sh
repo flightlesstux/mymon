@@ -24,7 +24,7 @@ for uid in world-overview reserves markets city-weather earth-space fuel-prices 
            nl-economy nl-cost-of-living nl-housing-energy nl-weather nl-tourism nl-aircraft nl-trains \
            nl-population-labour nl-energy-production nl-stocks nl-births-deaths-migration \
            nl-ports nl-agriculture global-energy-grid global-bike-share nl-construction \
-           nl-vehicles nl-grocery-prices; do
+           nl-vehicles nl-grocery-prices global-space-monitor; do
   code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/api/dashboards/uid/$uid)
   [ "$code" = "200" ] && ok "dashboard $uid ($code)" || bad "dashboard $uid ($code)"
 done
