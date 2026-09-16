@@ -2,6 +2,9 @@ from _lib import CAT, dashboard, stat, timeseries, write
 from _nl_common import nl, nl_latest, nl_multi
 
 CPI_YOY = nl_multi(["cpi_inflation_pct", "food_cpi_inflation_pct"], "cbs")
+BANK_RATES = nl_multi(
+    ["bank_mortgage_rate_pct", "bank_savings_rate_pct", "bank_term_deposit_rate_pct"], "ecb"
+)
 FX_EUR_USD = """
 SELECT ts AS time, 1/rate AS "EUR/USD" FROM fx_rate
 WHERE base='USD' AND quote='EUR' AND source='frankfurter' AND ts >= '2025-01-01' AND $__timeFilter(ts)
@@ -50,22 +53,26 @@ panels = [
     timeseries("FX: EUR/TRY", 12, 22, 12, 9, FX_EUR_TRY, unit="none", decimals=2,
                colors={"EUR/TRY": CAT[7]}, fill=0),
 
-    stat("NS active train disruptions", 0, 31, 12, 4,
-         "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' "
-         "AND indicator='ns_disruptions_active' AND source='ns' "
-         "ORDER BY period_date DESC LIMIT 1",
-         decimals=0, color=CAT[1],
-         description="Live-only (no historical API); shows 'No data' until NS_API_KEY is "
-                     "set — free instant signup at apiportal.ns.nl."),
-    stat("...of which unplanned (STORING)", 12, 31, 12, 4,
-         "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' "
-         "AND indicator='ns_disruptions_unplanned' AND source='ns' "
-         "ORDER BY period_date DESC LIMIT 1",
-         decimals=0, color=CAT[7]),
+    stat("Bank mortgage rate", 0, 31, 8, 4, nl_latest("bank_mortgage_rate_pct", "ecb"),
+         unit="percent", decimals=2, color=CAT[1],
+         description="New-business composite rate on loans for house purchase, all Dutch "
+                     "banks (ECB MIR statistics, reported via DNB)."),
+    stat("Bank savings rate", 8, 31, 8, 4, nl_latest("bank_savings_rate_pct", "ecb"),
+         unit="percent", decimals=2, color=CAT[2],
+         description="Overnight deposit rate (ordinary savings/current accounts)."),
+    stat("Bank term deposit rate", 16, 31, 8, 4, nl_latest("bank_term_deposit_rate_pct", "ecb"),
+         unit="percent", decimals=2, color=CAT[3]),
+
+    timeseries("Bank interest rates (what Dutch banks actually report to DNB)", 0, 35, 24, 9,
+               BANK_RATES, unit="percent", decimals=2,
+               colors={"bank_mortgage_rate_pct": CAT[1], "bank_savings_rate_pct": CAT[2],
+                       "bank_term_deposit_rate_pct": CAT[3]}, fill=0,
+               description="ECB MIR statistics — new-business mortgage rate vs. what banks "
+                           "pay on savings and term deposits. Not government bond yields."),
 ]
 
 write(dashboard("nl-economy", "NL: Economy & Rates", panels, ["netherlands"],
                 refresh="1h", time_from="2025-01-01T00:00:00Z",
-                description="Inflation, unemployment, the 10-year government bond yield "
-                            "and FX for the Netherlands, since 2025."),
+                description="Inflation, unemployment, the government bond yield, actual "
+                            "Dutch bank interest rates and FX, since 2025."),
       "NL/nl-economy")

@@ -21,7 +21,7 @@ code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: applicat
 [ "$code" = "401" ] || [ "$code" = "403" ] && ok "anonymous write blocked ($code)" || bad "anonymous write blocked ($code)"
 
 for uid in world-overview reserves markets city-weather earth-space fuel-prices collector-health \
-           nl-economy nl-cost-of-living nl-housing-energy nl-weather nl-tourism; do
+           nl-economy nl-cost-of-living nl-housing-energy nl-weather nl-tourism nl-transport; do
   code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/api/dashboards/uid/$uid)
   [ "$code" = "200" ] && ok "dashboard $uid ($code)" || bad "dashboard $uid ($code)"
 done

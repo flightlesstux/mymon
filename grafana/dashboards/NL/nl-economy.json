@@ -1,7 +1,7 @@
 {
   "uid": "nl-economy",
   "title": "NL: Economy & Rates",
-  "description": "Inflation, unemployment, the 10-year government bond yield and FX for the Netherlands, since 2025.",
+  "description": "Inflation, unemployment, the government bond yield, actual Dutch bank interest rates and FX, since 2025.",
   "tags": [
     "netherlands"
   ],
@@ -964,8 +964,8 @@
     {
       "id": 13,
       "type": "stat",
-      "title": "NS active train disruptions",
-      "description": "Live-only (no historical API); shows 'No data' until NS_API_KEY is set — free instant signup at apiportal.ns.nl.",
+      "title": "Bank mortgage rate",
+      "description": "New-business composite rate on loans for house purchase, all Dutch banks (ECB MIR statistics, reported via DNB).",
       "datasource": {
         "type": "grafana-postgresql-datasource",
         "uid": "mymon-pg"
@@ -973,7 +973,7 @@
       "gridPos": {
         "x": 0,
         "y": 31,
-        "w": 12,
+        "w": 8,
         "h": 4
       },
       "targets": [
@@ -984,7 +984,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='ns_disruptions_active' AND source='ns' ORDER BY period_date DESC LIMIT 1",
+          "rawSql": "SELECT value FROM price_index WHERE country_iso3='NLD' AND indicator='bank_mortgage_rate_pct' AND source='ecb' ORDER BY period_date DESC LIMIT 1",
           "format": "table",
           "editorMode": "code"
         }
@@ -1012,7 +1012,8 @@
             "fixedColor": "#d95926"
           },
           "custom": {},
-          "decimals": 0,
+          "unit": "percent",
+          "decimals": 2,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1029,16 +1030,16 @@
     {
       "id": 14,
       "type": "stat",
-      "title": "...of which unplanned (STORING)",
-      "description": "",
+      "title": "Bank savings rate",
+      "description": "Overnight deposit rate (ordinary savings/current accounts).",
       "datasource": {
         "type": "grafana-postgresql-datasource",
         "uid": "mymon-pg"
       },
       "gridPos": {
-        "x": 12,
+        "x": 8,
         "y": 31,
-        "w": 12,
+        "w": 8,
         "h": 4
       },
       "targets": [
@@ -1049,7 +1050,7 @@
           },
           "refId": "A",
           "rawQuery": true,
-          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='ns_disruptions_unplanned' AND source='ns' ORDER BY period_date DESC LIMIT 1",
+          "rawSql": "SELECT value FROM price_index WHERE country_iso3='NLD' AND indicator='bank_savings_rate_pct' AND source='ecb' ORDER BY period_date DESC LIMIT 1",
           "format": "table",
           "editorMode": "code"
         }
@@ -1074,21 +1075,203 @@
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#e66767"
+            "fixedColor": "#199e70"
           },
           "custom": {},
-          "decimals": 0,
+          "unit": "percent",
+          "decimals": 2,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "#e66767",
+                "color": "#199e70",
                 "value": null
               }
             ]
           }
         },
         "overrides": []
+      }
+    },
+    {
+      "id": 15,
+      "type": "stat",
+      "title": "Bank term deposit rate",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 31,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "SELECT value FROM price_index WHERE country_iso3='NLD' AND indicator='bank_term_deposit_rate_pct' AND source='ecb' ORDER BY period_date DESC LIMIT 1",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "graphMode": "area",
+        "colorMode": "value",
+        "textMode": "value",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true,
+        "showPercentChange": false
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#c98500"
+          },
+          "custom": {},
+          "unit": "percent",
+          "decimals": 2,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#c98500",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 16,
+      "type": "timeseries",
+      "title": "Bank interest rates (what Dutch banks actually report to DNB)",
+      "description": "ECB MIR statistics — new-business mortgage rate vs. what banks pay on savings and term deposits. Not government bond yields.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 35,
+        "w": 24,
+        "h": 9
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "SELECT period_date AS time, indicator AS metric, value FROM price_index WHERE country_iso3='NLD' AND indicator IN ('bank_mortgage_rate_pct','bank_savings_rate_pct','bank_term_deposit_rate_pct') AND source='ecb' AND period_date >= '2025-01-01' AND $__timeFilter(period_date) ORDER BY 1",
+          "format": "time_series",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 0,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "pointSize": 5,
+            "spanNulls": 3600000,
+            "axisBorderShow": false,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "unit": "percent",
+          "decimals": 2
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "bank_mortgage_rate_pct"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#d95926"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "bank_savings_rate_pct"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#199e70"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "bank_term_deposit_rate_pct"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#c98500"
+                }
+              }
+            ]
+          }
+        ]
       }
     }
   ]

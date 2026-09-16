@@ -1,0 +1,524 @@
+{
+  "uid": "nl-transport",
+  "title": "NL: Transport",
+  "description": "Aircraft currently over the Netherlands (OpenSky) and NS train disruptions — both live-only, no historical backfill possible.",
+  "tags": [
+    "netherlands"
+  ],
+  "timezone": "utc",
+  "editable": false,
+  "graphTooltip": 1,
+  "schemaVersion": 41,
+  "version": 1,
+  "refresh": "1m",
+  "style": "dark",
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "1m",
+      "5m",
+      "15m",
+      "1h"
+    ]
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "type": "dashboards",
+      "title": "mymon",
+      "tags": [],
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "targetBlank": false
+    }
+  ],
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Aircraft over NL right now",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT count(*) AS aircraft FROM aircraft_state\nWHERE ts = (SELECT max(ts) FROM aircraft_state) AND lat BETWEEN 50.6 AND 53.7 AND lon BETWEEN 3.2 AND 7.3\n",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "graphMode": "area",
+        "colorMode": "value",
+        "textMode": "value",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true,
+        "showPercentChange": false
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#199e70"
+          },
+          "custom": {},
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#199e70",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "NS active train disruptions",
+      "description": "Live-only (no historical API); shows 'No data' until NS_API_KEY is set — free instant signup at apiportal.ns.nl.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 0,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='ns_disruptions_active' AND source='ns' ORDER BY period_date DESC LIMIT 1",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "graphMode": "area",
+        "colorMode": "value",
+        "textMode": "value",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true,
+        "showPercentChange": false
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#d95926"
+          },
+          "custom": {},
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#d95926",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "...of which unplanned (STORING)",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 0,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "SELECT period_date AS time, value FROM price_index WHERE country_iso3='NLD' AND indicator='ns_disruptions_unplanned' AND source='ns' ORDER BY period_date DESC LIMIT 1",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "graphMode": "area",
+        "colorMode": "value",
+        "textMode": "value",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "wideLayout": true,
+        "showPercentChange": false
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#e66767"
+          },
+          "custom": {},
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#e66767",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 4,
+      "type": "geomap",
+      "title": "Aircraft currently over the Netherlands",
+      "description": "OpenSky Network, latest snapshot (live only, no historical query).",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 24,
+        "h": 13
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "aircraft",
+          "rawQuery": true,
+          "rawSql": "\nSELECT icao24, callsign, country AS \"Country\", lat, lon, alt_m AS \"Altitude m\",\n       velocity AS \"Speed m/s\", heading\nFROM aircraft_state\nWHERE ts = (SELECT max(ts) FROM aircraft_state) AND lat BETWEEN 50.6 AND 53.7 AND lon BETWEEN 3.2 AND 7.3\n",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "view": {
+          "id": "coords",
+          "lat": 52.1,
+          "lon": 5.1,
+          "zoom": 7.3,
+          "allLayers": true
+        },
+        "controls": {
+          "showZoom": true,
+          "mouseWheelZoom": false,
+          "showAttribution": true,
+          "showScale": false,
+          "showMeasure": false,
+          "showDebug": false
+        },
+        "basemap": {
+          "type": "osm-standard",
+          "name": "Basemap"
+        },
+        "layers": [
+          {
+            "type": "markers",
+            "name": "Aircraft",
+            "config": {
+              "style": {
+                "size": {
+                  "fixed": 5,
+                  "min": 5,
+                  "max": 5
+                },
+                "color": {
+                  "fixed": "#199e70"
+                },
+                "opacity": 0.85,
+                "symbol": {
+                  "mode": "fixed",
+                  "fixed": "img/icons/marker/circle.svg"
+                },
+                "symbolAlign": {
+                  "horizontal": "center",
+                  "vertical": "center"
+                },
+                "rotation": {
+                  "fixed": 0,
+                  "mode": "mod",
+                  "min": -360,
+                  "max": 360
+                },
+                "textConfig": {
+                  "fontSize": 11,
+                  "offsetX": 0,
+                  "offsetY": 12,
+                  "textAlign": "center",
+                  "textBaseline": "middle"
+                },
+                "text": {
+                  "field": "callsign",
+                  "fixed": "",
+                  "mode": "field"
+                }
+              },
+              "showLegend": false
+            },
+            "location": {
+              "mode": "auto"
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "aircraft"
+            },
+            "tooltip": true
+          }
+        ],
+        "tooltip": {
+          "mode": "details"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {}
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Aircraft count over NL, last 24 h",
+      "description": "Day/night flight pattern — expect it to drop overnight.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 17,
+        "w": 24,
+        "h": 8
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT ts AS time, count(*) AS value FROM aircraft_state\nWHERE ts > now() - interval '24 hours' AND lat BETWEEN 50.6 AND 53.7 AND lon BETWEEN 3.2 AND 7.3\nGROUP BY ts ORDER BY ts\n",
+          "format": "time_series",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 20,
+            "gradientMode": "opacity",
+            "showPoints": "auto",
+            "pointSize": 5,
+            "spanNulls": 3600000,
+            "axisBorderShow": false,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#199e70"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "type": "table",
+      "title": "Aircraft over NL now, by altitude",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 25,
+        "w": 24,
+        "h": 12
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT callsign AS \"Callsign\", country AS \"Country\", round(alt_m::numeric, 0) AS \"Altitude m\",\n       round(velocity::numeric, 0) AS \"Speed m/s\", round(heading::numeric, 0) AS \"Heading\"\nFROM aircraft_state\nWHERE ts = (SELECT max(ts) FROM aircraft_state) AND lat BETWEEN 50.6 AND 53.7 AND lon BETWEEN 3.2 AND 7.3 AND callsign IS NOT NULL\nORDER BY alt_m DESC NULLS LAST LIMIT 50\n",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "Altitude m",
+            "desc": true
+          }
+        ]
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Altitude m"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "lengthm"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Speed m/s"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "velocityms"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
