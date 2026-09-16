@@ -90,12 +90,33 @@ for code, iso3, name in COUNTRIES:
         timeseries("Consumer vs. producer confidence", 12, 31, 12, 9, confidence, decimals=1,
                    colors={"consumer_confidence_index": CAT[5],
                            "producer_confidence_index": CAT[4]}, fill=0, points=True),
+
+        stat("Life expectancy at birth", 0, 40, 6, 4, q_latest(iso3, "life_expectancy_years_total"),
+             unit="short", decimals=1, color=CAT[6]),
+        stat("Fertility rate, children/woman", 6, 40, 6, 4,
+             q_latest(iso3, "fertility_rate_children_per_woman"), decimals=2, color=CAT[4]),
+        stat("Avg. age of mother at childbirth", 12, 40, 6, 4,
+             q_latest(iso3, "avg_mother_age_years"), unit="short", decimals=1, color=CAT[1]),
+        stat("Net migration, latest year", 18, 40, 6, 4, q_latest(iso3, "net_migration"),
+             unit="short", decimals=0, color=CAT[6]),
+
+        timeseries("Life expectancy at birth, by gender", 0, 44, 12, 9,
+                   q_multi(iso3, ["life_expectancy_years_men", "life_expectancy_years_women"]),
+                   unit="short", decimals=1,
+                   colors={"life_expectancy_years_men": CAT[0],
+                           "life_expectancy_years_women": CAT[4]}, fill=0,
+                   description="Eurostat demo_mlexpec, annual."),
+        timeseries("Total fertility rate", 12, 44, 12, 9,
+                   q(iso3, "fertility_rate_children_per_woman"), decimals=3,
+                   colors={"value": CAT[4]}, fill=15,
+                   description="Eurostat demo_find, annual. 2.1 is roughly the "
+                               "replacement rate."),
     ]
 
     write(dashboard(f"{code.lower()}-economy", f"{name}: Economy & Population", panels,
                     [name.lower()], refresh="1h", time_from="2000-01-01T00:00:00Z",
                     description=f"{name}: CPI/food inflation, unemployment, house prices, "
-                                f"population and demographics, consumer/producer "
-                                f"confidence — via Eurostat, since 2000 where the data "
-                                f"goes back that far."),
+                                f"population and demographics, life expectancy, "
+                                f"fertility, consumer/producer confidence — via "
+                                f"Eurostat, since 2000 where the data goes back that far."),
           f"{code}/{code.lower()}-economy")

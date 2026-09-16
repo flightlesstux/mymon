@@ -129,9 +129,49 @@ def test_fetch_survives_one_upstream_failing():
     respx.get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ei_bsin_m_r2").mock(
         return_value=httpx.Response(500)
     )
+    respx.get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_mlexpec").mock(
+        return_value=httpx.Response(500)
+    )
+    respx.get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_find").mock(
+        return_value=httpx.Response(500)
+    )
     table, rows = em.fetch(_ctx())[0]
     assert table == "price_index"
     assert any(r["indicator"] == "cpi_index" for r in rows)
+
+
+@respx.mock
+def test_life_expectancy_rows_covers_all_sexes():
+    data = jsonstat(
+        ["sex", "geo", "time"], [3, 1, 1],
+        {"sex": ["T", "M", "F"], "geo": ["DE"], "time": ["2023"]},
+        {"0": 81.0, "1": 78.5, "2": 83.4},
+    )
+    respx.get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_mlexpec").mock(
+        return_value=httpx.Response(200, json=data)
+    )
+    rows = em._life_expectancy_rows(_ctx())
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    assert by_indicator["life_expectancy_years_total"] == 81.0
+    assert by_indicator["life_expectancy_years_men"] == 78.5
+    assert by_indicator["life_expectancy_years_women"] == 83.4
+
+
+@respx.mock
+def test_fertility_rows_covers_both_indicators():
+    data = jsonstat(
+        ["indic_de", "geo", "time"], [2, 1, 1],
+        {"indic_de": ["TOTFERRT", "AGEMOTH"], "geo": ["ES"], "time": ["2023"]},
+        {"0": 1.16, "1": 32.6},
+    )
+    respx.get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_find").mock(
+        return_value=httpx.Response(200, json=data)
+    )
+    rows = em._fertility_rows(_ctx())
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    assert by_indicator["fertility_rate_children_per_woman"] == 1.16
+    assert by_indicator["avg_mother_age_years"] == 32.6
+    assert all(r["country_iso3"] == "ESP" for r in rows)
 
 
 def _ctx():

@@ -219,6 +219,50 @@ def _demographics_rows(ctx: Ctx) -> list[dict[str, Any]]:
     return rows
 
 
+# ------------------------------------------------------------------- life expectancy
+#
+# demo_mlexpec — life expectancy at birth (age Y_LT1), by gender, annual.
+
+LIFE_EXPECTANCY_SEXES: dict[str, str] = {"T": "total", "M": "men", "F": "women"}
+
+
+def _life_expectancy_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    query = {"sex": list(LIFE_EXPECTANCY_SEXES), "age": "Y_LT1", "unit": "YR"}
+    for dims, value in _eurostat_get(ctx, "demo_mlexpec", query):
+        suffix = LIFE_EXPECTANCY_SEXES.get(dims.get("sex", ""))
+        iso3 = GEO_TO_ISO3.get(dims.get("geo", ""))
+        period = _period_from_time_code(dims.get("time", ""))
+        if suffix is None or iso3 is None or period is None:
+            continue
+        rows.append(_row(period, iso3, f"life_expectancy_years_{suffix}", value, "years"))
+    return rows
+
+
+# ------------------------------------------------------------------------- fertility
+#
+# demo_find — total fertility rate and mean age of mother at childbirth, annual.
+
+FERTILITY_INDICATORS: dict[str, tuple[str, str]] = {
+    "TOTFERRT": ("fertility_rate_children_per_woman", "ratio"),
+    "AGEMOTH": ("avg_mother_age_years", "years"),
+}
+
+
+def _fertility_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    query = {"indic_de": list(FERTILITY_INDICATORS)}
+    for dims, value in _eurostat_get(ctx, "demo_find", query):
+        spec = FERTILITY_INDICATORS.get(dims.get("indic_de", ""))
+        iso3 = GEO_TO_ISO3.get(dims.get("geo", ""))
+        period = _period_from_time_code(dims.get("time", ""))
+        if spec is None or iso3 is None or period is None:
+            continue
+        indicator, unit = spec
+        rows.append(_row(period, iso3, indicator, value, unit))
+    return rows
+
+
 # --------------------------------------------------------------------------- house prices
 
 
@@ -281,6 +325,8 @@ def fetch(ctx: Ctx) -> Rows:
         ("unemployment", _unemployment_rows),
         ("population", _population_rows),
         ("demographics", _demographics_rows),
+        ("life_expectancy", _life_expectancy_rows),
+        ("fertility", _fertility_rows),
         ("house_prices", _house_price_rows),
         ("consumer_confidence", _consumer_confidence_rows),
         ("producer_confidence", _producer_confidence_rows),
