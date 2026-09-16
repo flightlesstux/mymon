@@ -1,0 +1,620 @@
+{
+  "uid": "nl-grocery-prices",
+  "title": "NL: Grocery Prices",
+  "description": "Dutch consumer prices for 56 individual grocery/food products — rice, bread, beef, milk, cheese, coffee and more — CBS's most granular CPI breakdown, since 2000.",
+  "tags": [
+    "netherlands"
+  ],
+  "timezone": "utc",
+  "editable": false,
+  "graphTooltip": 1,
+  "schemaVersion": 41,
+  "version": 1,
+  "refresh": "1h",
+  "style": "dark",
+  "time": {
+    "from": "2000-01-01T00:00:00Z",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "1m",
+      "5m",
+      "15m",
+      "1h"
+    ]
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "product",
+        "label": "Product",
+        "type": "custom",
+        "query": "Rice : rice,Flour & other grains : flour_and_other_grains,Bread : bread,Other bakery products : other_bakery_products,Pizza & quiche : pizza_and_quiche,Pasta & couscous : pasta_and_couscous,Breakfast cereals : breakfast_cereals,Other grain products : other_grain_products,Beef & veal : beef_and_veal,Pork : pork,Lamb & goat : lamb_and_goat,Poultry : poultry,Other meat : other_meat,Smoked/dried/salted meat : smoked_dried_salted_meat,Other meat preparations : other_meat_preparations,Fresh/chilled fish : fresh_or_chilled_fish,Frozen fish : frozen_fish,Fresh shellfish : fresh_shellfish,Smoked/dried/salted fish : smoked_dried_salted_fish,Fish preparations & preserves : fish_preparations_and_preserves,Fresh whole milk : fresh_whole_milk,Fresh semi-skimmed milk : fresh_semi_skimmed_milk,UHT milk : uht_milk,Yoghurt : yoghurt,Cheese & quark : cheese_and_quark,Other dairy products : other_dairy_products,Eggs : eggs,Butter : butter,Margarine & vegetable fats : margarine_and_vegetable_fats,Olive oil : olive_oil,Other edible oils : other_edible_oils,Fresh fruit : fresh_fruit,Dried fruit & nuts : dried_fruit_and_nuts,Fruit preserves : fruit_preserves,Fresh vegetables : fresh_vegetables,Frozen vegetables : frozen_vegetables,Dried vegetables : dried_vegetables,Potatoes : potatoes,Crisps : crisps,Sugar : sugar,Jam & honey : jam_and_honey,Chocolate : chocolate,Sweets : sweets,Ice cream : ice_cream,Artificial sweeteners : artificial_sweeteners,Sauces & dressings : sauces_and_dressings,Salt, spices & herbs : salt_spices_and_herbs,Baby food : baby_food,Ready meals : ready_meals,Other food : other_food_nec,Coffee : coffee,Tea : tea,Cocoa powder : cocoa_powder,Mineral water : mineral_water,Soft drinks : soft_drinks,Fruit & vegetable juices : fruit_and_vegetable_juices",
+        "current": {
+          "text": "Bread",
+          "value": "bread"
+        },
+        "options": [
+          {
+            "text": "Rice",
+            "value": "rice",
+            "selected": false
+          },
+          {
+            "text": "Flour & other grains",
+            "value": "flour_and_other_grains",
+            "selected": false
+          },
+          {
+            "text": "Bread",
+            "value": "bread",
+            "selected": true
+          },
+          {
+            "text": "Other bakery products",
+            "value": "other_bakery_products",
+            "selected": false
+          },
+          {
+            "text": "Pizza & quiche",
+            "value": "pizza_and_quiche",
+            "selected": false
+          },
+          {
+            "text": "Pasta & couscous",
+            "value": "pasta_and_couscous",
+            "selected": false
+          },
+          {
+            "text": "Breakfast cereals",
+            "value": "breakfast_cereals",
+            "selected": false
+          },
+          {
+            "text": "Other grain products",
+            "value": "other_grain_products",
+            "selected": false
+          },
+          {
+            "text": "Beef & veal",
+            "value": "beef_and_veal",
+            "selected": false
+          },
+          {
+            "text": "Pork",
+            "value": "pork",
+            "selected": false
+          },
+          {
+            "text": "Lamb & goat",
+            "value": "lamb_and_goat",
+            "selected": false
+          },
+          {
+            "text": "Poultry",
+            "value": "poultry",
+            "selected": false
+          },
+          {
+            "text": "Other meat",
+            "value": "other_meat",
+            "selected": false
+          },
+          {
+            "text": "Smoked/dried/salted meat",
+            "value": "smoked_dried_salted_meat",
+            "selected": false
+          },
+          {
+            "text": "Other meat preparations",
+            "value": "other_meat_preparations",
+            "selected": false
+          },
+          {
+            "text": "Fresh/chilled fish",
+            "value": "fresh_or_chilled_fish",
+            "selected": false
+          },
+          {
+            "text": "Frozen fish",
+            "value": "frozen_fish",
+            "selected": false
+          },
+          {
+            "text": "Fresh shellfish",
+            "value": "fresh_shellfish",
+            "selected": false
+          },
+          {
+            "text": "Smoked/dried/salted fish",
+            "value": "smoked_dried_salted_fish",
+            "selected": false
+          },
+          {
+            "text": "Fish preparations & preserves",
+            "value": "fish_preparations_and_preserves",
+            "selected": false
+          },
+          {
+            "text": "Fresh whole milk",
+            "value": "fresh_whole_milk",
+            "selected": false
+          },
+          {
+            "text": "Fresh semi-skimmed milk",
+            "value": "fresh_semi_skimmed_milk",
+            "selected": false
+          },
+          {
+            "text": "UHT milk",
+            "value": "uht_milk",
+            "selected": false
+          },
+          {
+            "text": "Yoghurt",
+            "value": "yoghurt",
+            "selected": false
+          },
+          {
+            "text": "Cheese & quark",
+            "value": "cheese_and_quark",
+            "selected": false
+          },
+          {
+            "text": "Other dairy products",
+            "value": "other_dairy_products",
+            "selected": false
+          },
+          {
+            "text": "Eggs",
+            "value": "eggs",
+            "selected": false
+          },
+          {
+            "text": "Butter",
+            "value": "butter",
+            "selected": false
+          },
+          {
+            "text": "Margarine & vegetable fats",
+            "value": "margarine_and_vegetable_fats",
+            "selected": false
+          },
+          {
+            "text": "Olive oil",
+            "value": "olive_oil",
+            "selected": false
+          },
+          {
+            "text": "Other edible oils",
+            "value": "other_edible_oils",
+            "selected": false
+          },
+          {
+            "text": "Fresh fruit",
+            "value": "fresh_fruit",
+            "selected": false
+          },
+          {
+            "text": "Dried fruit & nuts",
+            "value": "dried_fruit_and_nuts",
+            "selected": false
+          },
+          {
+            "text": "Fruit preserves",
+            "value": "fruit_preserves",
+            "selected": false
+          },
+          {
+            "text": "Fresh vegetables",
+            "value": "fresh_vegetables",
+            "selected": false
+          },
+          {
+            "text": "Frozen vegetables",
+            "value": "frozen_vegetables",
+            "selected": false
+          },
+          {
+            "text": "Dried vegetables",
+            "value": "dried_vegetables",
+            "selected": false
+          },
+          {
+            "text": "Potatoes",
+            "value": "potatoes",
+            "selected": false
+          },
+          {
+            "text": "Crisps",
+            "value": "crisps",
+            "selected": false
+          },
+          {
+            "text": "Sugar",
+            "value": "sugar",
+            "selected": false
+          },
+          {
+            "text": "Jam & honey",
+            "value": "jam_and_honey",
+            "selected": false
+          },
+          {
+            "text": "Chocolate",
+            "value": "chocolate",
+            "selected": false
+          },
+          {
+            "text": "Sweets",
+            "value": "sweets",
+            "selected": false
+          },
+          {
+            "text": "Ice cream",
+            "value": "ice_cream",
+            "selected": false
+          },
+          {
+            "text": "Artificial sweeteners",
+            "value": "artificial_sweeteners",
+            "selected": false
+          },
+          {
+            "text": "Sauces & dressings",
+            "value": "sauces_and_dressings",
+            "selected": false
+          },
+          {
+            "text": "Salt, spices & herbs",
+            "value": "salt_spices_and_herbs",
+            "selected": false
+          },
+          {
+            "text": "Baby food",
+            "value": "baby_food",
+            "selected": false
+          },
+          {
+            "text": "Ready meals",
+            "value": "ready_meals",
+            "selected": false
+          },
+          {
+            "text": "Other food",
+            "value": "other_food_nec",
+            "selected": false
+          },
+          {
+            "text": "Coffee",
+            "value": "coffee",
+            "selected": false
+          },
+          {
+            "text": "Tea",
+            "value": "tea",
+            "selected": false
+          },
+          {
+            "text": "Cocoa powder",
+            "value": "cocoa_powder",
+            "selected": false
+          },
+          {
+            "text": "Mineral water",
+            "value": "mineral_water",
+            "selected": false
+          },
+          {
+            "text": "Soft drinks",
+            "value": "soft_drinks",
+            "selected": false
+          },
+          {
+            "text": "Fruit & vegetable juices",
+            "value": "fruit_and_vegetable_juices",
+            "selected": false
+          }
+        ],
+        "multi": false,
+        "includeAll": false,
+        "hide": 0
+      }
+    ]
+  },
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "type": "dashboards",
+      "title": "lyraqpi",
+      "tags": [],
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "targetBlank": false
+    }
+  ],
+  "panels": [
+    {
+      "id": 1,
+      "type": "table",
+      "title": "Every tracked product, latest index value",
+      "description": "All 56 leaf-level grocery/food products CBS tracks in the CPI basket — one level more granular than the 12 top-level COICOP categories on NL: Cost of Living.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 16
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT DISTINCT ON (indicator) CASE indicator WHEN 'cpi_product_rice' THEN 'Rice' WHEN 'cpi_product_flour_and_other_grains' THEN 'Flour & other grains' WHEN 'cpi_product_bread' THEN 'Bread' WHEN 'cpi_product_other_bakery_products' THEN 'Other bakery products' WHEN 'cpi_product_pizza_and_quiche' THEN 'Pizza & quiche' WHEN 'cpi_product_pasta_and_couscous' THEN 'Pasta & couscous' WHEN 'cpi_product_breakfast_cereals' THEN 'Breakfast cereals' WHEN 'cpi_product_other_grain_products' THEN 'Other grain products' WHEN 'cpi_product_beef_and_veal' THEN 'Beef & veal' WHEN 'cpi_product_pork' THEN 'Pork' WHEN 'cpi_product_lamb_and_goat' THEN 'Lamb & goat' WHEN 'cpi_product_poultry' THEN 'Poultry' WHEN 'cpi_product_other_meat' THEN 'Other meat' WHEN 'cpi_product_smoked_dried_salted_meat' THEN 'Smoked/dried/salted meat' WHEN 'cpi_product_other_meat_preparations' THEN 'Other meat preparations' WHEN 'cpi_product_fresh_or_chilled_fish' THEN 'Fresh/chilled fish' WHEN 'cpi_product_frozen_fish' THEN 'Frozen fish' WHEN 'cpi_product_fresh_shellfish' THEN 'Fresh shellfish' WHEN 'cpi_product_smoked_dried_salted_fish' THEN 'Smoked/dried/salted fish' WHEN 'cpi_product_fish_preparations_and_preserves' THEN 'Fish preparations & preserves' WHEN 'cpi_product_fresh_whole_milk' THEN 'Fresh whole milk' WHEN 'cpi_product_fresh_semi_skimmed_milk' THEN 'Fresh semi-skimmed milk' WHEN 'cpi_product_uht_milk' THEN 'UHT milk' WHEN 'cpi_product_yoghurt' THEN 'Yoghurt' WHEN 'cpi_product_cheese_and_quark' THEN 'Cheese & quark' WHEN 'cpi_product_other_dairy_products' THEN 'Other dairy products' WHEN 'cpi_product_eggs' THEN 'Eggs' WHEN 'cpi_product_butter' THEN 'Butter' WHEN 'cpi_product_margarine_and_vegetable_fats' THEN 'Margarine & vegetable fats' WHEN 'cpi_product_olive_oil' THEN 'Olive oil' WHEN 'cpi_product_other_edible_oils' THEN 'Other edible oils' WHEN 'cpi_product_fresh_fruit' THEN 'Fresh fruit' WHEN 'cpi_product_dried_fruit_and_nuts' THEN 'Dried fruit & nuts' WHEN 'cpi_product_fruit_preserves' THEN 'Fruit preserves' WHEN 'cpi_product_fresh_vegetables' THEN 'Fresh vegetables' WHEN 'cpi_product_frozen_vegetables' THEN 'Frozen vegetables' WHEN 'cpi_product_dried_vegetables' THEN 'Dried vegetables' WHEN 'cpi_product_potatoes' THEN 'Potatoes' WHEN 'cpi_product_crisps' THEN 'Crisps' WHEN 'cpi_product_sugar' THEN 'Sugar' WHEN 'cpi_product_jam_and_honey' THEN 'Jam & honey' WHEN 'cpi_product_chocolate' THEN 'Chocolate' WHEN 'cpi_product_sweets' THEN 'Sweets' WHEN 'cpi_product_ice_cream' THEN 'Ice cream' WHEN 'cpi_product_artificial_sweeteners' THEN 'Artificial sweeteners' WHEN 'cpi_product_sauces_and_dressings' THEN 'Sauces & dressings' WHEN 'cpi_product_salt_spices_and_herbs' THEN 'Salt, spices & herbs' WHEN 'cpi_product_baby_food' THEN 'Baby food' WHEN 'cpi_product_ready_meals' THEN 'Ready meals' WHEN 'cpi_product_other_food_nec' THEN 'Other food' WHEN 'cpi_product_coffee' THEN 'Coffee' WHEN 'cpi_product_tea' THEN 'Tea' WHEN 'cpi_product_cocoa_powder' THEN 'Cocoa powder' WHEN 'cpi_product_mineral_water' THEN 'Mineral water' WHEN 'cpi_product_soft_drinks' THEN 'Soft drinks' WHEN 'cpi_product_fruit_and_vegetable_juices' THEN 'Fruit & vegetable juices' ELSE indicator END AS \"Product\",\n       value AS \"Index (2015=100)\", period_date AS \"Month\"\nFROM price_index\nWHERE country_iso3='NLD' AND source='cbs'\n  AND indicator IN ('cpi_product_rice','cpi_product_flour_and_other_grains','cpi_product_bread','cpi_product_other_bakery_products','cpi_product_pizza_and_quiche','cpi_product_pasta_and_couscous','cpi_product_breakfast_cereals','cpi_product_other_grain_products','cpi_product_beef_and_veal','cpi_product_pork','cpi_product_lamb_and_goat','cpi_product_poultry','cpi_product_other_meat','cpi_product_smoked_dried_salted_meat','cpi_product_other_meat_preparations','cpi_product_fresh_or_chilled_fish','cpi_product_frozen_fish','cpi_product_fresh_shellfish','cpi_product_smoked_dried_salted_fish','cpi_product_fish_preparations_and_preserves','cpi_product_fresh_whole_milk','cpi_product_fresh_semi_skimmed_milk','cpi_product_uht_milk','cpi_product_yoghurt','cpi_product_cheese_and_quark','cpi_product_other_dairy_products','cpi_product_eggs','cpi_product_butter','cpi_product_margarine_and_vegetable_fats','cpi_product_olive_oil','cpi_product_other_edible_oils','cpi_product_fresh_fruit','cpi_product_dried_fruit_and_nuts','cpi_product_fruit_preserves','cpi_product_fresh_vegetables','cpi_product_frozen_vegetables','cpi_product_dried_vegetables','cpi_product_potatoes','cpi_product_crisps','cpi_product_sugar','cpi_product_jam_and_honey','cpi_product_chocolate','cpi_product_sweets','cpi_product_ice_cream','cpi_product_artificial_sweeteners','cpi_product_sauces_and_dressings','cpi_product_salt_spices_and_herbs','cpi_product_baby_food','cpi_product_ready_meals','cpi_product_other_food_nec','cpi_product_coffee','cpi_product_tea','cpi_product_cocoa_powder','cpi_product_mineral_water','cpi_product_soft_drinks','cpi_product_fruit_and_vegetable_juices')\nORDER BY indicator, period_date DESC\n",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "Index (2015=100)",
+            "desc": true
+          }
+        ]
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false
+          },
+          "decimals": 1
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Month"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeAsIsoNoDateIfToday"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "type": "barchart",
+      "title": "Biggest year-on-year price movers",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 24,
+        "h": 13
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT DISTINCT ON (indicator) CASE replace(indicator, '_yoy', '') WHEN 'cpi_product_rice' THEN 'Rice' WHEN 'cpi_product_flour_and_other_grains' THEN 'Flour & other grains' WHEN 'cpi_product_bread' THEN 'Bread' WHEN 'cpi_product_other_bakery_products' THEN 'Other bakery products' WHEN 'cpi_product_pizza_and_quiche' THEN 'Pizza & quiche' WHEN 'cpi_product_pasta_and_couscous' THEN 'Pasta & couscous' WHEN 'cpi_product_breakfast_cereals' THEN 'Breakfast cereals' WHEN 'cpi_product_other_grain_products' THEN 'Other grain products' WHEN 'cpi_product_beef_and_veal' THEN 'Beef & veal' WHEN 'cpi_product_pork' THEN 'Pork' WHEN 'cpi_product_lamb_and_goat' THEN 'Lamb & goat' WHEN 'cpi_product_poultry' THEN 'Poultry' WHEN 'cpi_product_other_meat' THEN 'Other meat' WHEN 'cpi_product_smoked_dried_salted_meat' THEN 'Smoked/dried/salted meat' WHEN 'cpi_product_other_meat_preparations' THEN 'Other meat preparations' WHEN 'cpi_product_fresh_or_chilled_fish' THEN 'Fresh/chilled fish' WHEN 'cpi_product_frozen_fish' THEN 'Frozen fish' WHEN 'cpi_product_fresh_shellfish' THEN 'Fresh shellfish' WHEN 'cpi_product_smoked_dried_salted_fish' THEN 'Smoked/dried/salted fish' WHEN 'cpi_product_fish_preparations_and_preserves' THEN 'Fish preparations & preserves' WHEN 'cpi_product_fresh_whole_milk' THEN 'Fresh whole milk' WHEN 'cpi_product_fresh_semi_skimmed_milk' THEN 'Fresh semi-skimmed milk' WHEN 'cpi_product_uht_milk' THEN 'UHT milk' WHEN 'cpi_product_yoghurt' THEN 'Yoghurt' WHEN 'cpi_product_cheese_and_quark' THEN 'Cheese & quark' WHEN 'cpi_product_other_dairy_products' THEN 'Other dairy products' WHEN 'cpi_product_eggs' THEN 'Eggs' WHEN 'cpi_product_butter' THEN 'Butter' WHEN 'cpi_product_margarine_and_vegetable_fats' THEN 'Margarine & vegetable fats' WHEN 'cpi_product_olive_oil' THEN 'Olive oil' WHEN 'cpi_product_other_edible_oils' THEN 'Other edible oils' WHEN 'cpi_product_fresh_fruit' THEN 'Fresh fruit' WHEN 'cpi_product_dried_fruit_and_nuts' THEN 'Dried fruit & nuts' WHEN 'cpi_product_fruit_preserves' THEN 'Fruit preserves' WHEN 'cpi_product_fresh_vegetables' THEN 'Fresh vegetables' WHEN 'cpi_product_frozen_vegetables' THEN 'Frozen vegetables' WHEN 'cpi_product_dried_vegetables' THEN 'Dried vegetables' WHEN 'cpi_product_potatoes' THEN 'Potatoes' WHEN 'cpi_product_crisps' THEN 'Crisps' WHEN 'cpi_product_sugar' THEN 'Sugar' WHEN 'cpi_product_jam_and_honey' THEN 'Jam & honey' WHEN 'cpi_product_chocolate' THEN 'Chocolate' WHEN 'cpi_product_sweets' THEN 'Sweets' WHEN 'cpi_product_ice_cream' THEN 'Ice cream' WHEN 'cpi_product_artificial_sweeteners' THEN 'Artificial sweeteners' WHEN 'cpi_product_sauces_and_dressings' THEN 'Sauces & dressings' WHEN 'cpi_product_salt_spices_and_herbs' THEN 'Salt, spices & herbs' WHEN 'cpi_product_baby_food' THEN 'Baby food' WHEN 'cpi_product_ready_meals' THEN 'Ready meals' WHEN 'cpi_product_other_food_nec' THEN 'Other food' WHEN 'cpi_product_coffee' THEN 'Coffee' WHEN 'cpi_product_tea' THEN 'Tea' WHEN 'cpi_product_cocoa_powder' THEN 'Cocoa powder' WHEN 'cpi_product_mineral_water' THEN 'Mineral water' WHEN 'cpi_product_soft_drinks' THEN 'Soft drinks' WHEN 'cpi_product_fruit_and_vegetable_juices' THEN 'Fruit & vegetable juices' ELSE replace(indicator, '_yoy', '') END AS \"Product\",\n       value AS \"YoY %\"\nFROM price_index\nWHERE country_iso3='NLD' AND source='cbs'\n  AND indicator IN ('cpi_product_rice_yoy','cpi_product_flour_and_other_grains_yoy','cpi_product_bread_yoy','cpi_product_other_bakery_products_yoy','cpi_product_pizza_and_quiche_yoy','cpi_product_pasta_and_couscous_yoy','cpi_product_breakfast_cereals_yoy','cpi_product_other_grain_products_yoy','cpi_product_beef_and_veal_yoy','cpi_product_pork_yoy','cpi_product_lamb_and_goat_yoy','cpi_product_poultry_yoy','cpi_product_other_meat_yoy','cpi_product_smoked_dried_salted_meat_yoy','cpi_product_other_meat_preparations_yoy','cpi_product_fresh_or_chilled_fish_yoy','cpi_product_frozen_fish_yoy','cpi_product_fresh_shellfish_yoy','cpi_product_smoked_dried_salted_fish_yoy','cpi_product_fish_preparations_and_preserves_yoy','cpi_product_fresh_whole_milk_yoy','cpi_product_fresh_semi_skimmed_milk_yoy','cpi_product_uht_milk_yoy','cpi_product_yoghurt_yoy','cpi_product_cheese_and_quark_yoy','cpi_product_other_dairy_products_yoy','cpi_product_eggs_yoy','cpi_product_butter_yoy','cpi_product_margarine_and_vegetable_fats_yoy','cpi_product_olive_oil_yoy','cpi_product_other_edible_oils_yoy','cpi_product_fresh_fruit_yoy','cpi_product_dried_fruit_and_nuts_yoy','cpi_product_fruit_preserves_yoy','cpi_product_fresh_vegetables_yoy','cpi_product_frozen_vegetables_yoy','cpi_product_dried_vegetables_yoy','cpi_product_potatoes_yoy','cpi_product_crisps_yoy','cpi_product_sugar_yoy','cpi_product_jam_and_honey_yoy','cpi_product_chocolate_yoy','cpi_product_sweets_yoy','cpi_product_ice_cream_yoy','cpi_product_artificial_sweeteners_yoy','cpi_product_sauces_and_dressings_yoy','cpi_product_salt_spices_and_herbs_yoy','cpi_product_baby_food_yoy','cpi_product_ready_meals_yoy','cpi_product_other_food_nec_yoy','cpi_product_coffee_yoy','cpi_product_tea_yoy','cpi_product_cocoa_powder_yoy','cpi_product_mineral_water_yoy','cpi_product_soft_drinks_yoy','cpi_product_fruit_and_vegetable_juices_yoy')\nORDER BY indicator, period_date DESC\n",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "orientation": "horizontal",
+        "xTickLabelRotation": 0,
+        "showValue": "auto",
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "barRadius": 0.1,
+        "stacking": "none",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#c98500"
+          },
+          "custom": {
+            "fillOpacity": 85,
+            "lineWidth": 0,
+            "gradientMode": "none",
+            "axisBorderShow": false
+          },
+          "unit": "percent",
+          "decimals": 1
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 3,
+      "type": "table",
+      "title": "Every product, year-on-year change",
+      "description": "",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 29,
+        "w": 24,
+        "h": 16
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT DISTINCT ON (indicator) CASE replace(indicator, '_yoy', '') WHEN 'cpi_product_rice' THEN 'Rice' WHEN 'cpi_product_flour_and_other_grains' THEN 'Flour & other grains' WHEN 'cpi_product_bread' THEN 'Bread' WHEN 'cpi_product_other_bakery_products' THEN 'Other bakery products' WHEN 'cpi_product_pizza_and_quiche' THEN 'Pizza & quiche' WHEN 'cpi_product_pasta_and_couscous' THEN 'Pasta & couscous' WHEN 'cpi_product_breakfast_cereals' THEN 'Breakfast cereals' WHEN 'cpi_product_other_grain_products' THEN 'Other grain products' WHEN 'cpi_product_beef_and_veal' THEN 'Beef & veal' WHEN 'cpi_product_pork' THEN 'Pork' WHEN 'cpi_product_lamb_and_goat' THEN 'Lamb & goat' WHEN 'cpi_product_poultry' THEN 'Poultry' WHEN 'cpi_product_other_meat' THEN 'Other meat' WHEN 'cpi_product_smoked_dried_salted_meat' THEN 'Smoked/dried/salted meat' WHEN 'cpi_product_other_meat_preparations' THEN 'Other meat preparations' WHEN 'cpi_product_fresh_or_chilled_fish' THEN 'Fresh/chilled fish' WHEN 'cpi_product_frozen_fish' THEN 'Frozen fish' WHEN 'cpi_product_fresh_shellfish' THEN 'Fresh shellfish' WHEN 'cpi_product_smoked_dried_salted_fish' THEN 'Smoked/dried/salted fish' WHEN 'cpi_product_fish_preparations_and_preserves' THEN 'Fish preparations & preserves' WHEN 'cpi_product_fresh_whole_milk' THEN 'Fresh whole milk' WHEN 'cpi_product_fresh_semi_skimmed_milk' THEN 'Fresh semi-skimmed milk' WHEN 'cpi_product_uht_milk' THEN 'UHT milk' WHEN 'cpi_product_yoghurt' THEN 'Yoghurt' WHEN 'cpi_product_cheese_and_quark' THEN 'Cheese & quark' WHEN 'cpi_product_other_dairy_products' THEN 'Other dairy products' WHEN 'cpi_product_eggs' THEN 'Eggs' WHEN 'cpi_product_butter' THEN 'Butter' WHEN 'cpi_product_margarine_and_vegetable_fats' THEN 'Margarine & vegetable fats' WHEN 'cpi_product_olive_oil' THEN 'Olive oil' WHEN 'cpi_product_other_edible_oils' THEN 'Other edible oils' WHEN 'cpi_product_fresh_fruit' THEN 'Fresh fruit' WHEN 'cpi_product_dried_fruit_and_nuts' THEN 'Dried fruit & nuts' WHEN 'cpi_product_fruit_preserves' THEN 'Fruit preserves' WHEN 'cpi_product_fresh_vegetables' THEN 'Fresh vegetables' WHEN 'cpi_product_frozen_vegetables' THEN 'Frozen vegetables' WHEN 'cpi_product_dried_vegetables' THEN 'Dried vegetables' WHEN 'cpi_product_potatoes' THEN 'Potatoes' WHEN 'cpi_product_crisps' THEN 'Crisps' WHEN 'cpi_product_sugar' THEN 'Sugar' WHEN 'cpi_product_jam_and_honey' THEN 'Jam & honey' WHEN 'cpi_product_chocolate' THEN 'Chocolate' WHEN 'cpi_product_sweets' THEN 'Sweets' WHEN 'cpi_product_ice_cream' THEN 'Ice cream' WHEN 'cpi_product_artificial_sweeteners' THEN 'Artificial sweeteners' WHEN 'cpi_product_sauces_and_dressings' THEN 'Sauces & dressings' WHEN 'cpi_product_salt_spices_and_herbs' THEN 'Salt, spices & herbs' WHEN 'cpi_product_baby_food' THEN 'Baby food' WHEN 'cpi_product_ready_meals' THEN 'Ready meals' WHEN 'cpi_product_other_food_nec' THEN 'Other food' WHEN 'cpi_product_coffee' THEN 'Coffee' WHEN 'cpi_product_tea' THEN 'Tea' WHEN 'cpi_product_cocoa_powder' THEN 'Cocoa powder' WHEN 'cpi_product_mineral_water' THEN 'Mineral water' WHEN 'cpi_product_soft_drinks' THEN 'Soft drinks' WHEN 'cpi_product_fruit_and_vegetable_juices' THEN 'Fruit & vegetable juices' ELSE replace(indicator, '_yoy', '') END AS \"Product\",\n       value AS \"YoY %\", period_date AS \"Month\"\nFROM price_index\nWHERE country_iso3='NLD' AND source='cbs'\n  AND indicator IN ('cpi_product_rice_yoy','cpi_product_flour_and_other_grains_yoy','cpi_product_bread_yoy','cpi_product_other_bakery_products_yoy','cpi_product_pizza_and_quiche_yoy','cpi_product_pasta_and_couscous_yoy','cpi_product_breakfast_cereals_yoy','cpi_product_other_grain_products_yoy','cpi_product_beef_and_veal_yoy','cpi_product_pork_yoy','cpi_product_lamb_and_goat_yoy','cpi_product_poultry_yoy','cpi_product_other_meat_yoy','cpi_product_smoked_dried_salted_meat_yoy','cpi_product_other_meat_preparations_yoy','cpi_product_fresh_or_chilled_fish_yoy','cpi_product_frozen_fish_yoy','cpi_product_fresh_shellfish_yoy','cpi_product_smoked_dried_salted_fish_yoy','cpi_product_fish_preparations_and_preserves_yoy','cpi_product_fresh_whole_milk_yoy','cpi_product_fresh_semi_skimmed_milk_yoy','cpi_product_uht_milk_yoy','cpi_product_yoghurt_yoy','cpi_product_cheese_and_quark_yoy','cpi_product_other_dairy_products_yoy','cpi_product_eggs_yoy','cpi_product_butter_yoy','cpi_product_margarine_and_vegetable_fats_yoy','cpi_product_olive_oil_yoy','cpi_product_other_edible_oils_yoy','cpi_product_fresh_fruit_yoy','cpi_product_dried_fruit_and_nuts_yoy','cpi_product_fruit_preserves_yoy','cpi_product_fresh_vegetables_yoy','cpi_product_frozen_vegetables_yoy','cpi_product_dried_vegetables_yoy','cpi_product_potatoes_yoy','cpi_product_crisps_yoy','cpi_product_sugar_yoy','cpi_product_jam_and_honey_yoy','cpi_product_chocolate_yoy','cpi_product_sweets_yoy','cpi_product_ice_cream_yoy','cpi_product_artificial_sweeteners_yoy','cpi_product_sauces_and_dressings_yoy','cpi_product_salt_spices_and_herbs_yoy','cpi_product_baby_food_yoy','cpi_product_ready_meals_yoy','cpi_product_other_food_nec_yoy','cpi_product_coffee_yoy','cpi_product_tea_yoy','cpi_product_cocoa_powder_yoy','cpi_product_mineral_water_yoy','cpi_product_soft_drinks_yoy','cpi_product_fruit_and_vegetable_juices_yoy')\nORDER BY indicator, period_date DESC\n",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "YoY %",
+            "desc": true
+          }
+        ]
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false
+          },
+          "decimals": 1
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "Selected product: index over time (2015=100)",
+      "description": "Pick a product from the ${product} dropdown above.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "mymon-pg"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 45,
+        "w": 24,
+        "h": 10
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "mymon-pg"
+          },
+          "refId": "A",
+          "rawQuery": true,
+          "rawSql": "\nSELECT period_date AS time, value FROM price_index\nWHERE country_iso3='NLD' AND source='cbs' AND indicator='cpi_product_${product}'\n  AND period_date >= '2000-01-01' AND $__timeFilter(period_date)\nORDER BY 1\n",
+          "format": "time_series",
+          "editorMode": "code"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "pointSize": 5,
+            "spanNulls": 3600000,
+            "axisBorderShow": false,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 1
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3987e5"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

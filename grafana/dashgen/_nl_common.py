@@ -30,6 +30,41 @@ CPI_CATEGORY_LABELS = {
     "misc_goods_and_services": "Misc. goods & services",
 }
 
+# Leaf-level grocery/food product slug -> display label, mirrors
+# nl_metrics.CPI_PRODUCTS on the collector side (same plain-literal-mirror pattern as
+# CPI_CATEGORY_LABELS above, for the same reason — no import dependency on the collector).
+CPI_PRODUCT_LABELS = {
+    "rice": "Rice", "flour_and_other_grains": "Flour & other grains", "bread": "Bread",
+    "other_bakery_products": "Other bakery products", "pizza_and_quiche": "Pizza & quiche",
+    "pasta_and_couscous": "Pasta & couscous", "breakfast_cereals": "Breakfast cereals",
+    "other_grain_products": "Other grain products", "beef_and_veal": "Beef & veal",
+    "pork": "Pork", "lamb_and_goat": "Lamb & goat", "poultry": "Poultry",
+    "other_meat": "Other meat", "smoked_dried_salted_meat": "Smoked/dried/salted meat",
+    "other_meat_preparations": "Other meat preparations",
+    "fresh_or_chilled_fish": "Fresh/chilled fish", "frozen_fish": "Frozen fish",
+    "fresh_shellfish": "Fresh shellfish",
+    "smoked_dried_salted_fish": "Smoked/dried/salted fish",
+    "fish_preparations_and_preserves": "Fish preparations & preserves",
+    "fresh_whole_milk": "Fresh whole milk",
+    "fresh_semi_skimmed_milk": "Fresh semi-skimmed milk", "uht_milk": "UHT milk",
+    "yoghurt": "Yoghurt", "cheese_and_quark": "Cheese & quark",
+    "other_dairy_products": "Other dairy products", "eggs": "Eggs", "butter": "Butter",
+    "margarine_and_vegetable_fats": "Margarine & vegetable fats", "olive_oil": "Olive oil",
+    "other_edible_oils": "Other edible oils", "fresh_fruit": "Fresh fruit",
+    "dried_fruit_and_nuts": "Dried fruit & nuts", "fruit_preserves": "Fruit preserves",
+    "fresh_vegetables": "Fresh vegetables", "frozen_vegetables": "Frozen vegetables",
+    "dried_vegetables": "Dried vegetables", "potatoes": "Potatoes", "crisps": "Crisps",
+    "sugar": "Sugar", "jam_and_honey": "Jam & honey", "chocolate": "Chocolate",
+    "sweets": "Sweets", "ice_cream": "Ice cream",
+    "artificial_sweeteners": "Artificial sweeteners",
+    "sauces_and_dressings": "Sauces & dressings",
+    "salt_spices_and_herbs": "Salt, spices & herbs", "baby_food": "Baby food",
+    "ready_meals": "Ready meals", "other_food_nec": "Other food", "coffee": "Coffee",
+    "tea": "Tea", "cocoa_powder": "Cocoa powder", "mineral_water": "Mineral water",
+    "soft_drinks": "Soft drinks",
+    "fruit_and_vegetable_juices": "Fruit & vegetable juices",
+}
+
 
 def nl(indicator: str, source: str | None = None) -> str:
     """A single-column ``time, value`` series for one price_index indicator, NLD only."""

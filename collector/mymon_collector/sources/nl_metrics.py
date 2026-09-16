@@ -166,6 +166,57 @@ CPI_CATEGORIES: dict[str, str] = {
     "CPI120000": "misc_goods_and_services",
 }
 
+# Leaf-level (most granular) grocery/food product codes within 83131NED's food &
+# non-alcoholic-drink division — the 6-digit codes one level below CPI_CATEGORIES'
+# "food_and_drink" group total. Confirmed live against the full 408-entry
+# Bestedingscategorieen dimension list (2026-09); these are the ones whose last two
+# digits aren't "00", i.e. not themselves a subgroup total.
+CPI_PRODUCTS: dict[str, str] = {
+    "CPI011110": "rice", "CPI011120": "flour_and_other_grains", "CPI011130": "bread",
+    "CPI011140": "other_bakery_products", "CPI011150": "pizza_and_quiche",
+    "CPI011160": "pasta_and_couscous", "CPI011170": "breakfast_cereals",
+    "CPI011180": "other_grain_products", "CPI011210": "beef_and_veal", "CPI011220": "pork",
+    "CPI011230": "lamb_and_goat", "CPI011240": "poultry", "CPI011250": "other_meat",
+    "CPI011270": "smoked_dried_salted_meat", "CPI011280": "other_meat_preparations",
+    "CPI011310": "fresh_or_chilled_fish", "CPI011320": "frozen_fish",
+    "CPI011330": "fresh_shellfish", "CPI011350": "smoked_dried_salted_fish",
+    "CPI011360": "fish_preparations_and_preserves", "CPI011410": "fresh_whole_milk",
+    "CPI011420": "fresh_semi_skimmed_milk", "CPI011430": "uht_milk", "CPI011440": "yoghurt",
+    "CPI011450": "cheese_and_quark", "CPI011460": "other_dairy_products", "CPI011470": "eggs",
+    "CPI011510": "butter", "CPI011520": "margarine_and_vegetable_fats",
+    "CPI011530": "olive_oil", "CPI011540": "other_edible_oils", "CPI011610": "fresh_fruit",
+    "CPI011630": "dried_fruit_and_nuts", "CPI011640": "fruit_preserves",
+    "CPI011710": "fresh_vegetables", "CPI011720": "frozen_vegetables",
+    "CPI011730": "dried_vegetables", "CPI011740": "potatoes", "CPI011750": "crisps",
+    "CPI011810": "sugar", "CPI011820": "jam_and_honey", "CPI011830": "chocolate",
+    "CPI011840": "sweets", "CPI011850": "ice_cream", "CPI011860": "artificial_sweeteners",
+    "CPI011910": "sauces_and_dressings", "CPI011920": "salt_spices_and_herbs",
+    "CPI011930": "baby_food", "CPI011940": "ready_meals", "CPI011990": "other_food_nec",
+    "CPI012110": "coffee", "CPI012120": "tea", "CPI012130": "cocoa_powder",
+    "CPI012210": "mineral_water", "CPI012220": "soft_drinks",
+    "CPI012230": "fruit_and_vegetable_juices",
+}
+
+
+def _cpi_product_rows(ctx: Ctx) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for code, slug in CPI_PRODUCTS.items():
+        recs = _cbs_get(ctx, "83131NED", f"Bestedingscategorieen eq '{code}'")
+        for rec in recs:
+            raw = rec.get("Perioden") or ""
+            if raw[4:6] != "MM":
+                continue  # see _cpi_rows — same table, same MM/JJ collision risk
+            period = _cbs_period(raw)
+            if period is None:
+                continue
+            idx = _num(rec.get("CPI_1"))
+            if idx is not None:
+                rows.append(_row(period, f"cpi_product_{slug}", idx, "2015=100", "cbs"))
+            yoy = _num(rec.get("JaarmutatieCPI_5"))
+            if yoy is not None:
+                rows.append(_row(period, f"cpi_product_{slug}_yoy", yoy, "%", "cbs"))
+    return rows
+
 
 def _cpi_rows(ctx: Ctx) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
@@ -178,7 +229,12 @@ def _cpi_rows(ctx: Ctx) -> list[dict[str, Any]]:
     for code, index_name, inflation_name in headline + categories:
         recs = _cbs_get(ctx, "83131NED", f"Bestedingscategorieen eq '{code}'")
         for rec in recs:
-            period = _cbs_period(rec.get("Perioden"))
+            raw = rec.get("Perioden") or ""
+            if raw[4:6] != "MM":
+                continue  # 83131NED also carries an annual (JJ00) rollup of the same
+                # series; JJ00 maps to the same 1st-of-year date as MM01, so pulling
+                # both would silently let one clobber the other via the upsert PK
+            period = _cbs_period(raw)
             if period is None:
                 continue
             idx = _num(rec.get("CPI_1"))
@@ -580,6 +636,7 @@ def _run_upstreams(
 def fetch(ctx: Ctx) -> Rows:
     country_rows, country_failures = _run_upstreams(ctx, (
         ("cpi", _cpi_rows),
+        ("cpi_products", _cpi_product_rows),
         ("rent", _rent_rows),
         ("house_prices", _house_price_rows),
         ("energy", _energy_rows),

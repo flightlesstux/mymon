@@ -38,6 +38,37 @@ def test_cpi_rows_headline_food_and_all_categories():
 
 
 @respx.mock
+def test_cpi_rows_skips_annual_rollup_that_collides_with_january():
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/83131NED/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([
+            {"Perioden": "2020MM01", "CPI_1": 105.97, "JaarmutatieCPI_5": 1.8},
+            {"Perioden": "2020JJ00", "CPI_1": 107.51, "JaarmutatieCPI_5": 1.3},
+        ]))
+    )
+    rows = nl._cpi_rows(_ctx())
+    index_rows = [r for r in rows if r["indicator"] == "cpi_index"]
+    assert len(index_rows) == 1
+    assert index_rows[0]["value"] == 105.97  # the January figure, not the annual average
+
+
+@respx.mock
+def test_cpi_product_rows_covers_all_products_and_skips_annual():
+    respx.get("https://opendata.cbs.nl/ODataApi/odata/83131NED/TypedDataSet").mock(
+        return_value=httpx.Response(200, json=cbs_json([
+            {"Perioden": "2026JJ00", "CPI_1": 999.0, "JaarmutatieCPI_5": 99.0},
+            {"Perioden": "2026MM07", "CPI_1": 132.96, "JaarmutatieCPI_5": 0.7},
+        ]))
+    )
+    rows = nl._cpi_product_rows(_ctx())
+    by_indicator = {r["indicator"]: r["value"] for r in rows}
+    for slug in nl.CPI_PRODUCTS.values():
+        assert by_indicator[f"cpi_product_{slug}"] == 132.96
+        assert by_indicator[f"cpi_product_{slug}_yoy"] == 0.7
+    assert len(nl.CPI_PRODUCTS) == 56
+    assert len(rows) == 56 * 2
+
+
+@respx.mock
 def test_house_price_regional_rows_keeps_only_provinces():
     respx.get("https://opendata.cbs.nl/ODataApi/odata/85792NED/TypedDataSet").mock(
         return_value=httpx.Response(200, json=cbs_json([
