@@ -47,7 +47,7 @@
   ],
   "panels": [
     {
-      "id": 31,
+      "id": 1,
       "type": "stat",
       "title": "Kp now",
       "description": "",
@@ -123,7 +123,7 @@
       }
     },
     {
-      "id": 32,
+      "id": 2,
       "type": "stat",
       "title": "Solar wind",
       "description": "",
@@ -189,7 +189,7 @@
       }
     },
     {
-      "id": 33,
+      "id": 3,
       "type": "stat",
       "title": "CO₂ Mauna Loa",
       "description": "",
@@ -255,7 +255,7 @@
       }
     },
     {
-      "id": 34,
+      "id": 4,
       "type": "stat",
       "title": "Quakes M4.5+, 7 d",
       "description": "",
@@ -319,7 +319,7 @@
       }
     },
     {
-      "id": 35,
+      "id": 5,
       "type": "stat",
       "title": "Bitcoin block height",
       "description": "",
@@ -384,7 +384,7 @@
       }
     },
     {
-      "id": 36,
+      "id": 6,
       "type": "stat",
       "title": "Fast fee sat/vB",
       "description": "",
@@ -449,7 +449,7 @@
       }
     },
     {
-      "id": 37,
+      "id": 7,
       "type": "geomap",
       "title": "Earthquakes M2.5+ in range",
       "description": "",
@@ -572,7 +572,7 @@
       }
     },
     {
-      "id": 38,
+      "id": 8,
       "type": "geomap",
       "title": "Türkiye and surroundings (AFAD + USGS)",
       "description": "",
@@ -695,7 +695,7 @@
       }
     },
     {
-      "id": 39,
+      "id": 9,
       "type": "timeseries",
       "title": "Quakes per day by magnitude band (USGS)",
       "description": "",
@@ -809,7 +809,7 @@
       }
     },
     {
-      "id": 40,
+      "id": 10,
       "type": "table",
       "title": "Biggest in range",
       "description": "",
@@ -905,7 +905,7 @@
       }
     },
     {
-      "id": 41,
+      "id": 11,
       "type": "timeseries",
       "title": "Magnitude of every M4+ event",
       "description": "Each dot is one earthquake.",
@@ -989,7 +989,7 @@
       }
     },
     {
-      "id": 42,
+      "id": 12,
       "type": "timeseries",
       "title": "Planetary Kp index (3-hour)",
       "description": "Kp 5+ = geomagnetic storm, aurora possible at mid-latitudes.",
@@ -1075,7 +1075,7 @@
       }
     },
     {
-      "id": 43,
+      "id": 13,
       "type": "timeseries",
       "title": "Solar wind speed",
       "description": "",
@@ -1160,7 +1160,7 @@
       }
     },
     {
-      "id": 44,
+      "id": 14,
       "type": "timeseries",
       "title": "Bz and proton density",
       "description": "Sustained negative Bz couples the solar wind into Earth's magnetosphere.",
@@ -1259,7 +1259,7 @@
       }
     },
     {
-      "id": 45,
+      "id": 15,
       "type": "geomap",
       "title": "ISS ground track, last 3 hours",
       "description": "",
@@ -1433,7 +1433,7 @@
       }
     },
     {
-      "id": 46,
+      "id": 16,
       "type": "timeseries",
       "title": "ISS altitude",
       "description": "",
@@ -1518,7 +1518,7 @@
       }
     },
     {
-      "id": 47,
+      "id": 17,
       "type": "timeseries",
       "title": "ISS velocity",
       "description": "",
@@ -1603,7 +1603,7 @@
       }
     },
     {
-      "id": 48,
+      "id": 18,
       "type": "timeseries",
       "title": "Atmospheric CO₂ at Mauna Loa (NOAA)",
       "description": "",
@@ -1703,7 +1703,7 @@
       }
     },
     {
-      "id": 49,
+      "id": 19,
       "type": "timeseries",
       "title": "CO₂ year-over-year growth",
       "description": "",
@@ -1788,7 +1788,7 @@
       }
     },
     {
-      "id": 50,
+      "id": 20,
       "type": "timeseries",
       "title": "Bitcoin network hashrate",
       "description": "EH/s (exahashes per second).",
@@ -1872,7 +1872,7 @@
       }
     },
     {
-      "id": 51,
+      "id": 21,
       "type": "timeseries",
       "title": "Recommended fees, sat/vB",
       "description": "",
@@ -2001,7 +2001,7 @@
       }
     },
     {
-      "id": 52,
+      "id": 22,
       "type": "timeseries",
       "title": "Mempool unconfirmed transactions",
       "description": "",

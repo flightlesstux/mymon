@@ -16,10 +16,17 @@ SKIP = {"_lib.py", "generate_all.py"}
 
 
 def main() -> None:
+    import _lib
+
     scripts = sorted(p for p in HERE.glob("*.py") if p.name not in SKIP)
     if not scripts:
         raise SystemExit("no dashboard scripts found next to generate_all.py")
     for script in scripts:
+        # Panel ids only need to be unique within a dashboard; resetting the counter per
+        # script keeps each dashboard's output stable regardless of which other scripts
+        # exist or what order they run in, so adding one new dashboard doesn't produce a
+        # diff in every other dashboard's JSON.
+        _lib._id = 0
         runpy.run_path(str(script), run_name="__main__")
 
 

@@ -47,7 +47,7 @@
   ],
   "panels": [
     {
-      "id": 95,
+      "id": 1,
       "type": "stat",
       "title": "China — total reserves",
       "description": "",
@@ -113,7 +113,7 @@
       }
     },
     {
-      "id": 96,
+      "id": 2,
       "type": "stat",
       "title": "Japan — total reserves",
       "description": "",
@@ -179,7 +179,7 @@
       }
     },
     {
-      "id": 97,
+      "id": 3,
       "type": "stat",
       "title": "Switzerland — total reserves",
       "description": "",
@@ -245,7 +245,7 @@
       }
     },
     {
-      "id": 98,
+      "id": 4,
       "type": "stat",
       "title": "United States — total reserves",
       "description": "",
@@ -311,7 +311,7 @@
       }
     },
     {
-      "id": 99,
+      "id": 5,
       "type": "stat",
       "title": "Euro area — total reserves",
       "description": "",
@@ -377,7 +377,7 @@
       }
     },
     {
-      "id": 100,
+      "id": 6,
       "type": "stat",
       "title": "Türkiye — total reserves",
       "description": "",
@@ -443,7 +443,7 @@
       }
     },
     {
-      "id": 101,
+      "id": 7,
       "type": "geomap",
       "title": "Total reserves incl. gold by country (World Bank, latest year)",
       "description": "Bubble size and colour = total reserves in USD. Source: World Bank FI.RES.TOTL.CD (annual).",
@@ -564,7 +564,7 @@
       }
     },
     {
-      "id": 102,
+      "id": 8,
       "type": "barchart",
       "title": "Top 15 reserve holders",
       "description": "",
@@ -627,7 +627,7 @@
       }
     },
     {
-      "id": 103,
+      "id": 9,
       "type": "timeseries",
       "title": "Total reserves, selected countries (annual, USD)",
       "description": "",
@@ -846,7 +846,7 @@
       }
     },
     {
-      "id": 104,
+      "id": 10,
       "type": "timeseries",
       "title": "Türkiye — weekly gross FX, gold and total (TCMB)",
       "description": "Shown once EVDS_API_KEY is configured; otherwise empty.",
@@ -960,7 +960,7 @@
       }
     },
     {
-      "id": 105,
+      "id": 11,
       "type": "timeseries",
       "title": "Türkiye — annual reserves split (World Bank)",
       "description": "",
@@ -1074,7 +1074,7 @@
       }
     },
     {
-      "id": 106,
+      "id": 12,
       "type": "timeseries",
       "title": "United States — annual reserves split (World Bank)",
       "description": "",
@@ -1188,7 +1188,7 @@
       }
     },
     {
-      "id": 107,
+      "id": 13,
       "type": "timeseries",
       "title": "United States — monthly reserves ex gold (FRED)",
       "description": "Shown once FRED_API_KEY is configured.",
@@ -1272,7 +1272,7 @@
       }
     },
     {
-      "id": 108,
+      "id": 14,
       "type": "timeseries",
       "title": "Euro area — monthly reserve assets (ECB)",
       "description": "Series currency is in the legend (ecb_usd or ecb_eur).",
@@ -1371,7 +1371,7 @@
       }
     },
     {
-      "id": 109,
+      "id": 15,
       "type": "timeseries",
       "title": "Euro area — annual reserves split (World Bank)",
       "description": "",
@@ -1485,7 +1485,7 @@
       }
     },
     {
-      "id": 110,
+      "id": 16,
       "type": "barchart",
       "title": "Gold share of total reserves, %",
       "description": "",
@@ -1548,7 +1548,7 @@
       }
     },
     {
-      "id": 111,
+      "id": 17,
       "type": "table",
       "title": "Latest year, all countries",
       "description": "",

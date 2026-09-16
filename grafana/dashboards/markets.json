@@ -47,7 +47,7 @@
   ],
   "panels": [
     {
-      "id": 77,
+      "id": 1,
       "type": "stat",
       "title": "BTC",
       "description": "",
@@ -113,7 +113,7 @@
       }
     },
     {
-      "id": 78,
+      "id": 2,
       "type": "stat",
       "title": "ETH",
       "description": "",
@@ -179,7 +179,7 @@
       }
     },
     {
-      "id": 79,
+      "id": 3,
       "type": "stat",
       "title": "USD/TRY",
       "description": "",
@@ -244,7 +244,7 @@
       }
     },
     {
-      "id": 80,
+      "id": 4,
       "type": "stat",
       "title": "EUR/USD",
       "description": "",
@@ -309,7 +309,7 @@
       }
     },
     {
-      "id": 81,
+      "id": 5,
       "type": "stat",
       "title": "Gold",
       "description": "",
@@ -375,7 +375,7 @@
       }
     },
     {
-      "id": 82,
+      "id": 6,
       "type": "stat",
       "title": "Brent",
       "description": "",
@@ -441,7 +441,7 @@
       }
     },
     {
-      "id": 83,
+      "id": 7,
       "type": "timeseries",
       "title": "Turkish lira — USD, EUR, GBP (TCMB selling)",
       "description": "",
@@ -555,7 +555,7 @@
       }
     },
     {
-      "id": 84,
+      "id": 8,
       "type": "timeseries",
       "title": "Majors vs USD",
       "description": "",
@@ -654,7 +654,7 @@
       }
     },
     {
-      "id": 85,
+      "id": 9,
       "type": "timeseries",
       "title": "USD vs emerging currencies, indexed to 100 at range start",
       "description": "Rising line = currency weakening against the dollar.",
@@ -813,7 +813,7 @@
       }
     },
     {
-      "id": 86,
+      "id": 10,
       "type": "timeseries",
       "title": "USD/TRY, USD/BRL, USD/MXN, USD/ZAR, USD/INR",
       "description": "",
@@ -957,7 +957,7 @@
       }
     },
     {
-      "id": 87,
+      "id": 11,
       "type": "timeseries",
       "title": "Crypto, indexed to 100 at range start",
       "description": "",
@@ -1101,7 +1101,7 @@
       }
     },
     {
-      "id": 88,
+      "id": 12,
       "type": "timeseries",
       "title": "BTC intraday (1-minute ticks)",
       "description": "",
@@ -1186,7 +1186,7 @@
       }
     },
     {
-      "id": 89,
+      "id": 13,
       "type": "table",
       "title": "Crypto now",
       "description": "",
@@ -1316,7 +1316,7 @@
       }
     },
     {
-      "id": 90,
+      "id": 14,
       "type": "timeseries",
       "title": "BTC priced in gold ounces",
       "description": "",
@@ -1400,7 +1400,7 @@
       }
     },
     {
-      "id": 91,
+      "id": 15,
       "type": "timeseries",
       "title": "Tokenised gold (PAXG) vs spot gold",
       "description": "",
@@ -1500,7 +1500,7 @@
       }
     },
     {
-      "id": 92,
+      "id": 16,
       "type": "timeseries",
       "title": "Oil — Brent and WTI, USD/bbl",
       "description": "",
@@ -1600,7 +1600,7 @@
       }
     },
     {
-      "id": 93,
+      "id": 17,
       "type": "timeseries",
       "title": "Gold and silver, USD/oz",
       "description": "Silver is on the same axis; use the legend to isolate a series.",
@@ -1700,7 +1700,7 @@
       }
     },
     {
-      "id": 94,
+      "id": 18,
       "type": "timeseries",
       "title": "Stock indices, indexed to 100 at range start",
       "description": "S&P 500, Dow, Nasdaq, DAX, FTSE 100, Nikkei 225, BIST 100.",

@@ -47,7 +47,7 @@
   ],
   "panels": [
     {
-      "id": 18,
+      "id": 1,
       "type": "stat",
       "title": "Healthy sources",
       "description": "",
@@ -111,7 +111,7 @@
       }
     },
     {
-      "id": 19,
+      "id": 2,
       "type": "stat",
       "title": "Failing sources",
       "description": "",
@@ -178,7 +178,7 @@
       }
     },
     {
-      "id": 20,
+      "id": 3,
       "type": "stat",
       "title": "Rows written, 24 h",
       "description": "",
@@ -243,7 +243,7 @@
       }
     },
     {
-      "id": 21,
+      "id": 4,
       "type": "table",
       "title": "Last run per source",
       "description": "",
@@ -345,7 +345,7 @@
       }
     },
     {
-      "id": 22,
+      "id": 5,
       "type": "timeseries",
       "title": "Rows written per hour by source",
       "description": "",
@@ -413,7 +413,7 @@
       }
     },
     {
-      "id": 23,
+      "id": 6,
       "type": "timeseries",
       "title": "Failed runs per hour",
       "description": "",
@@ -497,7 +497,7 @@
       }
     },
     {
-      "id": 24,
+      "id": 7,
       "type": "stat",
       "title": "Sources registered",
       "description": "",
@@ -560,7 +560,7 @@
       }
     },
     {
-      "id": 25,
+      "id": 8,
       "type": "stat",
       "title": "Postgres up",
       "description": "",
@@ -626,7 +626,7 @@
       }
     },
     {
-      "id": 26,
+      "id": 9,
       "type": "stat",
       "title": "Postgres connections",
       "description": "",
@@ -689,7 +689,7 @@
       }
     },
     {
-      "id": 27,
+      "id": 10,
       "type": "stat",
       "title": "Database size",
       "description": "",
@@ -754,7 +754,7 @@
       }
     },
     {
-      "id": 28,
+      "id": 11,
       "type": "stat",
       "title": "Postgres commits / s",
       "description": "",
@@ -818,7 +818,7 @@
       }
     },
     {
-      "id": 29,
+      "id": 12,
       "type": "timeseries",
       "title": "Average run duration by source (Prometheus)",
       "description": "Histogram average over a 15-minute window, per source.",
@@ -887,7 +887,7 @@
       }
     },
     {
-      "id": 30,
+      "id": 13,
       "type": "timeseries",
       "title": "Rows written per minute by source (Prometheus)",
       "description": "",

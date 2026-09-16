@@ -73,7 +73,7 @@
   ],
   "panels": [
     {
-      "id": 53,
+      "id": 1,
       "type": "geomap",
       "title": "EU pump price, ${fuel} incl. taxes (Weekly Oil Bulletin)",
       "description": "",
@@ -201,7 +201,7 @@
       }
     },
     {
-      "id": 54,
+      "id": 2,
       "type": "barchart",
       "title": "EU ${fuel}, EUR per litre",
       "description": "",
@@ -265,7 +265,7 @@
       }
     },
     {
-      "id": 55,
+      "id": 3,
       "type": "timeseries",
       "title": "EU ${fuel}, selected countries",
       "description": "",
@@ -440,7 +440,7 @@
       }
     },
     {
-      "id": 56,
+      "id": 4,
       "type": "timeseries",
       "title": "EU average, petrol 95 vs diesel",
       "description": "",
@@ -540,7 +540,7 @@
       }
     },
     {
-      "id": 57,
+      "id": 5,
       "type": "timeseries",
       "title": "Türkiye ${fuel}, by province, TRY/L",
       "description": "",
@@ -655,7 +655,7 @@
       }
     },
     {
-      "id": 58,
+      "id": 6,
       "type": "timeseries",
       "title": "Istanbul pump prices, TRY/L",
       "description": "",
@@ -770,7 +770,7 @@
       }
     },
     {
-      "id": 59,
+      "id": 7,
       "type": "timeseries",
       "title": "Istanbul pump prices in EUR/L (TCMB rate)",
       "description": "Comparable with the EU map above.",
@@ -885,7 +885,7 @@
       }
     },
     {
-      "id": 60,
+      "id": 8,
       "type": "timeseries",
       "title": "United States retail gasoline and diesel, USD/gal (EIA)",
       "description": "Shown once EIA_API_KEY is configured.",
@@ -985,7 +985,7 @@
       }
     },
     {
-      "id": 61,
+      "id": 9,
       "type": "timeseries",
       "title": "Natural gas — Europe, US, Japan LNG (World Bank Pink Sheet, USD/MMBtu)",
       "description": "",
@@ -1100,7 +1100,7 @@
       }
     },
     {
-      "id": 62,
+      "id": 10,
       "type": "timeseries",
       "title": "Energy — crude oil average, coal, natural gas index (Pink Sheet)",
       "description": "Units differ per series (USD/bbl, USD/mt, index).",
@@ -1214,7 +1214,7 @@
       }
     },
     {
-      "id": 63,
+      "id": 11,
       "type": "timeseries",
       "title": "Food staples indexed to 100 at range start — wheat, rice, maize, sugar, coffee, cocoa",
       "description": "",
@@ -1373,7 +1373,7 @@
       }
     },
     {
-      "id": 64,
+      "id": 12,
       "type": "timeseries",
       "title": "Metals indexed to 100 — gold, silver, copper, aluminum, nickel, iron ore",
       "description": "",
@@ -1532,7 +1532,7 @@
       }
     },
     {
-      "id": 65,
+      "id": 13,
       "type": "timeseries",
       "title": "Fertilizers — urea, DAP, potassium chloride (USD/mt)",
       "description": "",
@@ -1647,7 +1647,7 @@
       }
     },
     {
-      "id": 66,
+      "id": 14,
       "type": "table",
       "title": "Pink Sheet, latest month, all commodities",
       "description": "",
@@ -1757,7 +1757,7 @@
       }
     },
     {
-      "id": 67,
+      "id": 15,
       "type": "timeseries",
       "title": "FAO food price indices (2014-16 = 100)",
       "description": "",
@@ -1916,7 +1916,7 @@
       }
     },
     {
-      "id": 68,
+      "id": 16,
       "type": "timeseries",
       "title": "Big Mac price in USD, selected countries (The Economist)",
       "description": "",
@@ -2106,7 +2106,7 @@
       }
     },
     {
-      "id": 69,
+      "id": 17,
       "type": "barchart",
       "title": "Big Mac price in USD, latest",
       "description": "",
@@ -2170,7 +2170,7 @@
       }
     },
     {
-      "id": 70,
+      "id": 18,
       "type": "geomap",
       "title": "Consumer price inflation, latest year (World Bank)",
       "description": "",
@@ -2293,7 +2293,7 @@
       }
     },
     {
-      "id": 71,
+      "id": 19,
       "type": "barchart",
       "title": "Highest inflation, latest year",
       "description": "",
@@ -2357,7 +2357,7 @@
       }
     },
     {
-      "id": 72,
+      "id": 20,
       "type": "timeseries",
       "title": "Inflation, selected countries",
       "description": "",
@@ -2547,7 +2547,7 @@
       }
     },
     {
-      "id": 73,
+      "id": 21,
       "type": "timeseries",
       "title": "Household electricity, EUR/kWh incl. taxes (Eurostat, semi-annual)",
       "description": "",
@@ -2736,7 +2736,7 @@
       }
     },
     {
-      "id": 74,
+      "id": 22,
       "type": "timeseries",
       "title": "Household gas, EUR/kWh incl. taxes (Eurostat)",
       "description": "",
@@ -2925,7 +2925,7 @@
       }
     },
     {
-      "id": 75,
+      "id": 23,
       "type": "barchart",
       "title": "Household electricity, latest, EUR/kWh",
       "description": "",
@@ -2988,7 +2988,7 @@
       }
     },
     {
-      "id": 76,
+      "id": 24,
       "type": "timeseries",
       "title": "Central bank policy rates (BIS / FRED)",
       "description": "",
